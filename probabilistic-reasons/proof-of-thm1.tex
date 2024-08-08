@@ -1,0 +1,176 @@
+\begin{proof}
+Consider the following algorithm:
+
+\begin{enumerate}
+	\item Let $(\Lin = (\vw, t), \vx)$ be an input instance of dimension $d$, and $\delta^\star$ chosen uniformly at random  in  $[\delta-\epsilon, \delta+\epsilon]$.
+	\item For every $k \in [d]$, let $\vy^{(k)} \subseteq \vx$ be the partial instance that is defined on the $k$ features with maximum score, and undefined on the rest.
+	\item Compute, using binary search, the value
+	\[
+		k^\star = \min \left\{ k \in [d] \text{ such that } \Pr_{\vz \in \textsc{Comp}(\vy^{(k)})}[\Lin(\vz) = 1] \geq \delta^\star \right\},
+	\]
+	and return $\vy^\star := \vy^{(k^\star)}$. The test for whether $\Pr_{\vz \in \textsc{Comp}(\vy^{(k)})}[\Lin(\vz) = 1] \geq \delta^\star$ will be done through sampling, and we will argue that it has a good probability of always returning the correct value.
+\end{enumerate}
+
+Correctness follows directly from~\Cref{lemma:greedy}, but we need to show how to carry out the algorithm above efficiently.
+The bottleneck, naturally, is step 3 of the algorithm, which requires us to check the condition
+\[
+	\Pr_{\vz \in \textsc{Comp}(\vy^{(k)})}[\Lin(\vz) = 1] \geq \delta^\star  
+\]
+efficiently for $k \in [d]$. Intuitively, we can do this efficiently unless $\delta^\star$ is very close to
+\(
+	\Pr_{\vz \in \textsc{Comp}(\vy^{(k)})}[\Lin(\vz) = 1]
+\) for some $k$. But as $\delta^\star$ was chosen independently of these values, we will argue that this is unlikely. 
+
+Concretely, let
+\[
+	v_k := \Pr_{\vz \in \textsc{Comp}(\vy^{(k)})}[\Lin(\vz) = 1],
+\]
+and let 
+\(
+	\hat{v_k}(M)  
+\) be the empirical estimate of $v_k$ after $M$ uniformly random samples. 
+Now, for a given $k$, we will estimate the condition of step 3, i.e.,
+\(
+	v_k \geq \delta^\star,
+\) by whether \(
+	\hat{v_k}(M) \geq \delta^\star 
+\) for a suitable large $M$.
+
+Indeed, let $E_k$ be the event ``$|\delta^\star - v_k| \leq \frac{\epsilon \gamma}{d}$'', and note that 
+\[
+	\Pr[E_k] = \Pr\left[\delta^\star \in \left[v_k - \frac{\epsilon \gamma}{d}, v_k + \frac{\epsilon \gamma}{d}\right]\right] \leq \frac{\frac{2\epsilon \gamma}{d}}{2\epsilon} = \frac{\gamma}{d}.
+\]
+Using the union bound, we have that 
+\[
+	\Pr\left[\bigcap_{k \in [d]} \overline{E_k}\right] \geq 1 - \gamma.
+\]
+In the case where no $E_k$ holds, we have that $|\delta^\star - v_k| > \frac{\epsilon \gamma}{d}$ for every $k \in [d]$, and thus 
+if $|\hat{v_k}(M)  - v_k| \leq \frac{\epsilon \gamma}{d}$ for every $k \in [d]$, then the events 
+\[
+	A_k := \left(v_k \geq \delta^\star \right) \text{ and }  B_k := \left(\hat{v_k}(M) \geq \delta^\star\right)
+\]
+are equivalent, and thus our algorithm will succeed. Our goal is now to find $M$ large enough so that 
+$|\hat{v_k}(M)  - v_k| \leq \frac{\epsilon \gamma}{d}$ for every $k \in [d]$ with good probability. By using~\Cref{fact:hoeffding}, we have that for any $k \in [d]$,
+\[
+	\Pr\left[|\hat{v_k}(M) - v_k| > \frac{\epsilon \gamma}{d}\right] \leq  \gamma/d,
+\]  as long as 
+\[ 
+	M \geq \frac{2d^2}{\epsilon^2 \gamma^2}  \log(2d/\gamma).
+\]
+Using the union bound again, this will succeed for every $k \in [d]$ with probability at least $1 - \gamma$, and thus the algorithm will succeed with probability at least $(1-\gamma)^2  \geq 1 - 2\gamma$. Its runtime is simply
+$O(M \cdot \log d)$, due to the binary search, and thus we conclude the proof.
+
+\todo[inline]{Bernardo: could we replace the $d^2$ by $\log(d)^{O(1)}$? Because of the binary search, only $O(\log d)$ values of $k$ are needed. }
+% We thus want to lower bound the probability of some decently large value $\Delta$ such that $|\delta^\star - v_k| \geq \Delta$ for every $k \in [d]$; that way, it will be enough to estimate the values $v_k$ up to an additive error of $\Delta/2$. Given that there are $d$ values $v_
+% k$, and each of them forbids a segment of size $2\Delta$ for $\delta^\star$, then the probability of choosing a value of $\delta^\star$ such that $|\delta^\star - v_k| \geq \Delta$ for every $k \in [d]$ is at least
+% \[
+% 	1 - \frac{d\Delta}{\epsilon}.
+% \]
+% As we want our algorithm to succeed with probability $1 - \gamma$, that requires 
+% \(
+% \frac{d\Delta}{\epsilon} \leq \gamma
+% \)
+% and thus
+% \[
+% 	\Delta \leq \frac{\epsilon \gamma}{d}.
+% \]
+% Thus we need to sample with an additive error smaller than
+% \(
+% \frac{\epsilon}{2d \gamma},
+% \)
+% which requires the number of samples $M$ to be such that
+% \[
+% 	\frac{\log M}{\sqrt{M}} \leq \frac{\epsilon\gamma}{2d}.
+% \] 
+% %%Considering that
+% %%\[
+% %%	\frac{\log M}{\sqrt{M}} \leq \frac{\log M}{\log M \sqrt[2+\gamma]{M}} = \frac{1}{\sqrt[2+\gamma]{M}},
+% %%\]
+% %Let us try to simplify things by considering establishing
+% %\[
+% %	\frac{1}{\sqrt{M'}} \leq \frac{\epsilon\gamma}{2d}, 
+% %\]
+% %or equivalently,
+% %\[
+% %	M \geq \left( \frac{2d}{\epsilon\gamma} \right)^2.
+% %\]
+% Now we pose
+% \[
+% 	M =	9\cdot \left( \frac{2d}{\epsilon\gamma} \right)^2\log\left(\frac{2d}{\epsilon\gamma}\right)^2,
+% \]
+% so that $\log M \leq 3\log\left(\frac{2d}{\epsilon\gamma}\right)$, and thus
+% \[
+% 	\frac{\log M}{\sqrt{M}} \leq \frac{3\log(2/(\epsilon\gamma))}{3\left( \frac{2d}{\epsilon\gamma} \right)\log\left(\frac{2d}{\epsilon\gamma}\right)} = \frac{\epsilon\gamma}{2d},
+% \]
+% as desired.
+
+% Thus, the algorithm above, which requires a sampling process at most $\log d$ times, using binary search to find the min, can be carried out with probability of success at least $1-\gamma$. in time 
+% \[
+% O(\log d \cdot M) = \tilde{O}\left(\left(\frac{d}{\epsilon\gamma}\right)^2\right).
+% \]
+
+
+% \begin{figure}
+% 	\centering
+% 	\scalebox{0.8}{
+% 	\begin{tikzpicture}
+% 		\node[] (beg) at (0, 0) {};
+% 		\node[] (end) at (11, 0) {};
+% 				\node[] (a) at (10, 0.5) {\small $1$};
+% 		\node[] (amark) at (10, 0) {\small $\mid$};
+% 		\node[] (b) at (5, 0.5) {\small $\nicefrac{1}{2}$};
+		
+% 		\node[] (b) at (0, 0.5) {\small $0$};
+		
+% 		\node[] (bmark) at (5, 0) {\small $\mid$};
+		
+% 		\node[] (leftPar) at (5.5, 0) {\textcolor{blue}{$\Big[$}};
+% 		\node[] (rightPar) at (9.5, 0) {\textcolor{blue}{$\Big]$}};
+		
+% 		\draw[-, blue, dashed, very thick]  (leftPar) -- (rightPar);
+		
+% 		\draw[|-, very thick] (beg) -- (leftPar);
+% 			\draw[->, very thick] (rightPar) -- (end);
+
+		
+% 		\node[] (left) at (5.5, -0.7) {\textcolor{blue}{\scriptsize $\delta-\varepsilon$}};
+% 		\node[] (right) at (9.5, -0.7) {\textcolor{blue}{\scriptsize $\delta+\varepsilon$}};
+		
+% 		\node[] (delta) at (7.5, -0.5) {\textcolor{blue}{$\delta$}};
+		
+% 		\node[] (dmark) at (7.5, 0) {\textcolor{blue}{\small $\mid$}};
+		
+		
+% 		\node[] (v1) at (8.8, 0) {\textcolor{purple}{\small $\mid$}};
+% 		\node[] (v1) at (8.8, -0.4) {\textcolor{purple}{\scriptsize $v_1$}};
+		
+% 		\node[] (v2) at (6.6, 0) {\textcolor{purple}{\small $\mid$}};
+% 		\node[] (v2) at (6.6, -0.4) {\textcolor{purple}{\scriptsize $v_2$}};
+		
+% 		\node[] (v4) at (3.6, 0) {\textcolor{purple}{\small $\mid$}};
+% 		\node[] (v4) at (3.6, -0.4) {\textcolor{purple}{\scriptsize $v_3$}};
+		
+% 		\node[] (v3) at (1.2, 0) {\textcolor{purple}{\small $\mid$}};
+% 		\node[] (v3) at (1.2, -0.4) {\textcolor{purple}{\scriptsize $v_4$}};
+		
+% 		\draw[rectangle, fill=purple, line width=0pt] (6.3, -0.2) -- (6.3, 0.2) -- (6.9, 0.2) -- (6.9, -0.2) -- (6.3, -0.2);
+		
+% 		\draw[rectangle, fill=purple, line width=0pt] (8.5, -0.2) -- (8.5, 0.2) -- (9.1, 0.2) -- (9.1, -0.2) -- (8.5, -0.2);
+		
+		
+% 		\node at (6.6, 0.65) {$\Delta$};
+% 		\node at (8.8, 0.65) {$\Delta$};
+% 		\draw[decorate, decoration={brace, amplitude=3pt}, thick] (6.3, 0.28) -- (6.9, 0.28);
+		
+% 			\draw[decorate, decoration={brace, amplitude=3pt}, thick] (8.5, 0.28) -- (9.1, 0.28);
+		
+% 		\node[] (deltastar) at (8.1, -1.2) {\large \textcolor{violet}{$\delta^\star$}};
+% 		\draw[-, , violet, thick] (8.0, -0.9) -- (8.0, 0.9);
+
+ 
+% 	\end{tikzpicture}
+% 	}
+% 	\caption{Illustration of the proof, using $d=4, \delta = \nicefrac{3}{4}$ as an example. In this case, the probability of failure is $\frac{2\Delta}{\varepsilon}.$}
+% \end{figure}
+
+\end{proof}

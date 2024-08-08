@@ -1,0 +1,41 @@
+\section{Locally Minimal Probabilistic Explanations}
+
+Due to the complexity of finding minimal $\delta$-SR, it has been proposed to study ``locally minimal'' $\delta$-SR, which are $\delta$-SRs such that the removal of any feature from the explanation would decrease its probabilistic guarantee below $\delta$.
+Interestingly, we can generalize a proof from~\cite{Arenas_Barcelo_Romero_Subercaseaux_2022} to show that, over lineal models under product distributions, every locally minimal $\delta$-SR is a minimal $\delta$-SR.
+
+\begin{proof}[Proof sketch]
+    Define the \emph{``locality''} gap $\textsc{lgap}(\vy)$ of a locally minimal $\delta$-SR $\vy$ as the smallest value $g$ such that $|\vy^\star|_\bot - |\vy|_\bot = g$ for some $\vy^\star \subseteq \vy$ that is a $\delta$-SR.
+    If $g = 0$, then $\vy$ is globally minimal, and we are done. If $g$ were to be $1$, then $\vy$ would not be locally minimal, a contradiction. Therefore, we can safely assume $g \geq 2$ from now on.
+    Let $\Lin, \vy$ be such that $\vy$ is locally minimal $\delta$-SR and $\textsc{lgap}(\vy) \geq 2$. We will find a contradiction by the following method:
+    \begin{itemize}
+        \item Let $\vy^\star$ be the $\delta$-SR such that $| \vy \setminus \vy^\star | = \textsc{lgap}(\vy)$.
+        \item Every feature in $\vy \setminus \vy^\star$ is either ``good'', if its score is positive, or ``bad'' if its score is negative.
+        \item Fix any feature $i$ in $\vy \setminus \vy^\star$. If $i$ is good, then $\vy^\star \oplus i$ has probability greater equal than $\vy^\star$, and the gap has reduced.
+                On the other hand, if $i$ is bad, then $\vy \ominus i$ has greater-equal probability than $\vy$, contradicting it being locally minimal.
+    \end{itemize}
+
+    Let us show how  the last case (i.e., $i$ is bad) is shown equationally,
+    \[
+        \Pr_{\vz \in \D(\vy \ominus i)}[\Lin(\vz) = 1] = \Pr_{\vz \in \D(\vy  \ominus i)}[z_i = y_i] \cdot \Pr_{\vz \in \D(\vy)}[\Lin(\vz) = 1] +   \Pr_{\vz \in \D(\vy  \ominus i)}[z_i \neq y_i] \cdot \Pr_{\vz \in \D(\vy \otimes i)}[\Lin(\vz) = 1]
+    \]
+    Let $T$ be the threshold for $\Lin$ excluding the defined features in $\vy \ominus i$.
+    We can thus rewrite the equation above as:
+     
+    \begin{multline*}
+        \Pr_{\vz \in \D(\vy \ominus i)}\left[\sum_{j\in S} z_j w_j \geq T\right] = \Pr_{\vz \in \D(\vy  \ominus i)}\left[z_i = y_i\right] \cdot \Pr_{\vz \in \D(\vy)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T- y_i w_i\right]
+                                                         \\   +  \Pr_{\vz \in \D(\vy  \ominus i)}\left[z_i \neq y_i\right] \cdot \Pr_{\vz \in \D(\vy \otimes i)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T - (1-y_i)w_i\right]
+\end{multline*}
+Now, note that 
+\[
+    \Pr_{\vz \in \D(\vy)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T- y_i w_i\right] =   \Pr_{\vz \in \D(\vy)}\left[\Lin(\vz) = 1\right],
+\]
+and as feature $i$ is bad, we have $w_i(2y_i - 1) < 0$. If $y_i = 0$, then $w_i > 0$, and thus 
+\[
+    \Pr_{\vz \in \D(\vy)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T- y_i w_i\right] = \Pr_{\vz \in \D(\vy \otimes i)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T\right] \leq \Pr_{\vz \in \D(\vy \otimes i)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T - w_i\right],
+\]
+and we are done. If $y_i = 1$, then we have $w_i < 0$ and thus $y_i w_i< 0$, from where  
+\[
+    \Pr_{\vz \in \D(\vy)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T- y_i w_i\right] \leq \Pr_{\vz \in \D(\vy)}\left[\sum_{j \in S \setminus \{i\}} z_j w_j \geq T\right].
+\]
+    
+\end{proof}

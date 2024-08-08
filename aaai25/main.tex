@@ -1,0 +1,280 @@
+%File: anonymous-submission-latex-2025.tex
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage[submission]{aaai25}  % DO NOT CHANGE THIS
+\usepackage{times}  % DO NOT CHANGE THIS
+\usepackage{helvet}  % DO NOT CHANGE THIS
+\usepackage{courier}  % DO NOT CHANGE THIS
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\frenchspacing  % DO NOT CHANGE THIS
+\setlength{\pdfpagewidth}{8.5in} % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in} % DO NOT CHANGE THIS
+%
+% These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%
+% These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
+\usepackage{newfloat}
+\usepackage{listings}
+\DeclareCaptionStyle{ruled}{labelfont=normalfont,labelsep=colon,strut=off} % DO NOT CHANGE THIS
+\lstset{%
+	basicstyle={\footnotesize\ttfamily},% footnotesize acceptable for monospace
+	numbers=left,numberstyle=\footnotesize,xleftmargin=2em,% show line numbers, remove this entire line if you don't want the numbers.
+	aboveskip=0pt,belowskip=0pt,%
+	showstringspaces=false,tabsize=2,breaklines=true}
+\floatstyle{ruled}
+\newfloat{listing}{tb}{lst}{}
+\floatname{listing}{Listing}
+%
+% Keep the \pdfinfo as shown here. There's no need
+% for you to add the /Title and /Author tags.
+\pdfinfo{
+/TemplateVersion (2025.1)
+}
+
+% DISALLOWED PACKAGES
+% \usepackage{authblk} -- This package is specifically forbidden
+% \usepackage{balance} -- This package is specifically forbidden
+% \usepackage{color (if used in text)
+% \usepackage{CJK} -- This package is specifically forbidden
+% \usepackage{float} -- This package is specifically forbidden
+% \usepackage{flushend} -- This package is specifically forbidden
+% \usepackage{fontenc} -- This package is specifically forbidden
+% \usepackage{fullpage} -- This package is specifically forbidden
+% \usepackage{geometry} -- This package is specifically forbidden
+% \usepackage{grffile} -- This package is specifically forbidden
+% \usepackage{hyperref} -- This package is specifically forbidden
+% \usepackage{navigator} -- This package is specifically forbidden
+% (or any other package that embeds links such as navigator or hyperref)
+% \indentfirst} -- This package is specifically forbidden
+% \layout} -- This package is specifically forbidden
+% \multicol} -- This package is specifically forbidden
+% \nameref} -- This package is specifically forbidden
+% \usepackage{savetrees} -- This package is specifically forbidden
+% \usepackage{setspace} -- This package is specifically forbidden
+% \usepackage{stfloats} -- This package is specifically forbidden
+% \usepackage{tabu} -- This package is specifically forbidden
+% \usepackage{titlesec} -- This package is specifically forbidden
+% \usepackage{tocbibind} -- This package is specifically forbidden
+% \usepackage{ulem} -- This package is specifically forbidden
+% \usepackage{wrapfig} -- This package is specifically forbidden
+% DISALLOWED COMMANDS
+% \nocopyright -- Your paper will not be published if you use this command
+% \addtolength -- This command may not be used
+% \balance -- This command may not be used
+% \baselinestretch -- Your paper will not be published if you use this command
+% \clearpage -- No page breaks of any kind may be used for the final version of your paper
+% \columnsep -- This command may not be used
+% \newpage -- No page breaks of any kind may be used for the final version of your paper
+% \pagebreak -- No page breaks of any kind may be used for the final version of your paperr
+% \pagestyle -- This command may not be used
+% \tiny -- This is not an acceptable font size.
+% \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
+% \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
+
+\setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
+
+% The file aaai25.sty is the style file for AAAI Press
+% proceedings, working notes, and technical reports.
+%
+
+% Title
+
+% Your title must be in mixed case, not sentence case.
+% That means all verbs (including short verbs like be, is, using,and go),
+% nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
+% articles, conjunctions, and prepositions are lower case unless they
+% directly follow a colon or long dash
+\title{Probabilistic Explanations for Linear Models}
+\author{
+    %Authors
+    % All authors must be in the same font size and format.
+    Written by AAAI Press Staff\textsuperscript{\rm 1}\thanks{With help from the AAAI Publications Committee.}\\
+    AAAI Style Contributions by Pater Patel Schneider,
+    Sunil Issar,\\
+    J. Scott Penberthy,
+    George Ferguson,
+    Hans Guesgen,
+    Francisco Cruz\equalcontrib,
+    Marc Pujol-Gonzalez\equalcontrib
+}
+\affiliations{
+    %Afiliations
+    \textsuperscript{\rm 1}Association for the Advancement of Artificial Intelligence\\
+    % If you have multiple authors and multiple affiliations
+    % use superscripts in text and roman font to identify them.
+    % For example,
+
+    % Sunil Issar\textsuperscript{\rm 2},
+    % J. Scott Penberthy\textsuperscript{\rm 3},
+    % George Ferguson\textsuperscript{\rm 4},
+    % Hans Guesgen\textsuperscript{\rm 5}
+    % Note that the comma should be placed after the superscript
+
+    1101 Pennsylvania Ave, NW Suite 300\\
+    Washington, DC 20004 USA\\
+    % email address must be in roman text type, not monospace or sans serif
+    proceedings-questions@aaai.org
+%
+% See more examples next
+}
+
+%Example, Single Author, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+\iffalse
+\title{My Publication Title --- Single Author}
+\author {
+    Author Name
+}
+\affiliations{
+    Affiliation\\
+    Affiliation Line 2\\
+    name@example.com
+}
+\fi
+
+\iffalse
+%Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+\title{My Publication Title --- Multiple Authors}
+\author {
+    % Authors
+    First Author Name\textsuperscript{\rm 1},
+    Second Author Name\textsuperscript{\rm 2},
+    Third Author Name\textsuperscript{\rm 1}
+}
+\affiliations {
+    % Affiliations
+    \textsuperscript{\rm 1}Affiliation 1\\
+    \textsuperscript{\rm 2}Affiliation 2\\
+    firstAuthor@affiliation1.com, secondAuthor@affilation2.com, thirdAuthor@affiliation1.com
+}
+\fi
+
+
+% REMOVE THIS: bibentry
+% This is only needed to show inline citations in the guidelines document. You should not need it and can safely delete it.
+\usepackage{bibentry}
+% END REMOVE bibentry
+
+\input{math_commands.tex}
+
+\usepackage{nicefrac}
+\usepackage{todonotes}
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage[capitalise,nameinlink]{cleveref}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{fact}{Fact}{Facts}
+
+\newtheorem{fact}{Fact}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\D}{\mathbf{D}}
+\newcommand{\Lin}{\mathcal{L}}
+\newcommand{\ptime}{\mathrm{P}}
+\newcommand{\Knapsack}{\textsc{Knapsack}}
+
+\DeclareMathOperator{\comp}{Comp}
+
+\newcommand{\csproblem}[3]{
+    \begin{center}
+    \fbox{\begin{tabular}{lp{8cm}}
+    {\small PROBLEM:} : & #1 \\
+    {\small INPUT} : & #2 %of dimension $d$,                                                                                
+    %\\ & $x \in \{0,1\}^d$ an instance, and $0 \leq \delta \leq 1$                                                         
+    \\
+    {\small OUTPUT} : & #3\\
+    \end{tabular}}
+    \end{center}
+    }
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Formal XAI is an emerging field that focuses on providing explanations
+with mathematical guarantees for the decisions made by machine
+learning models. Recent work in this area has centered on the
+computation of ``sufficient reasons''. In this context, given a model $\M$
+and an instance $\vx$, a sufficient reason for the decision $\M(\vx)$ is a
+subset $S$ of the features of $\vx$ such that for any other instance $\vz$
+compatible with $S$, it holds that $\M(\vx) = \M(\vz)$. Intuitively, this means
+that the features in $S$ are sufficient to fully justify the
+classification of $\vx$ by $\M$.
+
+For sufficient reasons to be useful in practice, they should be as
+small as possible. A natural way to reduce the size of sufficient
+reasons, that has received recent attention, is to consider a
+probabilistic relaxation; the probability of $\M(\vx) = \M(\vz)$ must
+be at least some value $\delta \in (0,1]$, where $\vz$ is a random
+  instance compatible with $\vx$. In particular, $\delta$ is a
+  parameter provided by the user, that represents a trade-off between
+  the explanation quality and its size. Naturally, one would aim to
+  compute $\delta$-sufficient reasons that are minimal in size. In this
+  paper, we study the problem of computing such minimum
+  $\delta$-sufficient reasons for linear models. On the negative side, we
+  prove that this problem is computationally hard if one aims for
+  exact solutions. On the positive side, we consider natural forms of
+  approximation for this problem and show that they can be achieved in
+  polynomial time.
+\end{abstract}
+
+
+\section{Introduction}
+
+Explaining the decisions of Machine Learning classifiers is a fundamental problem in XAI (Explainable AI), and doing so with formal mathematical guarantees on the quality, size, and semantics of the explanations is in turn the core of \emph{Formal XAI}~\cite{formal-xai}. 
+Within formal XAI, one of the most studied kinds of explanations is that of \emph{sufficient reasons}~\cite{Darwiche_Hirth_2020}, which aim to explain a decision $\M(\vx) = 1$ by presenting a subset $S$ of the features of the input $\vx$ that implies $\M(\vz) = 1$  for any $\vz$ that agrees with $\vx$ on $S$. 
+In the language of theoretical computer science, these correspond to \emph{certificates} for $\M(\vx)$.
+
+\begin{example}
+Consider a binary classifier~$\M$ defined as 
+	\[
+	\M(\vx) = \left(x_1 \lor \overline{x_3}\right) \land   \left(x_2 \lor \overline{x_1}\right) \land \left(x_4 \lor x_3\right),
+	\]
+	and the input instance $\vx = \left( 1, \,  1, \, 0, \, 1 \right)$. We can say that $\M(\vx)$ ``because'' $x_1 = 1, x_2 = 1$, and $x_4 = 1$, as they are sufficient to determine the value of $\M(\vx)$ regardless of $x_3$.
+	\label{ex:sufficient-reason}
+\end{example}
+
+Let us start formalizing the framework for our work.  First, we consider binary boolean models $\M\colon \{0, 1\}^d \to \{0, 1\}$. Despite our domain being binary, we will need a third value, $\bot$, to denote \emph{``unknown''} values.  For example, we may represent a person who \emph{does} have a car, \emph{does not} have a house, and for whom we do not know if they have a pet or not, as $\left(1, \, 0, \, \bot\right)$. 
+We say elements of $\{0, 1, \bot\}^d$ are \emph{partial instances}, while elements of $\{0, 1\}^d$ are simply \emph{instances}. To illustrate, in~\Cref{ex:sufficient-reason} we used the partial instance $\vy = \left(1, \, 1, \, \bot, \, 1 \right)$ to explain $\M(\vx) = 1$.
+We use the notation $\vy \subseteq \vx$ to denote that the (partial) instance $\vx$ \emph{``fills in''} values of the partial instance $\vy$; more formally, we use $\vy \subseteq \vx$ to mean that $y_i = \bot \lor y_i = x_i$ for every $i \in [d]$. Finally, for any partial instance $\vy$ we denote by $\comp(\vy)$ the set of instances $\vx$ such that $\vy \subseteq \vx$, thinking of $\comp(\vy)$ as the set of \emph{completions} of $\vy$. One can define sufficient reasons as follows with this notation.
+
+\begin{definition}[Sufficient Reason~\cite{Darwiche_Hirth_2020}]
+	We say $\vy$ is a \emph{sufficient reason} for $\vx$ if for any completion $\vz \in \comp(\vy)$ it holds that $\M(\vx) = \M(\vz)$.
+	\label{def:sufficient-reason}
+\end{definition}
+A crucial factor for the helpfulness of sufficient reasons as explanations is their size; even though $\vx$ is always a sufficient reason for its own classification, we long for explanations that are much smaller than $\vx$ itself. Miller, for instance, goes on to say that explanations consisting of more than $9$ features are probably too large for human stakeholders~\cite{millerMagicalNumberSeven1956}. In general, previous research suggests that explanations ought to be small~\cite{Narayanan_Chen_He_Kim_Gershman_Doshi-Velez_2018, Lage_Chen_He_Narayanan_Kim_Gershman_Doshi-Velez_2019}.
+There are several ways of formalizing the succinctness we desire for sufficient reasons:
+
+\begin{itemize}
+    \item \textbf{(Minimum Size)} For a sufficient reason $\vy$, we define its \emph{explanation size} $|\vy|_e$ as the number of defined features in $\vy$, or equivalently, $|\vy|_e := d - |\vy|_\bot$, where $|\vy|_\bot$ is the number of features of $\vy$ taking $\bot$. See e.g.,~\cite{NEURIPS2020_b1adda14}.
+    \item \textbf{(Minimality)} We say a sufficient reason $\vy$ for a pair $(\M, \vx)$ is \emph{minimal} if there is no other sufficient reason $\vy'$ for $(\M, \vx)$ such that $\vy' \subsetneq \vy$. In fact, the original definition of sufficient reasons of~\cite{Darwiche_Hirth_2020} includes minimality as a requirement, and so is the case under the \emph{``abductive explanation''} naming~\cite{Ignatiev_Narodytska_Asher_Marques-Silva_2021}.
+    \item \textbf{(Compared to the average explanation)} The work of~\cite{blanc2021provably} computes explanations that are small relative to the \emph{``certificate complexity''} of the classifier $\M$, meaning the average size of the minimum sufficient reason where the average is taken over all possible instances $\vx$.
+\end{itemize}
+
+Nevertheless, there is a path toward even smaller explanations: \emph{probabilistic} sufficient reasons~\cite{Waldchen_MacDonald_Hauch_Kutyniok_2021, Izza_Huang_Ignatiev_Narodytska_Cooper_Marques-Silva_2023}. 
+As will be shown in Example 2., and is noted as a remark by~\cite{blanc2021provably}, these can be arbitrarily smaller than minimum size sufficient reasons.
+
+\input{prob-sufficient-reasons.tex}
+
+\input{computational-problems.tex}
+
+\input{locally-minimal.tex}
+
+\bibliography{references}
+
+\end{document}
+
+
+
+\end{document}

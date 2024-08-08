@@ -1,0 +1,690 @@
+
+@article{Arenas_Barcelo_Romero_Subercaseaux_2022,
+  abstractnote = {Formal XAI (explainable AI) is a growing area that focuses on computing explanations with mathematical guarantees for the decisions made by ML models. Inside formal XAI, one of the most studied cases is that of explaining the choices taken by decision trees, as they are traditionally deemed as one of the most interpretable classes of models. Recent work has focused on studying the computation of “sufficient reasons”, a kind of explanation in which given a decision tree $T$ and an instance $x$, one explains the decision $T(x)$ by providing a subset $y$ of the features of $x$ such that for any other instance $z$ compatible with $y$, it holds that $T(z) = T(x)$, intuitively meaning that the features in $y$ are already enough to fully justify the classification of $x$ by $T$. It has been argued, however, that sufficient reasons constitute a restrictive notion of explanation, and thus the community has started to study their probabilistic counterpart, in which one requires that the probability of $T(z) = T(x)$ must be at least some value $delta in (0, 1]$, where $z$ is a random instance that is compatible with $y$. Our paper settles the computational complexity of $delta$-sufficient-reasons over decision trees, showing that both (1) finding $delta$-sufficient-reasons that are minimal in size, and (2) finding $delta$-sufficient-reasons that are minimal inclusion-wise, do not admit polynomial-time algorithms (unless P=NP). This is in stark contrast with the deterministic case ($delta = 1$) where inclusion-wise minimal sufficient-reasons are easy to compute. By doing this, we answer two open problems originally raised by Izza et al. On the positive side, we identify structural restrictions of decision trees that make the problem tractable, and show how SAT solvers might be able to tackle these problems in practical settings.},
+  author       = {Arenas, Marcelo and Barceló, Pablo and Romero, Miguel and Subercaseaux, Bernardo},
+  doi          = {10.48550/arXiv.2207.12213},
+  language     = {en},
+  month        = {Jun},
+  rights       = {All rights reserved},
+  title        = {On Computing Probabilistic Explanations for Decision Trees},
+  url          = {https://arxiv.org/abs/2207.12213v1},
+  year         = {2022}
+}
+  
+  
+ @misc{Audemard,
+  author    = {Audemard,  Gilles and Bellart,  Steve and Bounia,  Louenas and Koriche,  Frédéric and Lagniez,  Jean-Marie and Marquis,  Pierre},
+  copyright = {Creative Commons Attribution 4.0 International},
+  doi       = {10.48550/ARXIV.2108.05266},
+  keywords  = {Artificial Intelligence (cs.AI),  FOS: Computer and information sciences,  FOS: Computer and information sciences,  I.2.6},
+  publisher = {arXiv},
+  title     = {On the Explanatory Power of Decision Trees},
+  url       = {https://arxiv.org/abs/2108.05266},
+  year      = {2021}
+}
+ 
+  @article{BarredoArrieta2020,
+  author    = {Alejandro Barredo Arrieta and Natalia D{\'{\i}}az-Rodr{\'{\i}}guez and Javier Del Ser and Adrien Bennetot and Siham Tabik and Alberto Barbado and Salvador Garcia and Sergio Gil-Lopez and Daniel Molina and Richard Benjamins and Raja Chatila and Francisco Herrera},
+  doi       = {10.1016/j.inffus.2019.12.012},
+  journal   = {Information Fusion},
+  month     = jun,
+  pages     = {82--115},
+  publisher = {Elsevier {BV}},
+  title     = {Explainable Artificial Intelligence ({XAI}): Concepts,  taxonomies,  opportunities and challenges toward responsible {AI}},
+  url       = {https://doi.org/10.1016/j.inffus.2019.12.012},
+  volume    = {58},
+  year      = {2020}
+}
+
+ @inproceedings{BiereFazekasFleuryHeisinger-SAT-Competition-2020-solvers,
+  author    = {Armin Biere and Katalin Fazekas and Mathias Fleury and Maximillian Heisinger},
+  booktitle = {Proc.~of {SAT Competition} 2020 -- Solver and Benchmark Descriptions},
+  editor    = {Tomas Balyo and Nils Froleyks and Marijn Heule and 
+               Markus Iser and Matti J{\"a}rvisalo and Martin Suda},
+  pages     = {51--53},
+  publisher = {University of Helsinki},
+  series    = {Department of Computer Science Report Series B},
+  title     = {{CaDiCaL}, {Kissat}, {Paracooba}, {Plingeling} and {Treengeling}
+               Entering the {SAT Competition 2020}},
+  volume    = {B-2020-1},
+  year      = 2020
+}
+
+
+ @inproceedings{blanc2021provably,
+  author    = {Guy Blanc and Jane Lange and Li-Yang Tan},
+  booktitle = {Advances in Neural Information Processing Systems},
+  editor    = {A. Beygelzimer and Y. Dauphin and P. Liang and J. Wortman Vaughan},
+  title     = {Provably efficient, succinct, and precise explanations},
+  url       = {https://openreview.net/forum?id=9UjRw5bqURS},
+  year      = {2021}
+}
+
+
+ 
+@article{choi2017compiling,
+  author  = {Choi, Arthur and Shi, Weijia and Shih, Andy and Darwiche, Adnan},
+  journal = {intelligence},
+  title   = {Compiling neural networks into tractable Boolean circuits},
+  year    = {2017}
+}
+
+  
+  @article{Darwiche_2023,
+  abstractnote = {A central quest in explainable AI relates to understanding the decisions made by (learned) classifiers. There are three dimensions of this understanding that have been receiving significant attention in recent years. The first dimension relates to characterizing conditions on instances that are necessary and sufficient for decisions, therefore providing abstractions of instances that can be viewed as the “reasons behind decisions.” The next dimension relates to characterizing minimal conditions that are sufficient for a decision, therefore identifying maximal aspects of the instance that are irrelevant to the decision. The last dimension relates to characterizing minimal conditions that are necessary for a decision, therefore identifying minimal perturbations to the instance that yield alternate decisions. We discuss in this tutorial a comprehensive, semantical and computational theory of explainability along these dimensions which is based on some recent developments in symbolic logic. The tutorial will also discuss how this theory is particularly applicable to non-symbolic classifiers such as those based on Bayesian networks, decision trees, random forests and some types of neural networks.},
+  author       = {Darwiche, Adnan},
+  doi          = {10.48550/arXiv.2305.05172},
+  month        = {May},
+  note         = {arXiv:2305.05172 [cs]},
+  number       = {arXiv:2305.05172},
+  publisher    = {arXiv},
+  title        = {Logic for Explainable AI},
+  url          = {http://arxiv.org/abs/2305.05172},
+  year         = {2023}
+}
+
+@article{Darwiche_Hirth_2020,
+  abstractnote = {Recent work has shown that some common machine learning classifiers can be compiled into Boolean circuits that have the same input-output behavior. We present a theory for unveiling the reasons behind the decisions made by Boolean classifiers and study some of its theoretical and practical implications. We define notions such as sufficient, necessary and complete reasons behind decisions, in addition to classifier and decision bias. We show how these notions can be used to evaluate counterfactual statements such as “a decision will stick even if ... because ... .” We present efficient algorithms for computing these notions, which are based on new advances on tractable Boolean circuits, and illustrate them using a case study.},
+  author       = {Darwiche, Adnan and Hirth, Auguste},
+  doi          = {10.48550/arXiv.2002.09284},
+  month        = {Feb},
+  note         = {arXiv:2002.09284 [cs]},
+  number       = {arXiv:2002.09284},
+  publisher    = {arXiv},
+  title        = {On The Reasons Behind Decisions},
+  url          = {http://arxiv.org/abs/2002.09284},
+  year         = {2020}
+}
+
+@inproceedings{DBLP:conf/aaai/Ribeiro0G18,
+  author    = {Marco T{\'{u}}lio Ribeiro and
+               Sameer Singh and
+               Carlos Guestrin},
+  booktitle = {AAAI},
+  pages     = {1527--1535},
+  title     = {Anchors: High-Precision Model-Agnostic Explanations},
+  year      = {2018}
+}
+
+@inproceedings{DBLP:conf/aaai/YanP21,
+  author    = {Tom Yan and
+               Ariel D. Procaccia},
+  booktitle = {AAAI},
+  pages     = {5751--5759},
+  title     = {If You Like Shapley Then You'll Love the Core},
+  year      = {2021}
+}
+
+
+@inproceedings{DBLP:conf/dsaa/GilpinBYBSK18,
+  author    = {Leilani H. Gilpin and
+               David Bau and
+               Ben Z. Yuan and
+               Ayesha Bajwa and
+               Michael A. Specter and
+               Lalana Kagal},
+  booktitle = {DSAA},
+  editor    = {Francesco Bonchi and
+               Foster J. Provost and
+               Tina Eliassi{-}Rad and
+               Wei Wang and
+               Ciro Cattuto and
+               Rayid Ghani},
+  pages     = {80--89},
+  title     = {Explaining Explanations: An Overview of Interpretability of Machine
+               Learning},
+  year      = {2018}
+}
+
+@inproceedings{DBLP:conf/icml/0001GCIN21,
+  author    = {Jo{\~{a}}o Marques{-}Silva and
+               Thomas Gerspacher and
+               Martin C. Cooper and
+               Alexey Ignatiev and
+               Nina Narodytska},
+  booktitle = {ICML},
+  pages     = {7469--7479},
+  title     = {Explanations for Monotonic Classifiers},
+  year      = {2021}
+}
+
+@inproceedings{DBLP:conf/ijcai/WangKB21,
+  author    = {Eric Wang and
+               Pasha Khosravi and
+               Guy Van den Broeck},
+  booktitle = {IJCAI},
+  editor    = {Zhi{-}Hua Zhou},
+  pages     = {3082--3088},
+  title     = {Probabilistic Sufficient Explanations},
+  year      = {2021}
+}
+
+
+@inproceedings{DBLP:conf/kr/AudemardBBKLM21,
+  author    = {Gilles Audemard and
+               Steve Bellart and
+               Louenas Bounia and
+               Fr{\'{e}}d{\'{e}}ric Koriche and
+               Jean{-}Marie Lagniez and
+               Pierre Marquis},
+  bibsource = {dblp computer science bibliography, https://dblp.org},
+  biburl    = {https://dblp.org/rec/conf/kr/AudemardBBKLM21.bib},
+  booktitle = {Proceedings of the 18th International Conference on Principles of
+               Knowledge Representation and Reasoning, {KR} 2021, Online event, November
+               3-12, 2021},
+  doi       = {10.24963/kr.2021/8},
+  editor    = {Meghyn Bienvenu and
+               Gerhard Lakemeyer and
+               Esra Erdem},
+  pages     = {74--86},
+  timestamp = {Mon, 03 Jan 2022 22:37:07 +0100},
+  title     = {On the Computational Intelligibility of Boolean Classifiers},
+  url       = {https://doi.org/10.24963/kr.2021/8},
+  year      = {2021}
+}
+
+
+
+@inproceedings{DBLP:conf/kr/HuangII021,
+  author    = {Xuanxiang Huang and
+               Yacine Izza and
+               Alexey Ignatiev and
+               Jo{\~{a}}o Marques{-}Silva},
+  bibsource = {dblp computer science bibliography, https://dblp.org},
+  biburl    = {https://dblp.org/rec/conf/kr/HuangII021.bib},
+  booktitle = {Proceedings of the 18th International Conference on Principles of
+               Knowledge Representation and Reasoning, {KR} 2021, Online event, November
+               3-12, 2021},
+  doi       = {10.24963/kr.2021/34},
+  editor    = {Meghyn Bienvenu and
+               Gerhard Lakemeyer and
+               Esra Erdem},
+  pages     = {356--367},
+  timestamp = {Wed, 03 Nov 2021 12:47:32 +0100},
+  title     = {On Efficiently Explaining Graph-Based Classifiers},
+  url       = {https://doi.org/10.24963/kr.2021/34},
+  year      = {2021}
+}
+
+@inproceedings{DBLP:conf/nips/0001GCIN20,
+  author    = {Jo{\~{a}}o Marques{-}Silva and
+               Thomas Gerspacher and
+               Martin C. Cooper and
+               Alexey Ignatiev and
+               Nina Narodytska},
+  booktitle = {NeurIPS},
+  title     = {Explaining Naive Bayes and Other Linear Classifiers with Polynomial
+               Time and Delay},
+  year      = {2020}
+}
+  
+  
+ @article{DBLP:journals/corr/abs-2002-09284,
+  author  = {Adnan Darwiche and
+             Auguste Hirth},
+  journal = {CoRR},
+  title   = {On The Reasons Behind Decisions},
+  url     = {https://arxiv.org/abs/2002.09284},
+  volume  = {abs/2002.09284},
+  year    = {2020}
+}
+
+ @article{DBLP:journals/corr/abs-2010-11034,
+  author  = {Yacine Izza and
+             Alexey Ignatiev and
+             Jo{\~{a}}o Marques{-}Silva},
+  journal = {CoRR},
+  title   = {On Explaining Decision Trees},
+  volume  = {abs/2010.11034},
+  year    = {2020}
+}
+ 
+  @article{DBLP:journals/corr/abs-2106-00546,
+  author  = {Yacine Izza and
+             Alexey Ignatiev and
+             Nina Narodytska and
+             Martin C. Cooper and
+             Jo{\~{a}}o Marques{-}Silva},
+  journal = {CoRR},
+  title   = {Efficient Explanations With Relevant Sets},
+  volume  = {abs/2106.00546},
+  year    = {2021}
+}
+
+ @article{DBLP:journals/dam/Wegener04,
+  author  = {Ingo Wegener},
+  journal = {Discret. Appl. Math.},
+  number  = {1-2},
+  pages   = {229--251},
+  title   = {BDDs--design, analysis, complexity, and applications},
+  volume  = {138},
+  year    = {2004}
+}
+
+ 
+ @article{DBLP:journals/jair/WaldchenMHK21,
+  author  = {Stephan Waldchen and
+             Jan MacDonald and
+             Sascha Hauch and
+             Gitta Kutyniok},
+  journal = {J. Artif. Intell. Res.},
+  pages   = {351--387},
+  title   = {The Computational Complexity of Understanding Binary Classifier Decisions},
+  volume  = {70},
+  year    = {2021}
+}
+
+ 
+  @article{deng2012mnist,
+  author    = {Deng, Li},
+  journal   = {IEEE Signal Processing Magazine},
+  number    = {6},
+  pages     = {141--142},
+  publisher = {IEEE},
+  title     = {The mnist database of handwritten digit images for machine learning research},
+  volume    = {29},
+  year      = {2012}
+}
+
+   @misc{explainTrees,
+  author    = {Izza,  Yacine and Ignatiev,  Alexey and Marques-Silva,  Joao},
+  copyright = {arXiv.org perpetual,  non-exclusive license},
+  doi       = {10.48550/ARXIV.2010.11034},
+  keywords  = {Machine Learning (cs.LG),  Artificial Intelligence (cs.AI),  FOS: Computer and information sciences,  FOS: Computer and information sciences},
+  publisher = {arXiv},
+  title     = {On Explaining Decision Trees},
+  url       = {https://arxiv.org/abs/2010.11034},
+  year      = {2020}
+}
+   
+@inproceedings{formal-xai,
+  author    = {Joao Marques-Silva and Alexey Ignatiev},
+  booktitle = {AAAI},
+  title     = {Delivering Trustworthy AI through Formal XAI},
+  year      = {2022}
+}
+
+
+	
+@incollection{Goldsmith2005,
+  author    = {Judy Goldsmith and Matthias Hagen and Martin Mundhenk},
+  booktitle = {Mathematical Foundations of Computer Science 2005},
+  doi       = {10.1007/11549345_36},
+  pages     = {410--421},
+  publisher = {Springer Berlin Heidelberg},
+  title     = {Complexity of {DNF} and Isomorphism of Monotone Formulas},
+  url       = {https://doi.org/10.1007/11549345_36},
+  year      = {2005}
+}
+
+@book{handsat,
+  abstract  = { 'Satisfiability (SAT) related topics have attracted researchers from various disciplines: logic, applied areas such as planning, scheduling, operations research and combinatorial optimization, but also theoretical issues on the theme of complexity and much more, they all are connected through SAT. My personal interest in SAT stems from actual solving: The increase in power of modern SAT solvers over the past 15 years has been phenomenal. It has become the key enabling technology in automated verification of both computer hardware and software. Bounded Model Checking (BMC) of computer hardware is now probably the most widely used model checking technique. The counterexamples that it finds are just satisfying instances of a Boolean formula obtained by unwinding to some fixed depth a sequential circuit and its specification in linear temporal logic. Extending model checking to software verification is a much more difficult problem on the frontier of current research. One promising approach for languages like C with finite word-length integers is to use the same idea as in BMC but with a decision procedure for the theory of bit-vectors instead of SAT. All decision procedures for bit-vectors that I am familiar with ultimately make use of a fast SAT solver to handle complex formulas. Decision procedures for more complicated theories, like linear real and integer arithmetic, are also used in program verification. Most of them use powerful SAT solvers in an essential way. Clearly, efficient SAT solving is a key technology for 21st century computer science. I expect this collection of papers on all theoretical and practical aspects of SAT solving will be extremely useful to both students and researchers and will lead to many further advances in the field.' Edmund Clarke (FORE Systems University Professor of Computer Science and Professor of Electrical and Computer Engineering at Carnegie Mellon University)},
+  address   = {NLD},
+  author    = {Biere, A. and Biere, A. and Heule, M. and van Maaren, H. and Walsh, T.},
+  isbn      = {1586039296},
+  publisher = {IOS Press},
+  title     = {Handbook of Satisfiability: Volume 185 Frontiers in Artificial Intelligence and Applications},
+  year      = {2009}
+}x
+
+@misc{https://doi.org/10.48550/arxiv.2205.09569,
+  author    = {Izza, Yacine and Ignatiev, Alexey and Narodytska, Nina and Cooper, Martin C. and Marques-Silva, Joao},
+  copyright = {Creative Commons Attribution 4.0 International},
+  doi       = {10.48550/ARXIV.2205.09569},
+  keywords  = {Artificial Intelligence (cs.AI), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  publisher = {arXiv},
+  title     = {Provably Precise, Succinct and Efficient Explanations for Decision Trees},
+  url       = {https://arxiv.org/abs/2205.09569},
+  year      = {2022}
+}
+
+@inproceedings{Ignatiev_Narodytska_Asher_Marques-Silva_2021,
+  abstractnote = {Explanations of Machine Learning (ML) models often address a question. Such explanations can be related with selecting feature-value pairs which are sufficient for the prediction. Recent work has investigated explanations that address a question, i.e. finding a change of feature values that guarantee a change of prediction. Given their goals, these two forms of explaining predictions of ML models appear to be mostly unrelated. However, this paper demonstrates otherwise, and establishes a rigorous formal relationship between and explanations. Concretely, the paper proves that, for any given instance, explanations are minimal hitting sets of explanations and vice-versa. Furthermore, the paper devises novel algorithms for extracting and enumerating both forms of explanations.},
+  address      = {Cham},
+  author       = {Ignatiev, Alexey and Narodytska, Nina and Asher, Nicholas and Marques-Silva, Joao},
+  booktitle    = {AIxIA 2020 – Advances in Artificial Intelligence},
+  collection   = {Lecture Notes in Computer Science},
+  doi          = {10.1007/978-3-030-77091-4_21},
+  editor       = {Baldoni, Matteo and Bandini, Stefania},
+  isbn         = {978-3-030-77091-4},
+  language     = {en},
+  pages        = {335–355},
+  publisher    = {Springer International Publishing},
+  series       = {Lecture Notes in Computer Science},
+  title        = {From Contrastive to Abductive Explanations and Back Again},
+  year         = {2021}
+}
+  
+  @incollection{Ignatiev2021,
+  author    = {Alexey Ignatiev and Nina Narodytska and Nicholas Asher and Joao Marques-Silva},
+  booktitle = {{AIxIA} 2020 {\textendash} Advances in Artificial Intelligence},
+  doi       = {10.1007/978-3-030-77091-4_21},
+  pages     = {335--355},
+  publisher = {Springer International Publishing},
+  title     = {From Contrastive to Abductive Explanations and Back Again},
+  url       = {https://doi.org/10.1007/978-3-030-77091-4_21},
+  year      = {2021}
+}
+
+@incollection{Ignatiev2021a,
+  author    = {Alexey Ignatiev and Joao Marques-Silva},
+  booktitle = {Theory and Applications of Satisfiability Testing {\textendash} {SAT} 2021},
+  doi       = {10.1007/978-3-030-80223-3_18},
+  pages     = {251--269},
+  publisher = {Springer International Publishing},
+  title     = {{SAT}-Based Rigorous Explanations for Decision Lists},
+  url       = {https://doi.org/10.1007/978-3-030-80223-3_18},
+  year      = {2021}
+}
+  
+  @inproceedings{iisms-aaai22a,
+  author    = {Alexey Ignatiev and
+               Yacine Izza and
+               Peter J. Stuckey and
+               Joao Marques-Silva},
+  booktitle = {AAAI},
+  title     = {Using MaxSAT for Efficient Explanations of Tree Ensembles},
+  year      = {2022}
+}
+
+@article{Izza_Huang_Ignatiev_Narodytska_Cooper_Marques-Silva_2023,
+  abstractnote = {The most widely studied explainable AI (XAI) approaches are unsound. This is the case with well-known model-agnostic explanation approaches, and it is also the case with approaches based on saliency maps. One solution is to consider intrinsic interpretability, which does not exhibit the drawback of unsoundness. Unfortunately, intrinsic interpretability can display unwieldy explanation redundancy. Formal explainability represents the alternative to these non-rigorous approaches, with one example being PI-explanations. Unfortunately, PI-explanations also exhibit important drawbacks, the most visible of which is arguably their size. Recently, it has been observed that the (absolute) rigor of PI-explanations can be traded off for a smaller explanation size, by computing the so-called relevant sets. Given some positive δ, a set S of features is δ-relevant if, when the features in S are fixed, the probability of getting the target class exceeds δ. However, even for very simple classifiers, the complexity of computing relevant sets of features is prohibitive, with the decision problem being NPPP-complete for circuit-based classifiers. In contrast with earlier negative results, this paper investigates practical approaches for computing relevant sets for a number of widely used classifiers that include Decision Trees (DTs), Naive Bayes Classifiers (NBCs), and several families of classifiers obtained from propositional languages. Moreover, the paper shows that, in practice, and for these families of classifiers, relevant sets are easy to compute. Furthermore, the experiments confirm that succinct sets of relevant features can be obtained for the families of classifiers considered.},
+  author       = {Izza, Yacine and Huang, Xuanxiang and Ignatiev, Alexey and Narodytska, Nina and Cooper, Martin and Marques-Silva, Joao},
+  doi          = {10.1016/j.ijar.2023.108939},
+  issn         = {0888-613X},
+  journal      = {International Journal of Approximate Reasoning},
+  month        = {Aug},
+  pages        = {108939},
+  title        = {On computing probabilistic abductive explanations},
+  volume       = {159},
+  year         = {2023}
+}
+
+@article{Izza2021EfficientEW,
+  author  = {Yacine Izza and Alexey Ignatiev and Nina Narodytska and Martin C. Cooper and J. Marques-Silva},
+  journal = {ArXiv},
+  title   = {Efficient Explanations With Relevant Sets},
+  volume  = {abs/2106.00546},
+  year    = {2021}
+}
+
+@article{ExplainingNaiveBayes,
+  author       = {Jo{\~{a}}o Marques{-}Silva and
+                  Thomas Gerspacher and
+                  Martin C. Cooper and
+                  Alexey Ignatiev and
+                  Nina Narodytska},
+  title        = {Explaining Naive Bayes and Other Linear Classifiers with Polynomial
+                  Time and Delay},
+  journal      = {CoRR},
+  volume       = {abs/2008.05803},
+  year         = {2020},
+  url          = {https://arxiv.org/abs/2008.05803},
+  eprinttype    = {arXiv},
+  eprint       = {2008.05803},
+  timestamp    = {Fri, 09 Apr 2021 18:27:23 +0200},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2008-05803.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+  
+  @article{Kozachinskiy_2023,
+  abstractnote = {In this note, we establish the hardness of approximation of the problem of computing the minimal size of a $delta$-sufficient reason for decision trees.},
+  author       = {Kozachinskiy, Alexander},
+  month        = {Apr},
+  note         = {arXiv:2304.02781 [cs]},
+  number       = {arXiv:2304.02781},
+  publisher    = {arXiv},
+  title        = {Inapproximability of sufficient reasons for decision trees},
+  url          = {http://arxiv.org/abs/2304.02781},
+  year         = {2023}
+}
+  
+  @article{Lage_Chen_He_Narayanan_Kim_Gershman_Doshi-Velez_2019,
+  abstractnote = {Recent years have seen a boom in interest in machine learning systems that can provide a human-understandable rationale for their predictions or decisions. However, exactly what kinds of explanation are truly human-interpretable remains poorly understood. This work advances our understanding of what makes explanations interpretable under three specific tasks that users may perform with machine learning systems: simulation of the response, verification of a suggested response, and determining whether the correctness of a suggested response changes under a change to the inputs. Through carefully controlled human-subject experiments, we identify regularizers that can be used to optimize for the interpretability of machine learning systems. Our results show that the type of complexity matters: cognitive chunks (newly defined concepts) affect performance more than variable repetitions, and these trends are consistent across tasks and domains. This suggests that there may exist some common design principles for explanation systems.},
+  author       = {Lage, Isaac and Chen, Emily and He, Jeffrey and Narayanan, Menaka and Kim, Been and Gershman, Sam and Doshi-Velez, Finale},
+  month        = {Aug},
+  note         = {arXiv:1902.00006 [cs, stat]},
+  number       = {arXiv:1902.00006},
+  publisher    = {arXiv},
+  title        = {An Evaluation of the Human-Interpretability of Explanation},
+  url          = {http://arxiv.org/abs/1902.00006},
+  year         = {2019}
+}
+  
+  @article{lipton2018mythos,
+  author    = {Lipton, Zachary C},
+  journal   = {Queue},
+  number    = {3},
+  pages     = {31--57},
+  publisher = {ACM New York, NY, USA},
+  title     = {The mythos of model interpretability},
+  volume    = {16},
+  year      = {2018}
+}
+  
+  
+@inbook{Marques-Silva_2023,
+  abstractnote = {The last decade witnessed an ever-increasing stream of successes in Machine Learning (ML). These successes offer clear evidence that ML is bound to become pervasive in a wide range of practical uses, including many that directly affect humans. Unfortunately, the operation of the most successful ML models is incomprehensible for human decision makers. As a result, the use of ML models, especially in high-risk and safety-critical settings is not without concern. In recent years, there have been efforts on devising approaches for explaining ML models. Most of these efforts have focused on so-called model-agnostic approaches. However, all model-agnostic and related approaches offer no guarantees of rigor, hence being referred to as non-formal. For example, such non-formal explanations can be consistent with different predictions, which renders them useless in practice. This paper overviews the ongoing research efforts on computing rigorous model-based explanations of ML models; these being referred to as formal explanations. These efforts encompass a variety of topics, that include the actual definitions of explanations, the characterization of the complexity of computing explanations, the currently best logical encodings for reasoning about different ML models, and also how to make explanations interpretable for human decision makers, among others.},
+  address      = {Cham},
+  author       = {Marques-Silva, Joao},
+  booktitle    = {Reasoning Web. Causality, Explanations and Declarative Knowledge: 18th International Summer School 2022, Berlin, Germany, September 27–30, 2022, Tutorial Lectures},
+  collection   = {Lecture Notes in Computer Science},
+  doi          = {10.1007/978-3-031-31414-8_2},
+  editor       = {Bertossi, Leopoldo and Xiao, Guohui},
+  isbn         = {978-3-031-31414-8},
+  language     = {en},
+  pages        = {24–104},
+  publisher    = {Springer Nature Switzerland},
+  series       = {Lecture Notes in Computer Science},
+  title        = {Logic-Based Explainability in Machine Learning},
+  url          = {https://doi.org/10.1007/978-3-031-31414-8_2},
+  year         = {2023}
+}
+
+@article{Marques-Silva_Ignatiev_2022,
+  abstractnote = {The deployment of systems of artificial intelligence (AI) in high-risk settings warrants the need for trustworthy AI. This crucial requirement is highlighted by recent EU guidelines and regulations, but also by recommendations from OECD and UNESCO, among several other examples. One critical premise of trustworthy AI involves the necessity of finding explanations that offer reliable guarantees of soundness. This paper argues that the best known eXplainable AI (XAI) approaches fail to provide sound explanations, or that alternatively find explanations which can exhibit significant redundancy. The solution to these drawbacks are explanation approaches that offer formal guarantees of rigor. These formal explanations are not only sound but guarantee irredundancy. This paper summarizes the recent developments in the emerging discipline of formal XAI. The paper also outlines existing challenges for formal XAI.},
+  author       = {Marques-Silva, Joao and Ignatiev, Alexey},
+  doi          = {10.1609/aaai.v36i11.21499},
+  journal      = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  month        = {Jun},
+  number       = {11},
+  pages        = {12342–12350},
+  title        = {Delivering Trustworthy AI through Formal XAI},
+  volume       = {36},
+  year         = {2022}
+}
+  
+  @article{Miller_1956,
+  abstractnote = {A variety of researches are examined from the standpoint of information theory. It is shown that the unaided observer is severely limited in terms of the amount of information he can receive, process, and remember. However, it is shown that by the use of various techniques, e.g., use of several stimulus dimensions, recoding, and various mnemonic devices, this informational bottleneck can be broken. 20 references. (PsycInfo Database Record (c) 2021 APA, all rights reserved)},
+  address      = {US},
+  author       = {Miller, George A.},
+  doi          = {10.1037/h0043158},
+  issn         = {1939-1471(Electronic),0033-295X(Print)},
+  journal      = {Psychological Review},
+  number       = {2},
+  pages        = {81–97},
+  publisher    = {American Psychological Association},
+  title        = {The magical number seven, plus or minus two: Some limits on our capacity for processing information.},
+  volume       = {63},
+  year         = {1956}
+}
+
+@article{millerMagicalNumberSeven1956,
+  abstract  = {A variety of researches are examined from the standpoint of information theory. It is shown that the unaided observer is severely limited in terms of the amount of information he can receive, process, and remember. However, it is shown that by the use of various techniques, e.g., use of several stimulus dimensions, recoding, and various mnemonic devices, this informational bottleneck can be broken. 20 references. (PsycInfo Database Record (c) 2021 APA, all rights reserved)},
+  address   = {US},
+  author    = {Miller, George A.},
+  doi       = {10.1037/h0043158},
+  issn      = {1939-1471(Electronic),0033-295X(Print)},
+  journal   = {Psychological Review},
+  keywords  = {*Cognitive Processes,Information Theory},
+  number    = {2},
+  pages     = {81--97},
+  publisher = {American Psychological Association},
+  title     = {The Magical Number Seven, plus or Minus Two: {{Some}} Limits on Our Capacity for Processing Information.},
+  volume    = {63},
+  year      = {1956}
+}
+
+@inproceedings{monotone,
+  abstract  = {The importance and impact of the Boolean satisfiability (SAT) problem in many practical settings is well-known. Besides SAT, a number of computational problems related with Boolean formulas find a wide range of practical applications. Concrete examples for CNF formulas include computing prime implicates (PIs), minimal models (MMs), minimal unsatisfiable subsets (MUSes), minimal equivalent subsets (MESes) and minimal correction subsets (MCSes), among several others. This paper builds on earlier work by Bradley and Manna and shows that all these computational problems can be viewed as computing a minimal set subject to a monotone predicate, i.e. the MSMP problem. Thus, if cast as instances of the MSMP problem, these computational problems can be solved with the same algorithms. More importantly, the insights provided by this result allow developing a new algorithm for the general MSMP problem, that is asymptotically optimal. Moreover, in contrast with other asymptotically optimal algorithms, the new algorithm performs competitively in practice. The paper carries out a comprehensive experimental evaluation of the new algorithm on the MUS problem, and demonstrates that it outperforms state of the art MUS extraction algorithms.},
+  address   = {Berlin, Heidelberg},
+  author    = {Marques-Silva, Joao and Janota, Mikol{\'a}{\v{s}} and Belov, Anton},
+  booktitle = {Computer Aided Verification},
+  editor    = {Sharygina, Natasha and Veith, Helmut},
+  isbn      = {978-3-642-39799-8},
+  pages     = {592--607},
+  publisher = {Springer Berlin Heidelberg},
+  title     = {Minimal Sets over Monotone Predicates in Boolean Formulae},
+  year      = {2013}
+}
+
+@article{Narayanan_Chen_He_Kim_Gershman_Doshi-Velez_2018,
+  abstractnote = {Recent years have seen a boom in interest in machine learning systems that can provide a human-understandable rationale for their predictions or decisions. However, exactly what kinds of explanation are truly human-interpretable remains poorly understood. This work advances our understanding of what makes explanations interpretable in the specific context of verification. Suppose we have a machine learning system that predicts X, and we provide rationale for this prediction X. Given an input, an explanation, and an output, is the output consistent with the input and the supposed rationale? Via a series of user-studies, we identify what kinds of increases in complexity have the greatest effect on the time it takes for humans to verify the rationale, and which seem relatively insensitive.},
+  author       = {Narayanan, Menaka and Chen, Emily and He, Jeffrey and Kim, Been and Gershman, Sam and Doshi-Velez, Finale},
+  month        = {Feb},
+  note         = {arXiv:1802.00682 [cs]},
+  number       = {arXiv:1802.00682},
+  publisher    = {arXiv},
+  title        = {How do Humans Understand Explanations from Machine Learning Systems? An Evaluation of the Human-Interpretability of Explanation},
+  url          = {http://arxiv.org/abs/1802.00682},
+  year         = {2018}
+}
+
+@inproceedings{NEURIPS2020_b1adda14,
+  author     = {Barcel\'{o}, Pablo and Monet, Mika\"{e}l and P\'{e}rez, Jorge and Subercaseaux, Bernardo},
+  bdsk-url-1 = {https://proceedings.neurips.cc/paper/2020/file/b1adda14824f50ef24ff1c05bb66faf3-Paper.pdf},
+  booktitle  = {Advances in Neural Information Processing Systems},
+  editor     = {H. Larochelle and M. Ranzato and R. Hadsell and M.F. Balcan and H. Lin},
+  pages      = {15487--15498},
+  publisher  = {Curran Associates, Inc.},
+  title      = {Model Interpretability through the lens of Computational Complexity},
+  url        = {https://proceedings.neurips.cc/paper/2020/file/b1adda14824f50ef24ff1c05bb66faf3-Paper.pdf},
+  volume     = {33},
+  year       = {2020}
+}
+
+@inproceedings{NEURIPS2021_60cb558c,
+  author     = {Arenas, Marcelo and B\'{a}ez, Daniel and Barcel\'{o}, Pablo and P\'{e}rez, Jorge and Subercaseaux, Bernardo},
+  bdsk-url-1 = {https://proceedings.neurips.cc/paper/2021/file/60cb558c40e4f18479664069d9642d5a-Paper.pdf},
+  booktitle  = {Advances in Neural Information Processing Systems},
+  editor     = {M. Ranzato and A. Beygelzimer and Y. Dauphin and P.S. Liang and J. Wortman Vaughan},
+  pages      = {11690--11701},
+  publisher  = {Curran Associates, Inc.},
+  title      = {Foundations of Symbolic Languages for Model Interpretability},
+  url        = {https://proceedings.neurips.cc/paper/2021/file/60cb558c40e4f18479664069d9642d5a-Paper.pdf},
+  volume     = {34},
+  year       = {2021}
+}
+
+@inproceedings{pmlr-v139-marques-silva21a,
+  abstract  = {In many classification tasks there is a requirement of monotonicity. Concretely, if all else remains constant, increasing (resp.&nbsp;decreasing) the value of one or more features must not decrease (resp.&nbsp;increase) the value of the prediction. Despite comprehensive efforts on learning monotonic classifiers, dedicated approaches for explaining monotonic classifiers are scarce and classifier-specific. This paper describes novel algorithms for the computation of one formal explanation of a (black-box) monotonic classifier. These novel algorithms are polynomial (indeed linear) in the run time complexity of the classifier. Furthermore, the paper presents a practically efficient model-agnostic algorithm for enumerating formal explanations.},
+  author    = {Marques-Silva, Joao and Gerspacher, Thomas and Cooper, Martin C and Ignatiev, Alexey and Narodytska, Nina},
+  booktitle = {Proceedings of the 38th International Conference on Machine Learning},
+  editor    = {Meila, Marina and Zhang, Tong},
+  month     = {18--24 Jul},
+  pages     = {7469--7479},
+  pdf       = {http://proceedings.mlr.press/v139/marques-silva21a/marques-silva21a.pdf},
+  publisher = {PMLR},
+  series    = {Proceedings of Machine Learning Research},
+  title     = {Explanations for Monotonic Classifiers.},
+  url       = {https://proceedings.mlr.press/v139/marques-silva21a.html},
+  volume    = {139},
+  year      = {2021}
+}
+
+ @article{scikit-learn,
+  author  = {Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V.
+             and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P.
+             and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and
+             Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E.},
+  journal = {Journal of Machine Learning Research},
+  pages   = {2825--2830},
+  title   = {Scikit-learn: Machine Learning in {P}ython},
+  volume  = {12},
+  year    = {2011}
+}
+
+@inproceedings{shaps,
+  author    = {Lundberg, Scott M and Lee, Su-In},
+  booktitle = {NeurIPS},
+  pages     = {4765--4774},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  year      = {2017}
+}
+
+@article{shih2018symbolic,
+  author  = {Shih, Andy and Choi, Arthur and Darwiche, Adnan},
+  journal = {arXiv preprint arXiv:1805.03364},
+  title   = {A symbolic approach to explaining Bayesian network classifiers},
+  year    = {2018}
+}
+  
+  @article{silver-bullet,
+  abstractnote = {Recent years witnessed a number of proposals for the use of the so-called interpretable models in specific application domains. These include high-risk, but also safety-critical domains. In contrast, other works reported some pitfalls of machine learning model interpretability, in part justified by the lack of a rigorous definition of what an interpretable model should represent. This study proposes to relate interpretability with the ability of a model to offer explanations of why a prediction is made given some point in feature space. Under this general goal of offering explanations to predictions, this study reveals additional limitations of interpretable models. Concretely, this study considers application domains where the purpose is to help human decision makers to understand why some prediction was made or why was not some other prediction made, and where irreducible (and so minimal) information is sought. In such domains, this study argues that answers to such why (or why not) questions can exhibit arbitrary redundancy, i.e., the answers can be simplified, as long as these answers are obtained by human inspection of the interpretable ML model representation.},
+  author       = {Marques-Silva, Joao and Ignatiev, Alexey},
+  issn         = {2624-8212},
+  journal      = {Frontiers in Artificial Intelligence},
+  title        = {No silver bullet: interpretable ML models must be explained},
+  url          = {https://www.frontiersin.org/articles/10.3389/frai.2023.1128212},
+  volume       = {6},
+  year         = {2023}
+}
+  
+@incollection{Sinz2005,
+  author    = {Carsten Sinz},
+  booktitle = {Principles and Practice of Constraint Programming - {CP} 2005},
+  doi       = {10.1007/11564751_73},
+  pages     = {827--831},
+  publisher = {Springer Berlin Heidelberg},
+  title     = {Towards an Optimal {CNF} Encoding of Boolean Cardinality Constraints},
+  url       = {https://doi.org/10.1007/11564751_73},
+  year      = {2005}
+}
+
+
+ @book{Valiant2013-dz,
+  address   = {London, England},
+  author    = {Valiant, Leslie G},
+  language  = {en},
+  month     = jun,
+  publisher = {Basic Books},
+  title     = {Probably approximately correct},
+  year      = 2013
+}
+ 
+ 
+  @article{Waldchen_MacDonald_Hauch_Kutyniok_2021,
+  author  = {W{\"a}ldchen, Stephan and MacDonald, Jan and Hauch, Sascha and Kutyniok, Gitta},
+  journal = {J. Artif. Intell. Res.},
+  pages   = {351–387},
+  title   = {The Computational Complexity of Understanding Binary Classifier Decisions},
+  volume  = {70},
+  year    = {2021}
+}
+  
+
+@inproceedings{Wang_Khosravi_Broeck_2021,
+  abstractnote = {Electronic proceedings of IJCAI 2021},
+  author       = {Wang, Eric and Khosravi, Pasha and Broeck, Guy Van den},
+  doi          = {10.24963/ijcai.2021/424},
+  issn         = {1045-0823},
+  language     = {en},
+  month        = {Aug},
+  pages        = {3082–3088},
+  title        = {Probabilistic Sufficient Explanations},
+  url          = {https://www.ijcai.org/proceedings/2021/424},
+  volume       = {3},
+  year         = {2021}
+}
+
+ @book{Wegener2000,
+  author    = {Ingo Wegener},
+  doi       = {10.1137/1.9780898719789},
+  month     = jan,
+  publisher = {Society for Industrial and Applied Mathematics},
+  title     = {Branching Programs and Binary Decision Diagrams},
+  url       = {https://doi.org/10.1137/1.9780898719789},
+  year      = {2000}
+}
+
+
