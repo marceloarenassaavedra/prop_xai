@@ -30,11 +30,11 @@ Furthermore, we define a slightly different sense in which the value of $\delta$
     \begin{enumerate}
         \item The partial instance $\vy$ is close enough to a $\delta$-SR:
         \[
-            \Pr_{\vz \sim \D_{\vy}}\big[\M(\vz) = \M(\vx)\big] \geq \delta - \varepsilon.
+            \Pr_{\vz \sim \D_{\vy}}\big[\M(\vz) = \M(\vx)\big] \geq \delta - 2\varepsilon.
         \]
         \item No smaller partial instance $\vy'$ is a clear candidate to be a $\delta$-SR:
         \[
-            \Pr_{\vz \sim \D_{\vy'}}\big[\M(\vz) = \M(\vx)\big] < \delta - 2\varepsilon, \quad \forall \vy', |\vy'|_e < |\vy|_e.
+            \Pr_{\vz \sim \D_{\vy'}}\big[\M(\vz) = \M(\vx)\big] < \delta - \varepsilon, \quad \forall \vy', |\vy'|_e < |\vy|_e.
         \]
     \end{enumerate}
 \end{definition}
