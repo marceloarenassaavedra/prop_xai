@@ -230,45 +230,20 @@ be at least some value $\delta \in (0,1]$, where $\vz$ is a random
 
 
 \section{Introduction}
+\label{sec-into}
+\input{sections/intro}
 
-Explaining the decisions of Machine Learning classifiers is a fundamental problem in XAI (Explainable AI), and doing so with formal mathematical guarantees on the quality, size, and semantics of the explanations is in turn the core of \emph{Formal XAI}~\cite{formal-xai}. 
-Within formal XAI, one of the most studied kinds of explanations is that of \emph{sufficient reasons}~\cite{Darwiche_Hirth_2020}, which aim to explain a decision $\M(\vx) = 1$ by presenting a subset $S$ of the features of the input $\vx$ that implies $\M(\vz) = 1$  for any $\vz$ that agrees with $\vx$ on $S$. 
-In the language of theoretical computer science, these correspond to \emph{certificates} for $\M(\vx)$.
+\section{Probabilistic Sufficient Reasons}
+\label{sec-prop-SR}
+\input{sections/prob-sufficient-reasons}
 
-\begin{example}
-Consider a binary classifier~$\M$ defined as 
-	\[
-	\M(\vx) = \left(x_1 \lor \overline{x_3}\right) \land   \left(x_2 \lor \overline{x_1}\right) \land \left(x_4 \lor x_3\right),
-	\]
-	and the input instance $\vx = \left( 1, \,  1, \, 0, \, 1 \right)$. We can say that $\M(\vx)$ ``because'' $x_1 = 1, x_2 = 1$, and $x_4 = 1$, as they are sufficient to determine the value of $\M(\vx)$ regardless of $x_3$.
-	\label{ex:sufficient-reason}
-\end{example}
+\section{Computational Problem}
+\label{sec-comp-problem}
+\input{sections/computational-problems}
 
-Let us start formalizing the framework for our work.  First, we consider binary boolean models $\M\colon \{0, 1\}^d \to \{0, 1\}$. Despite our domain being binary, we will need a third value, $\bot$, to denote \emph{``unknown''} values.  For example, we may represent a person who \emph{does} have a car, \emph{does not} have a house, and for whom we do not know if they have a pet or not, as $\left(1, \, 0, \, \bot\right)$. 
-We say elements of $\{0, 1, \bot\}^d$ are \emph{partial instances}, while elements of $\{0, 1\}^d$ are simply \emph{instances}. To illustrate, in~\Cref{ex:sufficient-reason} we used the partial instance $\vy = \left(1, \, 1, \, \bot, \, 1 \right)$ to explain $\M(\vx) = 1$.
-We use the notation $\vy \subseteq \vx$ to denote that the (partial) instance $\vx$ \emph{``fills in''} values of the partial instance $\vy$; more formally, we use $\vy \subseteq \vx$ to mean that $y_i = \bot \lor y_i = x_i$ for every $i \in [d]$. Finally, for any partial instance $\vy$ we denote by $\comp(\vy)$ the set of instances $\vx$ such that $\vy \subseteq \vx$, thinking of $\comp(\vy)$ as the set of \emph{completions} of $\vy$. One can define sufficient reasons as follows with this notation.
-
-\begin{definition}[Sufficient Reason~\citep{Darwiche_Hirth_2020}]
-	We say $\vy$ is a \emph{sufficient reason} for $\vx$ if for any completion $\vz \in \comp(\vy)$ it holds that $\M(\vx) = \M(\vz)$.
-	\label{def:sufficient-reason}
-\end{definition}
-A crucial factor for the helpfulness of sufficient reasons as explanations is their size; even though $\vx$ is always a sufficient reason for its own classification, we long for explanations that are much smaller than $\vx$ itself. \citet{millerMagicalNumberSeven1956}, for instance, goes on to say that explanations consisting of more than $9$ features are probably too large for human stakeholders. In general, empirical research suggests that explanations ought to be small~\cite{Narayanan_Chen_He_Kim_Gershman_Doshi-Velez_2018, Lage_Chen_He_Narayanan_Kim_Gershman_Doshi-Velez_2019}.
-There are several ways of formalizing the succinctness we desire for sufficient reasons:
-
-\begin{itemize}
-    \item \textbf{(Minimum Size)} For a sufficient reason $\vy$, we define its \emph{explanation size} $|\vy|_e$ as the number of defined features in $\vy$, or equivalently, $|\vy|_e := d - |\vy|_\bot$, where $|\vy|_\bot$ is the number of features of $\vy$ taking $\bot$. See e.g.,~\cite{NEURIPS2020_b1adda14}.\footnote{When talking about a partial instance $\vy$, we will use the ``size'' of $\vy$ to mean $|\vy|_e$.}
-    \item \textbf{(Minimality)} We say a sufficient reason $\vy$ for a pair $(\M, \vx)$ is \emph{minimal} if there is no other sufficient reason $\vy'$ for $(\M, \vx)$ such that $\vy' \subsetneq \vy$. In fact, the original definition of sufficient reasons of~\citet{Darwiche_Hirth_2020} includes minimality as a requirement, and so is the case under the \emph{``abductive explanation''} naming~\cite{Ignatiev_Narodytska_Asher_Marques-Silva_2021}.
-    \item \textbf{(Relative to average explanation)} \citet{blanc2021provably} compute explanations that are small relative to the \emph{``certificate complexity''} of the classifier $\M$, meaning the average size of the minimum sufficient reason where the average is taken over all possible instances $\vx$.
-\end{itemize}
-
-Nevertheless, there is a path toward even smaller explanations: \emph{probabilistic} sufficient reasons~\cite{Waldchen_MacDonald_Hauch_Kutyniok_2021, Izza_Huang_Ignatiev_Narodytska_Cooper_Marques-Silva_2023}. 
-As will be shown in Example 2., and is noted as a remark by~\citet{blanc2021provably}, these can be arbitrarily smaller than minimum size sufficient reasons.
-
-\input{prob-sufficient-reasons.tex}
-
-\input{computational-problems.tex}
-
-\input{locally-minimal.tex}
+\section{Locally Minimal Probabilistic Explanations}
+\label{sec-loc-min}
+\input{sections/locally-minimal}
 
 \bibliography{references}
 
@@ -277,7 +252,7 @@ As will be shown in Example 2., and is noted as a remark by~\citet{blanc2021prov
 \appendix
 \section*{Appendix}
 
-\input{appendix.tex}
+\input{sections/appendix}
 
 
 \end{document}
