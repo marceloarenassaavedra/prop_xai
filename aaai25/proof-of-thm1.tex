@@ -1,6 +1,36 @@
 \begin{proof}
 Consider the following algorithm:
 
+\renewcommand{\algorithmiccomment}[1]{\; \; \texttt{/* #1 */}}
+\begin{algorithm}[tb]
+	\caption{Uni-Linear MonteCarlo}
+	\label{alg:algorithm}
+	\textbf{Input}: Linear model $\Lin$, instance $\vx$, parameters $\delta \in (0, 1)$\\
+	\textbf{Parameter}:  $\varepsilon \in (0, 1)$,  $\gamma \in (0, 1)$\\
+	\textbf{Output}: A value $\delta^\star \in [\delta, \delta+\varepsilon]$ together with an optimal $\delta^\star$-SR explanation for $\vx$.
+	\begin{algorithmic}[1] %[1] enables line numbers
+	\STATE Sample $\delta^\star$ uniformly at random from $[\delta, \delta + \varepsilon]$
+	\STATE Compute the score $s_i$ for each feature
+	\STATE Let $\vec{\mathcal{F}}$ be the sequence of pairs $(i, s_i)$ sorted decreasingly by $s_i$
+	\STATE Let $\ell$ be the max value such that $\vec{\mathcal{F}}[\ell] = (\lambda, s_\lambda)$ has $s_\lambda > 0$.
+	\STATE For $k \in [1, \ell]$, let $\vy^{(k)} \subseteq \vx$ be the partial instance defined only in features $\vec{\mathcal{F}}[1][1], \ldots, \vec{\mathcal{F}}[k][1]$.
+	\STATE Let $\textrm{LB} = 0$, and $\textrm{UB} = \ell$.
+	\STATE $M \gets \frac{2d^2}{\varepsilon^2 \gamma^2} \log(2d / \gamma)$.
+
+	\WHILE[Binary Search]{$\textrm{LB} \neq \textrm{UB}$} 
+	% \COMMENT{Binary Search}
+		\STATE $k \gets \left(\textrm{LB} + \textrm{UB} \right)/2$.
+		\STATE $\hat{v}_k \gets \textsc{MonteCarloSampling}(\Lin, \vy^{(k)}, M)$.
+		\IF {$\hat{v}_k \geq \delta^\star$}
+			\STATE $\textrm{UB} \gets k$
+		\ELSE
+			\STATE $\textrm{LB} \gets (k+1)$
+		\ENDIF
+	\ENDWHILE
+	\STATE $k^\star \gets \textrm{LB}$ (or equivalently, $\textrm{UB}$).
+	\STATE \RETURN $(\delta^\star, \vy^{(k^\star)})$
+	\end{algorithmic}
+	\end{algorithm}
 \begin{enumerate}
 	\item Let $(\Lin = (\vw, t), \vx)$ be an input instance of dimension $d$, and $\delta^\star$ chosen uniformly at random  in  $[\delta-\epsilon, \delta+\epsilon]$.
 	\item For every $k \in [d]$, let $\vy^{(k)} \subseteq \vx$ be the partial instance that is defined on the $k$ features with maximum score, and undefined on the rest.

@@ -4,6 +4,7 @@
 \usepackage{times}  % DO NOT CHANGE THIS
 \usepackage{helvet}  % DO NOT CHANGE THIS
 \usepackage{courier}  % DO NOT CHANGE THIS
+
 \usepackage[hyphens]{url}  % DO NOT CHANGE THIS
 \usepackage{graphicx} % DO NOT CHANGE THIS
 \urlstyle{rm} % DO NOT CHANGE THIS
@@ -38,6 +39,7 @@
 /TemplateVersion (2025.1)
 }
 
+\usepackage{booktabs}  
 % DISALLOWED PACKAGES
 % \usepackage{authblk} -- This package is specifically forbidden
 % \usepackage{balance} -- This package is specifically forbidden
@@ -156,10 +158,7 @@
 \fi
 
 
-% REMOVE THIS: bibentry
-% This is only needed to show inline citations in the guidelines document. You should not need it and can safely delete it.
-\usepackage{bibentry}
-% END REMOVE bibentry
+
 
 \input{math_commands.tex}
 
@@ -176,6 +175,7 @@
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}{Proposition}
 \newtheorem{example}{Example}
+\newtheorem{open}{Open Problem}
 
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\D}{\mathbf{D}}
@@ -187,7 +187,7 @@
 
 \newcommand{\csproblem}[3]{
     \begin{center}
-    \fbox{\begin{tabular}{lp{8cm}}
+    \fbox{\begin{tabular}{lp{5.5cm}}
     {\small PROBLEM:} : & #1 \\
     {\small INPUT} : & #2 %of dimension $d$,                                                                                
     %\\ & $x \in \{0,1\}^d$ an instance, and $0 \leq \delta \leq 1$                                                         
@@ -211,7 +211,6 @@ subset $S$ of the features of $\vx$ such that for any other instance $\vz$
 compatible with $S$, it holds that $\M(\vx) = \M(\vz)$. Intuitively, this means
 that the features in $S$ are sufficient to fully justify the
 classification of $\vx$ by $\M$.
-
 For sufficient reasons to be useful in practice, they should be as
 small as possible. A natural way to reduce the size of sufficient
 reasons, that has received recent attention, is to consider a
@@ -249,21 +248,21 @@ Let us start formalizing the framework for our work.  First, we consider binary 
 We say elements of $\{0, 1, \bot\}^d$ are \emph{partial instances}, while elements of $\{0, 1\}^d$ are simply \emph{instances}. To illustrate, in~\Cref{ex:sufficient-reason} we used the partial instance $\vy = \left(1, \, 1, \, \bot, \, 1 \right)$ to explain $\M(\vx) = 1$.
 We use the notation $\vy \subseteq \vx$ to denote that the (partial) instance $\vx$ \emph{``fills in''} values of the partial instance $\vy$; more formally, we use $\vy \subseteq \vx$ to mean that $y_i = \bot \lor y_i = x_i$ for every $i \in [d]$. Finally, for any partial instance $\vy$ we denote by $\comp(\vy)$ the set of instances $\vx$ such that $\vy \subseteq \vx$, thinking of $\comp(\vy)$ as the set of \emph{completions} of $\vy$. One can define sufficient reasons as follows with this notation.
 
-\begin{definition}[Sufficient Reason~\cite{Darwiche_Hirth_2020}]
+\begin{definition}[Sufficient Reason~\citep{Darwiche_Hirth_2020}]
 	We say $\vy$ is a \emph{sufficient reason} for $\vx$ if for any completion $\vz \in \comp(\vy)$ it holds that $\M(\vx) = \M(\vz)$.
 	\label{def:sufficient-reason}
 \end{definition}
-A crucial factor for the helpfulness of sufficient reasons as explanations is their size; even though $\vx$ is always a sufficient reason for its own classification, we long for explanations that are much smaller than $\vx$ itself. Miller, for instance, goes on to say that explanations consisting of more than $9$ features are probably too large for human stakeholders~\cite{millerMagicalNumberSeven1956}. In general, previous research suggests that explanations ought to be small~\cite{Narayanan_Chen_He_Kim_Gershman_Doshi-Velez_2018, Lage_Chen_He_Narayanan_Kim_Gershman_Doshi-Velez_2019}.
+A crucial factor for the helpfulness of sufficient reasons as explanations is their size; even though $\vx$ is always a sufficient reason for its own classification, we long for explanations that are much smaller than $\vx$ itself. \citet{millerMagicalNumberSeven1956}, for instance, goes on to say that explanations consisting of more than $9$ features are probably too large for human stakeholders. In general, empirical research suggests that explanations ought to be small~\cite{Narayanan_Chen_He_Kim_Gershman_Doshi-Velez_2018, Lage_Chen_He_Narayanan_Kim_Gershman_Doshi-Velez_2019}.
 There are several ways of formalizing the succinctness we desire for sufficient reasons:
 
 \begin{itemize}
-    \item \textbf{(Minimum Size)} For a sufficient reason $\vy$, we define its \emph{explanation size} $|\vy|_e$ as the number of defined features in $\vy$, or equivalently, $|\vy|_e := d - |\vy|_\bot$, where $|\vy|_\bot$ is the number of features of $\vy$ taking $\bot$. See e.g.,~\cite{NEURIPS2020_b1adda14}.
-    \item \textbf{(Minimality)} We say a sufficient reason $\vy$ for a pair $(\M, \vx)$ is \emph{minimal} if there is no other sufficient reason $\vy'$ for $(\M, \vx)$ such that $\vy' \subsetneq \vy$. In fact, the original definition of sufficient reasons of~\cite{Darwiche_Hirth_2020} includes minimality as a requirement, and so is the case under the \emph{``abductive explanation''} naming~\cite{Ignatiev_Narodytska_Asher_Marques-Silva_2021}.
-    \item \textbf{(Compared to the average explanation)} The work of~\cite{blanc2021provably} computes explanations that are small relative to the \emph{``certificate complexity''} of the classifier $\M$, meaning the average size of the minimum sufficient reason where the average is taken over all possible instances $\vx$.
+    \item \textbf{(Minimum Size)} For a sufficient reason $\vy$, we define its \emph{explanation size} $|\vy|_e$ as the number of defined features in $\vy$, or equivalently, $|\vy|_e := d - |\vy|_\bot$, where $|\vy|_\bot$ is the number of features of $\vy$ taking $\bot$. See e.g.,~\cite{NEURIPS2020_b1adda14}.\footnote{When talking about a partial instance $\vy$, we will use the ``size'' of $\vy$ to mean $|\vy|_e$.}
+    \item \textbf{(Minimality)} We say a sufficient reason $\vy$ for a pair $(\M, \vx)$ is \emph{minimal} if there is no other sufficient reason $\vy'$ for $(\M, \vx)$ such that $\vy' \subsetneq \vy$. In fact, the original definition of sufficient reasons of~\citet{Darwiche_Hirth_2020} includes minimality as a requirement, and so is the case under the \emph{``abductive explanation''} naming~\cite{Ignatiev_Narodytska_Asher_Marques-Silva_2021}.
+    \item \textbf{(Relative to average explanation)} \citet{blanc2021provably} compute explanations that are small relative to the \emph{``certificate complexity''} of the classifier $\M$, meaning the average size of the minimum sufficient reason where the average is taken over all possible instances $\vx$.
 \end{itemize}
 
 Nevertheless, there is a path toward even smaller explanations: \emph{probabilistic} sufficient reasons~\cite{Waldchen_MacDonald_Hauch_Kutyniok_2021, Izza_Huang_Ignatiev_Narodytska_Cooper_Marques-Silva_2023}. 
-As will be shown in Example 2., and is noted as a remark by~\cite{blanc2021provably}, these can be arbitrarily smaller than minimum size sufficient reasons.
+As will be shown in Example 2., and is noted as a remark by~\citet{blanc2021provably}, these can be arbitrarily smaller than minimum size sufficient reasons.
 
 \input{prob-sufficient-reasons.tex}
 
@@ -273,8 +272,12 @@ As will be shown in Example 2., and is noted as a remark by~\cite{blanc2021prova
 
 \bibliography{references}
 
-\end{document}
+\newpage
+\onecolumn
+\appendix
+\section*{Appendix}
 
+\input{appendix.tex}
 
 
 \end{document}

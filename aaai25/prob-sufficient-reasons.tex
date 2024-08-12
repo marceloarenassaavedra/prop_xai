@@ -7,7 +7,7 @@ When considering a partial instance $\vy$, we define $\D_{\vy}$ as the distribut
 \]
 for any $\vz \in \comp(\vy)$, and $\D_{\vy}(\vv) = 0$ if $\vv \not\in \comp(\vy)$.
  
-With this notation we can define $\delta$-sufficient reasons, also known as $\delta$-relevant set~\cite{Izza2021EfficientEW}.
+With this notation we can define $\delta$-sufficient reasons, also known as $\delta$-relevant sets~\cite{Izza2021EfficientEW}.
 \begin{definition}[\cite{Waldchen_MacDonald_Hauch_Kutyniok_2021}]
 	For any $\delta \in [0, 1]$, a $\delta$-sufficient reason ($\delta$-SR) for an instance $\vx$, is a partial instance $\vy \subseteq \vx$ such that
 	\[
@@ -19,7 +19,8 @@ With this notation we can define $\delta$-sufficient reasons, also known as $\de
 Note immediately that~\Cref{def:delta-SR} and~\Cref{def:sufficient-reason} coincide when $\delta = 1$.
 \subsection{The size of $\delta$-SRs}
 
-Interestingly, even a $0.999999$-SR can be arbitrarily smaller, in terms of defined features, than the smallest sufficient reason (i.e., $1$-SR) for a pair $(\M, \vx)$, even when $\M$ is a linear model, as we will illustrate in~\Cref{ex:delta-sr-size}. Before providing the example, let us define linear models and a concentration bound that will be used throughout the paper.
+Interestingly, even a $0.999999$-SR can be arbitrarily smaller, in terms of defined features, than the smallest sufficient reason (i.e., $1$-SR) for a pair $(\M, \vx)$, even when $\M$ is a linear model, as we will illustrate in~\Cref{ex:delta-sr-size}. Before providing the example, let us define linear models.
+%  and a concentration bound that will be used throughout the paper.
 
 \begin{definition}
 	A (binary) linear model $\Lin$ of dimension $d$ is a pair $(\vw, t)$, where $\vw \in \mathbb{Q}^d$ and $t \in \mathbb{Q}$. Its classification over an instance $\vx$ is defined simply as 
@@ -32,17 +33,16 @@ Interestingly, even a $0.999999$-SR can be arbitrarily smaller, in terms of defi
 	\label{def:linear-models}
 \end{definition}
 
-\begin{lemma}[Chernoff-Hoeffding bound]
-Let $X$ be a finite sum of independent Bernoulli variables, with $\E[X] = \mu > 0$. Then, for any $t \geq 0$, we have
-\[
-\Pr \Big[ \left|X - \mu\right| \geq t \Big] \leq 2\exp\left(\frac{-t^2}{3 \mu} \right).
-\] 
+% \begin{lemma}[Chernoff-Hoeffding bound]
+% Let $X$ be a finite sum of independent Bernoulli variables, with $\E[X] = \mu > 0$. Then, for any $t \geq 0$, we have
+% \[
+% \Pr \Big[ \left|X - \mu\right| \geq t \Big] \leq 2\exp\left(\frac{-t^2}{3 \mu} \right).
+% \] 
 
-\label{lemma:chernoff}	
-\end{lemma}
+% \label{lemma:chernoff}	
+% \end{lemma}
 
 \begin{example}
-
 Consider a linear model $L$ of dimension $d= 1000$ with parameters $t = 1250$ and
 $$
 	\vw = (
@@ -56,7 +56,7 @@ Let the instance $\vx$ be
 One can easily see that any $1$-SR for $\vx$ under $\Lin$ has size $251$, as it must include the first feature and any $250$ other features.
 However, if we consider $\D$ to be a uniform distribution, and $\vy = (
 		1, \, \bot, \, \bot, \,  \bot,  \ldots, \, \bot
-	)$, then a simple application of \Cref{lemma:chernoff} gives that
+	)$, then a simple application of the Chernoff-Hoeffding concentration bound gives that
 \[
 	\Pr_{\vz \sim \D(\vy)}\Big[ \Lin(\vz) = 1\Big] \geq  0.999999.\]
 	This suggests that we might say $\Lin(\vx) = 1$ ``because'' $x_1 = 1$; formally, $\vy$ is a $0.999999$-SR, and $251$ times smaller than any $1$-SR for $\Lin(\vx)$.
@@ -66,7 +66,7 @@ However, if we consider $\D$ to be a uniform distribution, and $\vy = (
 In general, if we let $k^\star(\M, \vx, \delta)$ be the size of the smallest $\delta$-SR for $(\M, \vx)$ under the uniform distribution, we can prove the following simple proposition.
 
 \begin{proposition}
-	Even when restricted to the class of linear models, or decision trees, for any $\delta \in (0, 1]$, and any $\varepsilon > 0$, there are pairs $(\M, \vx)$  such that
+	Even when restricted to the class of linear models, for any $\delta \in (0, 1]$, and any $\varepsilon > 0$, there are pairs $(\M, \vx)$  such that
 	\[ 
 		\frac{k^\star(\M, \vx, \delta)}{k^\star(\M, \vx, \delta-\varepsilon)} = \Omega(d).
 	\]
