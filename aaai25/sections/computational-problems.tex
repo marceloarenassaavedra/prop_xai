@@ -45,8 +45,8 @@ With the previous notions, we can state two results and two open problems.
     The Uniform-Min-$\delta$-SR$(\textsc{Linear})$ problem admits an FPRAS with respect to $\delta$. In particular, there exists an algorithm that computes a minimum $\delta'$-SR for some $\delta' \in [\delta, \delta + \varepsilon]$, and succeeds with probability at least $1-\gamma$, running in time $\tilde{O}\left(\frac{d^3}{\varepsilon^2\gamma^2}\right)$.
 \end{theorem}
 
-\begin{theorem}\label{thm:delta-relaxed}
-    We can compute a $(\delta, \varepsilon)$-relaxed minimum SR in polynomial time for linear models under the uniform distribution, with a runtime of 
+\begin{theorem}\label{thm:delta-large}
+    For any $\delta > 0.05$, we can compute a min-$(\delta, \varepsilon)$-SR in polynomial time for linear models under the uniform distribution in time
     \[ 
         \tilde{O}\left(\frac{d}{\varepsilon^2\gamma^2}\right).
     \]
@@ -93,7 +93,7 @@ $\Pr_{\vz  \in \D(\vy)}[\M(\vz) = 1]$ is about computing it to arbitrarily high 
 
 \begin{proposition}
     \label{prop:smoothed-explanation}
-    Given a linear model $\Lin$ and an input $\vx$, we can compute a $(\delta, \varepsilon)$-SR successfully with probability $1 - \gamma$ in time polynomial in $d$, $1/\varepsilon$ and $1/\gamma$. In particular, in time $\tilde{O}\left( \frac{d^2}{\varepsilon^2\gamma^2}\right)$.
+    Given a linear model $\Lin$ and an input $\vx$, we can compute a $(\delta, \varepsilon)$-SR successfully with probability $1 - \gamma$ in time polynomial in $d$, $1/\varepsilon$ and $1/\gamma$. In particular, in time $\tilde{O}\left( \frac{d^3}{\varepsilon^2\gamma^2}\right)$.
 \end{proposition}
 
 Note that~\Cref{prop:smoothed-explanation} immediately gives us~\Cref{thm:delta-approximation}, as we can set $\delta' =  \delta+\varepsilon/2$ and $\varepsilon' = \varepsilon/2$, which means with probability $1 - \gamma$ we will obtain a $(\delta', \varepsilon')$-SR, whose probability guarantee is in 
