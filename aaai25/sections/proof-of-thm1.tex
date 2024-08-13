@@ -87,10 +87,10 @@ $|\hat{v_k}(M)  - v_k| \leq \frac{\epsilon \gamma}{d}$ for every $k \in [d]$ wit
 \[ 
 	M \geq \frac{2d^2}{\epsilon^2 \gamma^2}  \log(2d/\gamma).
 \]
-Using the union bound again, this will succeed for every $k \in [d]$ with probability at least $1 - \gamma$, and thus the algorithm will succeed with probability at least $(1-\gamma)^2  \geq 1 - 2\gamma$. Its runtime is simply
-$O(M \cdot \log d)$, due to the binary search, and thus we conclude the proof.
+Using the union bound again, this will succeed for every $k \in [d]$ with probability at least $1 - \gamma$, and thus the algorithm will succeed with probability at least $(1-\gamma)^2  \geq 1 - 2\gamma$. Its runtime is 
+$O(\log d \cdot M \cdot d  )$; as (i) the binary search performs $O(\log d)$ steps; (ii) each of the binary search steps requires $M$ samples, and (iii) each sample requires evaluating the model $\Lin$ and thus takes time $O(d)$. This concludes the proof.
 
-\todo[inline]{Bernardo: could we replace the $d^2$ by $\log(d)^{O(1)}$? Because of the binary search, only $O(\log d)$ values of $k$ are needed. }
+
 % We thus want to lower bound the probability of some decently large value $\Delta$ such that $|\delta^\star - v_k| \geq \Delta$ for every $k \in [d]$; that way, it will be enough to estimate the values $v_k$ up to an additive error of $\Delta/2$. Given that there are $d$ values $v_
 % k$, and each of them forbids a segment of size $2\Delta$ for $\delta^\star$, then the probability of choosing a value of $\delta^\star$ such that $|\delta^\star - v_k| \geq \Delta$ for every $k \in [d]$ is at least
 % \[
