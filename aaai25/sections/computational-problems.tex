@@ -1,19 +1,22 @@
-\citet{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that computing the smallest $\delta$-SR for arbitrary classifiers is hard for $\textrm{NP}^{\textrm{PP}}$ and that no algorithm can achieve an approximation factor (in terms of $k^\star$) of $d^{1-\alpha}$,  where $d$ is the dimension of the classifier and $\alpha > 0$, unless $\ptime = \textrm{NP}$. Afterward,~\citet{Arenas_Barcelo_Romero_Subercaseaux_2022} showed that even for the restricted class of decision trees, usually considered the interpretable, smallest $\delta$-SRs cannot be computed unless $\ptime = \textrm{NP}$, and later on~\citet{Kozachinskiy_2023} proved that the approximation task is also hard for decision trees. Notably, none of these hardness results rely on the distribution $\D$ being complicated, as they were proved taking $\D = \textrm{Uniform}(\{0, 1\}^d)$. 
-In stark contrast, we will be able to provide positive approximability results in terms of $\delta$ for linear models, which is, to the best of our knowledge, the first positive theoretical result in the area.
-Let us formally define the computational problem at hand, assuming the uniform distribution over $\{0, 1\}^d$, which we will simply denote by $\mathcal{U}$ from now on.
+\citet{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that computing the smallest $\delta$-SR for arbitrary classifiers is hard for $\textrm{NP}^{\textrm{PP}}$ and that no algorithm can achieve an approximation factor (in terms of $k^\star$) of $d^{1-\alpha}$,  where $d$ is the dimension of the classifier and $\alpha > 0$, unless $\ptime = \textrm{NP}$. Afterward,~\citet{Arenas_Barcelo_Romero_Subercaseaux_2022} showed that even for the restricted class of decision trees, usually considered interpretable, smallest $\delta$-SRs cannot be computed unless $\ptime = \textrm{NP}$, and later on~\citet{Kozachinskiy_2023} proved that the approximation task is also hard for decision trees.
+%Notably, none of these hardness results rely on the distribution $\D$ being complicated, as they were proved taking $\D = \textrm{Uniform}(\{0, 1\}^d)$. 
+%In stark contrast, we will be able to provide positive approximability results in terms of $\delta$ for linear models, which is, to the best of our knowledge, the first positive theoretical result in the area.
+%Let us formally define the computational problem at hand, assuming the uniform distribution over $\{0, 1\}^d$, which we will simply denote by $\mathcal{U}$ from now on.
+However, these hardness results do not preclude the existence of efficient algorithms for computing or approximating $\delta$-SR for linear models. In fact, in this section, we provide efficient approximation algorithms in terms of $\delta$ for linear models, which, to the best of our knowledge, represent the first positive theoretical results in this area.
 
 
-
- \csproblem{Uniform-Min-$\delta$-SR$(\mathcal{C})$}{a model $\M \in \mathcal{C}$, an instance $\vx$, a value $\delta \in [0, 1]$, and an integer $k \geq 0$.}{\textsc{\bf Yes} if $k^\star(\M, \vx, \delta) \leq k$, and \textsc{\bf No} otherwise.}
- 
-Unfortunately, it turns out that even Uniform-Min-$\delta$-SR$(\textsc{Linear})$ is hard, as the amount
-\[
-    \Pr_{\vz \sim  \mathcal{U}_\vy}\Big[\Lin(\vz) = 1\Big]
-\]
-cannot be computed in polynomial time unless $\ptime=\# \ptime$~\cite{NEURIPS2020_b1adda14}. 
-
+We start by formally defining the main problem studied in this paper.
+\csproblem{\mdsr}{A linear model $\M$, an instance $\vx$, and a value $\delta \in (0, 1]$}{$k^\star(\M, \vx, \delta)$}
+As our first result, and similarly to other classifier models, we show
+that the problem is hard.
+%Unfortunately, it turns out that even Uniform-Min-$\delta$-SR$(\textsc{Linear})$ is hard, as the amount
+%\[
+%    \Pr_{\vz \sim  \mathcal{U}_\vy}\Big[\Lin(\vz) = 1\Big]
+%\]
+%cannot be computed in polynomial time unless $\ptime=\# \ptime$~\cite{NEURIPS2020_b1adda14}. 
+%
 \begin{proposition}\label{prop:hardness}
-    Uniform-Min-$\delta$-SR$(\textsc{Linear})$ cannot be solved in polynomial time unless $\ptime = \# \ptime$.
+    $\mdsr$ cannot be solved in polynomial time unless $\fptime = \# \ptime$.
 \end{proposition}
 
 
