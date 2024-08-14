@@ -216,20 +216,13 @@ compatible with $S$, it holds that $\M(\vx) = \M(\vz)$. Intuitively, this means
 that the features in $S$ are sufficient to fully justify the
 classification of $\vx$ by $\M$.
 For sufficient reasons to be useful in practice, they should be as
-small as possible. A natural way to reduce the size of sufficient
-reasons, that has received recent attention, is to consider a
+small as possible, and a natural way to reduce the size of sufficient
+reasons is to consider a
 probabilistic relaxation; the probability of $\M(\vx) = \M(\vz)$ must
 be at least some value $\delta \in (0,1]$, where $\vz$ is a random
-  instance compatible with $\vx$. In particular, $\delta$ is a
-  parameter provided by the user, that represents a trade-off between
-  the explanation quality and its size. Naturally, one would aim to
-  compute $\delta$-sufficient reasons that are minimal in size. In this
-  paper, we study the problem of computing such minimum
-  $\delta$-sufficient reasons for linear models. On the negative side, we
-  prove that this problem is computationally hard if one aims for
-  exact solutions. On the positive side, we consider natural forms of
-  approximation for this problem and show that they can be achieved in
-  polynomial time.
+  instance compatible with $\vx$.  Computing small $\delta$-sufficient reasons is known to be notoriously hard; even to approximate them over decision trees.
+ We study the problem of computing minimum
+  $\delta$-sufficient reasons for linear models, for which we provide a positive theoretical result: a natural relaxation of $\delta$-sufficient reasons that is hard even for decision trees can be solved efficiently over linear models.
 \end{abstract}
 
 
