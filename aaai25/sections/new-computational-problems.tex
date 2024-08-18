@@ -176,17 +176,24 @@ Even though a proof of~\Cref{lemma:greedy} is presented in the appendix, let us 
  \[
   s_1 = 5, \; s_2 = -1, \; s_3 = 3, \; s_4 = 2, \; s_5 = -1.
  \]
-Consider the partial instances $\vy^{(1)} = (\bot, \, 0, \, 0, \, 1, \, 1)$ and $\vy^{(2)} = (1, \, \bot, \, 0, \, 1, \, 1)$. The instance $\vx$ is a completion of both $\vy^{(1)}$ and $\vy^{(2)}$, but $\vy^{(1)}$ also has completion 
+For the first part, the main idea is that a positive score $s_i$ means that the feature is helping the classification (i.e., adding it to a partial instance does not decrease its probability guarantee), while a negative score means that the feature is hurting the classification (i.e., adding it to a partial instance does not increase its probability guarantee). 
+Because the partial instances 
+\[ \vy^{(0)} \subseteq \vy^{(1)} \subseteq \cdots \vy^{(d)}
+\] 
+are obtained by adding a single feature at a time, and thus features are added in decreasing order of their scores, then this procedure will have two phases: (i) First, it will add features with a positive score, which raise or maintain the probability of the classification being the same as $\vx$, as the lemma says, and then (ii) it will start adding features with a negative score, which would seem to contradict the lemma, but it turns out that at that point the partial instance $\vy^{(k)}$ would have probability guarantee $1$; this is because $\vy^{(d)} = \vx$, which trivially has probability guarantee $1$.
+\Cref{table:ex-greedy1} presents the probabilities associated to the partial instances $\vy^{(0)}, \ldots, \vy^{(d)}$.
+
+For the second part, consider the partial instances $\vy^{\star} = (\bot, \, 0, \, 0, \, 1, \, 1)$ and $\vy^{\dagger} = (1, \, \bot, \, 0, \, 1, \, 1)$. The instance $\vx$ is a completion of both $\vy^{\star}$ and $\vy^{\dagger}$, but $\vy^{\star}$ also has completion 
 \[
-    \vx^{(1)} = (0, \, 0, \, 0, \, 1, \, 1),
+    \vx^{\star} = (0, \, 0, \, 0, \, 1, \, 1),
 \]
-whereas $\vy^{(2)}$ has also completion 
+whereas $\vy^{\dagger}$ has also completion 
 \[
-    \vx^{(2)} = (1, \, 1, \, 0, \, 1, \, 1).
+    \vx^{\dagger} = (1, \, 1, \, 0, \, 1, \, 1).
 \]
-Note that $\vw \cdot  \vx^{(1)} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot  \vx^{(2)} = 6 = \vw \cdot \vx - s_2$. Intuitively, this means that it is better to keep feature $1$ as part of the explanation, but not feature $2$. If we want an explanation with only two features, we should choose feature $1$ and feature $3$, as they have the highest scores. Indeed,~\Cref{table:ex-greedy} presents the probabilities to all possible explanations of size $2$.
+Note that $\vw \cdot  \vx^{\star} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot  \vx^{\dagger} = 6 = \vw \cdot \vx - s_2$. Intuitively, this means that it is better to keep feature $1$ as part of the explanation, but not feature $2$. If we want an explanation with only two features, we should choose feature $1$ and feature $3$, as they have the highest scores. Indeed,~\Cref{table:ex-greedy2} presents the probabilities to all possible explanations of size $2$.
 \begin{table}
-    \caption{Table of probabilities associated to~\Cref{ex:greedy}.}\label{table:ex-greedy}
+    \caption{Table of probabilities associated to~\Cref{ex:greedy}.}\label{table:ex-greedy2}
     \centering
     \begin{tabular}{rrr}
         \toprule
@@ -203,6 +210,20 @@ Note that $\vw \cdot  \vx^{(1)} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot  
     $(\bot, \,0, \,\bot, \,\bot, \,1)$ & $\{2, \,5\}$ & $\nicefrac{ 1 }{ 8 }$\\
         \bottomrule
     \end{tabular}
+\end{table}
+\begin{table}
+\caption{Table of probabilities associated to~\Cref{ex:greedy}. The last column denotes the score of the feature added to the partial instance in that row with respect to the previous row.}\label{table:ex-greedy1}
+\centering
+\begin{tabular}{rrrr}
+    Partial instance & Features & Probability & Score \\ \midrule 
+$\vy^{(0)}$  & $(\bot, \,\bot, \,\bot, \,\bot, \,\bot)$ & $\nicefrac{ 1 }{ 4 }$ & - \\
+$\vy^{(1)}$  &$(1, \,\bot, \,\bot, \,\bot, \,\bot)$ & $\nicefrac{ 1 }{ 2 }$ & 5\\
+$\vy^{(2)}$  &$(1, \,\bot, \,0, \,\bot, \,\bot)$ & $\nicefrac{ 7 }{ 8 }$ & 3\\
+$\vy^{(3)}$ & $(1, \,\bot, \,0, \,1, \,\bot)$ & $\nicefrac{ 1 }{ 1 }$ & 2 \\
+$\vy^{(4)}$ &$(1, \,0, \,0, \,1, \,\bot)$ & $\nicefrac{ 1 }{ 1 }$ & -1 \\
+$\vy^{(5)}$ & $(1, \,0, \,0, \,1, \,1)$ & $\nicefrac{ 1 }{ 1 }$ & -1\\
+\bottomrule
+\end{tabular}
 \end{table}
 \end{example}
 

@@ -56,13 +56,13 @@
 	
 
 \begin{proof}[Proof of~\Cref{prop:smoothed-explanation}]
-We use~\Cref{alg:algorithm}. Let us define the values partial instances $\vy^{(1)}, \ldots, \vy^{(d)}$ so that $\vy^{(k)} \subseteq \vx$ is the partial instance defined only in the $k$ features with maximum score (line~\ref{line:greedy}). %and let $\ell$ be the first index such the $\ell$-th feature when sorted decreasingly by score has a negative score (line 5).
+We use~\Cref{alg:algorithm}. Let us define the partial instances $\vy^{(0)}, \vy^{(1)} \ldots, \vy^{(d)}$ so that $\vy^{(k)} \subseteq \vx$ is the partial instance defined only in the $k$ features with maximum score (line~\ref{line:greedy}). %and let $\ell$ be the first index such the $\ell$-th feature when sorted decreasingly by score has a negative score (line 5).
 We then define a sequence of values
   $v_k$ as
 	\[
 		v_k := \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)],
 	\]
-	and note that due to~\Cref{lemma:greedy}, the sequence $v_1, \ldots, v_d$ is non-decreasing.
+	and note that due to~\Cref{lemma:greedy}, the sequence $v_0, \ldots, v_d$ is non-decreasing.
 Let $M = \frac{2\log d^2}{\varepsilon^2 \gamma^2} \log(2 \log d / \gamma)$, as in line~\ref{line:mdef}, and let us define random variables $\widetilde{v_k}$ as follows: if~\Cref{alg:algorithm} enters line~\ref{line:montecarlo} with $m=k$, then $\widetilde{v_l}$ is the output of~\Cref{alg:montecarlo} (i.e., $\widehat{v}_k(M)$), and otherwise $\widetilde{v_k} = v_k$.  
 % Because of~\Cref{lemma:monotonicity}, we have that the sequence of values $v_1, \ldots, v_\ell$ is non-decreasing.
 We use binary search (lines~\ref{line:while}-\ref{line:endwhile}), to find $k^\star$, the smallest $k$ such that
