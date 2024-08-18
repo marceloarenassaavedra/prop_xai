@@ -1,6 +1,10 @@
-Due to the complexity of finding minimal $\delta$-SR, it has been proposed to study ``locally minimal'' $\delta$-SR, which are $\delta$-SRs such that the removal of any feature from the explanation would decrease its probabilistic guarantee below $\delta$.
-Interestingly, we can generalize a proof from~\cite{Arenas_Barcelo_Romero_Subercaseaux_2022} to show that, over lineal models under product distributions, every locally minimal $\delta$-SR is a minimal $\delta$-SR.
+Due to the complexity of finding even subset-minimal $\delta$-SR,~\citet{izza2024locallyminimalprobabilisticexplanations} have proposed to study ``locally minimal'' $\delta$-SR, which are $\delta$-SRs such that the removal of any feature from the explanation would decrease its probabilistic guarantee below $\delta$.
+Interestingly, we can generalize a proof from~\cite{NEURIPS2022_b8963f6a} to show that, over lineal models even in the more general case of product distributions (distributions over $\{0,1\}^d$ that are products of independent Bernoulli variables of potentially different parameters), every locally minimal $\delta$-SR is a subset-minimal $\delta$-SR. This allows leveraging the previous results of~\citet{izza2024locallyminimalprobabilisticexplanations} to subset-minimal $\delta$-SRs in the case of linear models.
 
+
+\begin{theorem}\label{thm:locally-minimal}
+For linear models, under any product distribution, every locally minimal $\delta$-SR is a subset-minimal $\delta$-SR.
+\end{theorem}
 \begin{proof}[Proof sketch]
     Define the \emph{``locality''} gap $\textsc{lgap}(\vy)$ of a locally minimal $\delta$-SR $\vy$ as the smallest value $g$ such that $|\vy^\star|_\bot - |\vy|_\bot = g$ for some $\vy^\star \subseteq \vy$ that is a $\delta$-SR.
     If $g = 0$, then $\vy$ is globally minimal, and we are done. If $g$ were to be $1$, then $\vy$ would not be locally minimal, a contradiction. Therefore, we can safely assume $g \geq 2$ from now on.
@@ -8,8 +12,8 @@ Interestingly, we can generalize a proof from~\cite{Arenas_Barcelo_Romero_Suberc
     \begin{itemize}
         \item Let $\vy^\star$ be the $\delta$-SR such that $| \vy \setminus \vy^\star | = \textsc{lgap}(\vy)$.
         \item Every feature in $\vy \setminus \vy^\star$ is either ``good'', if its score is positive, or ``bad'' if its score is negative.
-        \item Fix any feature $i$ in $\vy \setminus \vy^\star$. If $i$ is good, then $\vy^\star \oplus i$ has probability greater equal than $\vy^\star$, and the gap has reduced.
-                On the other hand, if $i$ is bad, then $\vy \ominus i$ has greater-equal probability than $\vy$, contradicting it being locally minimal.
+        \item Fix any feature $i$ in $\vy \setminus \vy^\star$. If $i$ is good, then $\vy^\star \oplus i$, meaning the partial instance obtained by taking $\vy$ and setting its $i$-th feature to $x_i$, has a probability guarantee greater or equal than that of $\vy^\star$ (the proof of this fact is very similar to the proof of~\Cref{lemma:greedy}), and the gap has reduced.
+                On the other hand, if $i$ is bad, then $\vy \ominus i$, meaning the partial instance obtained from $\vy$ by setting $y_i = \bot$, has greater-equal probability than $\vy$, contradicting the fact that $\vy$ is locally minimal.
     \end{itemize}
 
 

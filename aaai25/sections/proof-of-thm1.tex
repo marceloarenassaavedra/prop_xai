@@ -1,29 +1,34 @@
 \renewcommand{\algorithmiccomment}[1]{\; \; \texttt{/* #1 */}}
 \begin{algorithm}[tb]
-	\caption{Uni-Linear MonteCarlo}
+	\caption{LinearMonteCarloExplainer}
 	\label{alg:algorithm}
 	\textbf{Input}: Linear model $\Lin$, instance $\vx$, parameters $\delta \in (0, 1)$\\
 	\textbf{Parameter}:  $\varepsilon \in (0, 1)$,  $\gamma \in (0, 1)$\\
-	\textbf{Output}: A value $\delta^\star \in [\delta-\varepsilon, \delta+\varepsilon]$ together with an optimal $\delta^\star$-SR explanation for $\vx$.\\
+	\textbf{Output}: A value $\delta^\star \in [\delta-\varepsilon, \delta+\varepsilon]$ together with a minimum $\delta^\star$-SR explanation for $\vx$.\\
 	\begin{algorithmic}[1] %[1] enables line numbers
-	\STATE Sample $\delta^\star$ uniformly at random from $[\delta-\varepsilon, \delta + \varepsilon]$
-	\STATE Compute the score $s_i$ for each feature
-	\STATE Let $\vec{\mathcal{F}}$ be the sequence of pairs $(i, s_i)$ sorted decreasingly by $s_i$
-	\STATE Let $\ell$ be the max value such that $\vec{\mathcal{F}}[\ell] = (\lambda, s_\lambda)$ has $s_\lambda > 0$.
-	\STATE For $k \in \{1, \ldots, \ell\}$, let $\vy^{(k)} \subseteq \vx$ be the partial instance defined only in features $\vec{\mathcal{F}}[1][1], \ldots, \vec{\mathcal{F}}[k][1]$.
-	\STATE Let $\textrm{LB} = 0$, and $\textrm{UB} = \ell$.
-	\STATE $M \gets \frac{2\log d^2}{\varepsilon^2 \gamma^2} \log(2 \log d / \gamma)$.
+	\STATE $\delta^\star \gets$ uniformly random sample from $[\delta-\varepsilon, \delta + \varepsilon]$ \label{line:delta}
+	\FOR{$i \in \{1, \ldots, d\}$}
+		\STATE $s_i \gets  w_i \cdot (2x_i - 1) \cdot (2\left(\Lin(\vx) - 1\right))$
+	\ENDFOR
+	
+	\FOR{$k \in\{1, \ldots, d\}$}
+		\STATE  Let $\vy^{(k)} \subseteq \vx$ be the partial instance defined only in the top $k$ features with maximum score $s_i$.\label{line:greedy}
+	\ENDFOR
+	% \STATE Let $\ell$ be the max value such that $\vec{\mathcal{F}}[\ell] = (\lambda, s_\lambda)$ has $s_\lambda > 0$.
+	\STATE $M \gets \frac{2\log d^2}{\varepsilon^2 \gamma^2} \log(2 \log d / \gamma)$\label{line:mdef}
+	\STATE $\textrm{LB} \gets 0$, $\textrm{UB} \gets d$, and $\textsc{steps} \gets 0$
 
-	\WHILE[Binary Search]{$\textrm{LB} \neq \textrm{UB}$} 
+	\WHILE{$\textrm{LB} \neq \textrm{UB}$ and $\textsc{steps} \leq \log d$}\label{line:while}
+		\STATE $\textsc{steps} \gets \textsc{steps} + 1$\label{line:steps}
 	% \COMMENT{Binary Search}
-		\STATE $m \gets \left(\textrm{LB} + \textrm{UB} \right)/2$.
-		\STATE $\hat{v}_m \gets \textsc{MonteCarloSampling}(\Lin, \vy^{(m)}, M)$.
-		\IF {$\hat{v}_m \geq \delta^\star$}
+		\STATE $m \gets \left(\textrm{LB} + \textrm{UB} \right)/2$
+		\STATE $\widehat{v}_m \gets \textsc{MonteCarloEstimation}(\Lin, \vy^{(m)}, \vx, M)$ \label{line:montecarlo}
+		\IF {$\widehat{v}_m \geq \delta^\star$}
 			\STATE $\textrm{UB} \gets m$
 		\ELSE
 			\STATE $\textrm{LB} \gets (m+1)$
 		\ENDIF
-	\ENDWHILE
+	\ENDWHILE\label{line:endwhile}
 	\STATE $k^\star \gets \textrm{LB}$ (or equivalently, $\textrm{UB}$)
 	\STATE \RETURN $(\delta^\star, \vy^{(k^\star)})$
 	\end{algorithmic}
@@ -31,17 +36,19 @@
 
 
 \begin{algorithm}[tb]
-	\caption{MonteCarloSampling}	\label{alg:montecarlo}
-	\textbf{Input}: Linear model $\Lin$, instance $\vx$, number of samples $M$\\
-	\textbf{Output}: An estimate~$\hat{v}$~of~$\Pr_{\vz \in \mathcal{U}_\vx}[\Lin(\vz)=1]$.\\
+	\caption{MonteCarloEstimation}	\label{alg:montecarlo}
+	\textbf{Input}: Linear model $\Lin$, a partial instance $\vy$, an instance $\vx$, and a number of samples $M$\\
+	\textbf{Output}: An estimate~$\widehat{v}$~of~$\Pr_{\vz \sim \U(\vy)}[\Lin(\vz)=\Lin(\vx)]$.\\
 	\begin{algorithmic}[1]
-	\STATE $\hat{v} \gets 0$
+	\STATE $\widehat{v} \gets 0$
 	\FOR{$i = 1$ to $M$}
-		\STATE Sample $\vz \sim \textsc{Comp}(\vx)$
-		\STATE $\hat{v} \gets \hat{v} + \Lin(\vz)$
+		\STATE Sample $\vz \sim \U(\vy)$
+		\IF {$\Lin(\vz) = \Lin(\vx)$}
+			\STATE $\widehat{v} \gets \widehat{v} + 1$
+		\ENDIF
 	\ENDFOR
-	\STATE $\hat{v} \gets \hat{v}/M$
-	\STATE \RETURN $\hat{v}$
+	\STATE $\widehat{v} \gets \widehat{v}/M$
+	\STATE \RETURN $\widehat{v}$
 \end{algorithmic}
 \end{algorithm}
 
@@ -49,46 +56,97 @@
 	
 
 \begin{proof}[Proof of~\Cref{prop:smoothed-explanation}]
-We use~\Cref{alg:algorithm}. Let us define the values $v_k$ as
+We use~\Cref{alg:algorithm}. Let us define the values partial instances $\vy^{(1)}, \ldots, \vy^{(d)}$ so that $\vy^{(k)} \subseteq \vx$ is the partial instance defined only in the $k$ features with maximum score (line~\ref{line:greedy}). %and let $\ell$ be the first index such the $\ell$-th feature when sorted decreasingly by score has a negative score (line 5).
+We then define a sequence of values
+  $v_k$ as
 	\[
-		v_k := \Pr_{\vz \in \textsc{Comp}(\vy^{(k)})}[\Lin(\vz) = 1].
+		v_k := \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)],
 	\]
-As a result of the binary search (lines 8-16), the algorithm obtains $k^\star$, the smallest $k$ such that
+	and note that due to~\Cref{lemma:greedy}, the sequence $v_1, \ldots, v_d$ is non-decreasing.
+Let $M = \frac{2\log d^2}{\varepsilon^2 \gamma^2} \log(2 \log d / \gamma)$, as in line~\ref{line:mdef}, and let us define random variables $\widetilde{v_k}$ as follows: if~\Cref{alg:algorithm} enters line~\ref{line:montecarlo} with $m=k$, then $\widetilde{v_l}$ is the output of~\Cref{alg:montecarlo} (i.e., $\widehat{v}_k(M)$), and otherwise $\widetilde{v_k} = v_k$.  
+% Because of~\Cref{lemma:monotonicity}, we have that the sequence of values $v_1, \ldots, v_\ell$ is non-decreasing.
+We use binary search (lines~\ref{line:while}-\ref{line:endwhile}), to find $k^\star$, the smallest $k$ such that
 \[
-	\hat{v}_k \geq \delta^\star,
+	\widetilde{v_k} \geq \delta^\star,
 \]
-and our goal is to show that with good probability $k^\star$ is also the smallest $k$ such that $v_k \geq \delta^\star$, which would imply the correctness of the algorithm.
-Let $S$ be a random variable corresponding to the set of values $k$ such that~\Cref{alg:algorithm} enters line $10$ with $m=k$, and note that if for every $k$ in $S$ it happens that the events 
+and our goal is to show that with good probability $k^\star$ is also the smallest $k$ such that $v_k \geq \delta^\star$, which would imply the correctness of the algorithm by~\Cref{lemma:greedy}.
+Note, however, that even though the sequence $v_1, \ldots, v_d$ is non-decreasing, the estimated values $\widehat{v_k}$ are not necessarily so.
+Let $S$ be a random variable corresponding to the set of values $k$ such that~\Cref{alg:algorithm} enters line~\ref{line:montecarlo} with $m=k$, and note that if for every $k$ in $S$ it happens that the events 
 \[
-	A_k := \left(v_k \geq \delta^\star \right) \text{ and }  B_k := \left(\hat{v_k}(M) \geq \delta^\star\right)
+	A_k := \left(v_k \geq \delta^\star \right) \text{ and }  B_k := \left(\widetilde{v_k} \geq \delta^\star\right)
 \]
 are equivalent (i.e., either both occur or neither occurs), then the algorithm will succeed, as that would indeed imply that $k^\star$ is the smallest $k$ such that $v_k \geq \delta^\star$. 
 
-Then, define events $E_k$ and $F_k$ as follows:
+Then, for $k \in [d]$, define events $E_k$ and $F_k$ as follows:
 \begin{align*}
-	E_k &:= |\delta^\star - v_k| > \frac{\epsilon \gamma}{\log d},\\
-	F_k &:= k \in S \land |\hat{v_k}(M) - v_k| \leq \frac{\epsilon \gamma}{\log d}.
+	E_k &:= |\delta^\star - v_k| \geq \frac{\varepsilon \gamma}{\log d},\\
+	F_k &:= |\widetilde{v_k} - v_k| \leq \frac{\epsilon \gamma}{\log d}.
 \end{align*}
-We claim that if both $E_k$ and $F_k$ hold for some $k$, then $A_k$ and $B_k$ are equivalent events. Indeed,
+We claim that if both $E_k$ and $F_k$ hold for some $k$, then $A_k$ and $B_k$ are equivalent events for that $k$. Indeed,
 \begin{align*}
 	A_k &\iff v_k \geq \delta^\star\\
-		&\iff v_k \geq \delta^\star + \frac{\epsilon \gamma}{\log d} \tag{By $E_k$}\\
-		&\iff v_k - \frac{\epsilon \gamma}{\log d} \geq \delta^\star\\
-		&\iff \hat{v_k}(M) \geq \delta^\star \tag{By $F_k$}\\
+		&\iff v_k \geq \delta^\star + \frac{\varepsilon \gamma}{\log d} \tag{By $E_k$}\\
+		&\iff v_k - \frac{\varepsilon \gamma}{\log d} \geq \delta^\star\\
+		&\iff \widetilde{v_k} \geq \delta^\star \tag{By $F_k$}\\
 		&\iff B_k.
 \end{align*}
 
 Thus, if we show that $E_k$ and $F_k$ hold with good probability for every $k \in S$, we can conclude the theorem.
-To see that, note first that for every $k \in [d]$, line 1 implies
-\[
-	\Pr[\overline{E_k}] = \Pr\left[\delta^\star \in \left[v_k - \frac{\epsilon \gamma}{\log d}, v_k + \frac{\epsilon \gamma}{\log d}\right]\right] \leq \frac{\frac{2\epsilon \gamma}{\log d}}{2\epsilon} = \frac{\gamma}{\log d}.
-\]
+Notice first that, because of the condition on the variable $\textsc{steps}$ (lines~\ref{line:while}, \ref{line:steps}) we have $|S| \leq \log d$, allowing us to do a binary search in case the desired events $E_k$ and $F_k$ hold, and preventing the algorithm from looping otherwise; this way the runtime is controlled not only on expectation but deterministically. \footnote{For simplicity, we will say $|S| \leq \log d$, even though the exact bound for a binary search is $|S| \leq \lfloor \log d  + 1 \rfloor$.} Then, note that for any $k$ we have
+\begin{align*}
+	\Pr\left[ \, \overline{F_k} \,\right] \leq \Pr\left[ \, \overline{F_k} \mid k \in S \right] &= \Pr\left[|\widehat{v_k}(M) - v_k| > \frac{\epsilon \gamma}{\log d}\right]\\
+	&\leq \frac{\gamma}{\log d}. \tag{By~\Cref{fact:hoeffding}}
+\end{align*}
+Because $S$ itself is a random variable, whose size is also a random variable, we need to be careful before applying a union bound or any related tricks. Let us refer to the elements of $S$ as $\{s_1, \ldots, s_\ell\}$, and let us denote $F(i)$ for $i \in [\log d]$ to the event $F_{s_i}$ if $i \leq \ell$, and to the sample space $\Omega$ (i.e., the event that always happens) otherwise. Then, we claim that for any $1 \leq i \neq j \leq \log d$, we have 
+\begin{equation}\label{eq:quasi-independence}
+	\Pr[F(i) \cap F(j)] = \Pr[F(i)] \cdot \Pr[F(j)],
+\end{equation}
+as either $\max \{i, j\} \leq \ell$, in which case the claim holds by independence (since both events depend only on disjoint sets of independent random samples), or the claim holds trivially since $\Pr[F(i)] = 1$ for $i > \ell$.
+Therefore, we have 
+\begin{align*}
+\Pr\left[\bigcap_{k \in S} F_k\right] &= \Pr\left[F(1) \cap F(2) \cap \cdots \cap F(\log d)\right]\\
+&= \prod_{i \in [\log d]} \Pr[F(i)]\tag{By~\Cref{eq:quasi-independence}}\\
+&\geq \left(1 - \frac{\gamma}{\log d}\right)^{\log d} \geq 1 - \gamma.
+\end{align*}
+% Note that different events $\overline{F_i}, \overline{F_j}$ are not necessarily independent, as they depend on $S$ which is itself a random variable. However, they depend only on whether $i$ or $j$ are in $S$. Concretely,
+% \[ 
+% \Pr[\overline{F_i} \mid \overline{F_j} \text{ and } i \in S] = \Pr[\overline{F_i} \mid  i \in S] \leq \frac{\gamma}{\log d}.
+% \]
+% It is now tempting to make a union bound over the $\log d$ elements of $S$ and claim simply that:
+% \begin{align*}
+% 	\Pr\left[\bigcap_{k \in S} F_k\right] &= 1 - \Pr\left[\bigcup_{k \in S} \overline{F_k}\right]\\
+% 	&\geq 1 - \sum_{k \in S} \Pr\left[\,\overline{F_k} \mid k \in S\right]\\
+% 	&\geq 1 - \sum_{k \in S} \frac{\gamma}{\log d}\\
+% 	&= 1 - \gamma.
+% \end{align*}
+% However, $S$ itself is a random variable, and $F_k$ is not independent of $S$. We need, therefore, to be more careful. In this case, we can get around this by denoting $s_1, \ldots, s_{|S|}$ the elements of $S$ (in e.g., increasing order), which are random variables (and furthermore, note that the number of variables $s_i$ is itself a random variable).
+% Observe that $F_{s_i}$ is independent of $F_{s_j}$ for $i \neq j$,  
 
-It is tempting to say that we have 
-\[ 
-	\Pr\left[\bigcap_{k \in S} E_k\right] = 1 -  \Pr\left[\bigcup_{k \in S} \overline{E_k} \right] \geq 1 - \gamma,
+% Note that, even though $F_k$ depends on $S$, it actually ``only depends'' on whether $k \in S$. Concretely, for any $S' \subseteq [d]$ it holds that
+% \begin{multline}\label{eq:1}
+% 	\Pr[\, \overline{F_k} \,] \leq \Pr[\, \overline{F_k} \mid k \in S \,] = \Pr[\, \overline{F_k} \mid k \in S \text { and } S = S'] \\
+% 	\leq \frac{\gamma}{\log d}.
+% \end{multline}
+
+% Then, note that 
+% \begin{align*}
+% 	\Pr\left[\bigcup_{k \in S} \overline{F_k}\right] &= \sum_{S' \subseteq [d]} \Pr\left[S = S' \text { and } \bigcup_{k \in S'} \overline{F_k}\right]\\
+% 	&= \sum_{S' \subseteq [d]} \Pr\left[\bigcup_{k \in S'} \left(\overline{F_k} \text { and } S = S'\right)\right]\\
+% 	&\leq \sum_{S' \subseteq [d]} \sum_{k \in S'} \Pr\left[\overline{F_k} \text { and } S = S'\right] \tag{Union bound}\\
+% 	&= \sum_{S' \subseteq [d]} \sum_{k \in S'} \Pr\left[S = S'\right] \Pr\left[\overline{F_k} \mid S = S'\right]\\
+% 	&\leq \sum_{S' \subseteq [d]} \Pr\left[S = S'\right] \sum_{k \in S'} \frac{\gamma}{\log d} \tag{\Cref{eq:1}}\\
+% 	&=\sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S'\right] \sum_{k \in S'} \frac{\gamma}{\log d}\\
+% 	&\leq \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S'\right] \cdot \gamma\\
+% 	&= \gamma.
+% \end{align*}
+
+% We thus have concluded that $\Pr\left[\bigcap_{k \in S} F_k\right] \geq 1 - \gamma$.
+We now argue that the event $\bigcap_{k \in S} E_k$ happens with good probability.
+To see that, note first that for every $k \in [d]$, line~\ref{line:delta} implies
+\[
+	\Pr[\overline{E_k}] = \Pr\left[\delta^\star \in \left[v_k \pm \frac{\varepsilon \gamma}{\log d}\right]\right] \leq \frac{\frac{2\varepsilon \gamma}{\log d}}{2\varepsilon} = \frac{\gamma}{\log d}.
 \]
-through a union bound on the $\log d$ elements of $S$\footnote{For simplicity we will say $|S| \leq \log d$, even though the exact bound for a binary search is $|S| \leq \lfloor \log d  + 1 \rfloor$.}. However, $S$ itself is a random variable, and $E_k$ and $k \in S$ are not (necessarily) independent events, so we need to be more careful. 
+Once again, we need to be careful as the events $E_k$ are not independent of $S$, nor between them this time.
 Using the law of total probabilities, we have 
 \begin{align*}
 	\Pr\left[\bigcap_{k \in S} E_k\right] &= \sum_{S' \subseteq [d]} \Pr\left[S = S'  \mid \bigcap_{k \in S'} E_k \right] \Pr\left[\bigcap_{k \in S'} E_k\right]\\
@@ -101,27 +159,41 @@ where we can now effectively use the union bound to say that for any fixed $S'$ 
 from where we get
 \begin{align*}
 	\Pr\left[\bigcap_{k \in S} E_k\right] &=  \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S'\mid \bigcap_{k \in S'} E_k\right] \Pr\left[\bigcap_{k \in S'} E_k\right]\\
-	&\geq (1-\gamma) \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S' \mid \bigcap_{k \in S'} E_k\right]\\
-	&= 1 - \gamma.
+	&\geq (1-\gamma) \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S' \mid \bigcap_{k \in S'} E_k\right]. \tag{$\dagger$}
 \end{align*}
- Let us now argue that $F_k$ holds with good probability for every $k \in S$. Indeed, we have for any $k$ that
- \begin{align*}
- \Pr\left[ \, \overline{F_k} \mid k \in S \right] &= \Pr\left[|\hat{v_k}(M) - v_k| > \frac{\epsilon \gamma}{\log d}\right]\\
- 	&\leq \frac{\gamma}{\log d}, \tag{By~\Cref{fact:hoeffding} and line 7.}
- \end{align*}
-from where a final union bound (using the same trick as for $E_k$) yields 
+It is not obvious, however, that the sum on the right-hand side of the previous equation equals $1$. We can, however, argue that the sum is at least $1-\gamma$. Start by noting that for any index $k \in [d]$, the event $F_k$ is conditionally independent, on the event $k \in S$, of all events $E_{k'}$, with $k' \in [d]$. That is,
+\[
+	\Pr\left[F_k | k \in S\right] = \Pr\left[F_k | E_{k'}, k \in S\right], \quad \text{for any } k' \in [d].
+\]
+Because of this, and given that $\Pr[F_k | k \not\in S] \geq \Pr[F_k | k \in S]$, then for each set $S'$ of size at most $\log d$ we have 
+\[ 
+	\Pr\left[\bigcap_{k \in S'} F_k \right] \geq \Pr\left[\bigcap_{k \in S} F_k \right].	
+\]
+We thus deduce that for any fixed $S'$ with $|S'| \leq \log d$ we have
+\begin{equation}\label{eq:2}
+	\Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} E_k\right] \geq \Pr\left[\bigcap_{k \in S} F_k\right] \geq (1-\gamma).
+\end{equation}
+Then our key observation is that there is a single value $S^\star \subseteq [d]$, with $|S^\star| \leq \log d$, that the binary search can take if we condition on all the events $E_k$ and $F_k$ happening, since in that case events $A_k$ and $B_k$ coincide. In other words, there exists $S^\star$, with $S^\star \subseteq [d]$ and $|S^\star| \leq \log d$, such that
+\[ 
+\Pr\left[S = S^\star \mid \bigcap_{k \in S^\star} E_k \cap \bigcap_{k \in S^\star} F_k\right] = 1.
+\]
+We can then argue as follows:
 \begin{align*}
-	\Pr\left[\bigcap_{k \in S} F_k\right] &= 1 - \Pr\left[\bigcup_{k \in S} \overline{F_k}\right]\\
-	&\geq 1 - \sum_{k \in S} \Pr\left[\overline{F_k} \mid k \in S\right]\\
-	&\geq 1 - \sum_{k \in S} \frac{\gamma}{\log d}\\
-	&= 1 - \gamma.
+	\Pr\left[\bigcap_{k \in S} E_k\right] &\geq (1-\gamma) \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S' \mid \bigcap_{k \in S'} E_k\right]\tag{By $(\dagger)$}\\
+	&\geq (1-\gamma) \Pr\left[S = S^\star  \mid \bigcap_{k \in S^\star} E_k \right]\\
+	&\geq (1-\gamma) \Pr\left[S = S^\star \text{ and } \bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k \right]\\
+	&= (1-\gamma) \Pr\left[S = S^\star \mid \bigcap_{k \in S^\star} E_k \cap \bigcap_{k \in S^\star} F_k\right]\\
+	&\quad \cdot \Pr\left[\bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k\right]\\
+	&\geq (1-\gamma)^2. \tag{By~\Cref{eq:2}}
 \end{align*}
+
+
 Therefore, the algorithm will succeed with probability at least 
 \[ 
-	\Pr\left[\bigcap_{k \in S} E_k\right] \cdot \Pr\left[\bigcap_{k \in S} F_k\right] \geq (1-\gamma)^2 \geq 1-2\gamma.
+	\Pr\left[\bigcap_{k \in S} E_k\right] \cdot \Pr\left[\bigcap_{k \in S} F_k\right] \geq (1-\gamma)^3 \geq 1-3\gamma.
 \]
 The runtime is simply
-$O(\log d \cdot M \cdot d  )$; as (i) the binary search performs $O(\log d)$ steps; (ii) each of the binary search steps requires $M$ samples, and (iii) each sample requires evaluating the model $\Lin$ and thus takes time $O(d)$. Naturally, running the algorithm with $\gamma' = 1/2 \cdot \gamma$ will yield a success probability of $1-\gamma$ without changing the asymptotic runtime, and thus we conclude the proof.
+$O(\log d \cdot M \cdot d  )$; as (i) the binary search performs $O(\log d)$ steps; (ii) each of the binary search steps requires $M$ samples, and (iii) each sample requires evaluating the model $\Lin$ and thus takes time $O(d)$. Naturally, running the algorithm with $\gamma' = 1/3 \cdot \gamma$ will yield a success probability of $1-\gamma$ without changing the asymptotic runtime, and thus we conclude the proof.
 
 
 % We thus want to lower bound the probability of some decently large value $\Delta$ such that $|\delta^\star - v_k| \geq \Delta$ for every $k \in [d]$; that way, it will be enough to estimate the values $v_k$ up to an additive error of $\Delta/2$. Given that there are $d$ values $v_

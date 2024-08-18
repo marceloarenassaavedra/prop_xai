@@ -19,8 +19,25 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
-%
-% These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
+
+% \usepackage{scalerel}
+% \usepackage{stackengine}
+
+% \newcommand\reallywidetilde[1]{\ThisStyle{%
+%   \setbox0=\hbox{$\SavedStyle#1$}%
+%   \stackengine{-.1\LMpt}{$\SavedStyle#1$}{%
+%     \stretchto{\scaleto{\SavedStyle\mkern.2mu\sim}{.5467\wd0}}{.7\ht0}%
+% %    .2mu is the kern imbalance when clipping white space
+% %    .5467++++ is \ht/[kerned \wd] aspect ratio for \sim glyph
+%   }{O}{c}{F}{T}{S}%
+% }}
+
+% \def\testy#1{%
+%   \reallywidetilde{#1}\,
+%   \scriptstyle\reallywidetilde{#1}\,
+%   \scriptscriptstyle\reallywidetilde{#1}
+% \par}
+
 \usepackage{newfloat}
 \usepackage{listings}
 \DeclareCaptionStyle{ruled}{labelfont=normalfont,labelsep=colon,strut=off} % DO NOT CHANGE THIS
@@ -32,7 +49,15 @@
 \floatstyle{ruled}
 \newfloat{listing}{tb}{lst}{}
 \floatname{listing}{Listing}
-%
+
+
+\def\oversortoftilde#1{\mathop{\vbox{\m@th\ialign{##\crcr\noalign{\kern3\p@}%
+      \sortoftildefill\crcr\noalign{\kern3\p@\nointerlineskip}%
+      $\hfil\displaystyle{#1}\hfil$\crcr}}}\limits}
+
+\def\sortoftildefill{$\m@th \setbox\z@\hbox{$\braceld$}%
+      \braceld\leaders\vrule \@height\ht\z@ \@depth\z@\hfill\braceru$}
+
 % Keep the \pdfinfo as shown here. There's no need
 % for you to add the /Title and /Author tags.
 \pdfinfo{
@@ -81,6 +106,19 @@
 % \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
 
 \setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
+
+% \newcommand\reallywidetilde[1]{\ThisStyle{%
+%   \setbox0=\hbox{$\SavedStyle#1$}%
+%   \stackengine{-.1\LMpt}{$\SavedStyle#1$}{%
+%     \stretchto{\scaleto{\SavedStyle\mkern.2mu\AC}{.5150\wd0}}{.6\ht0}%
+%   }{O}{c}{F}{T}{S}%
+% }}
+
+% \def\test#1{$%
+%   \reallywidetilde{#1}\,
+%   \scriptstyle\reallywidetilde{#1}\,
+%   \scriptscriptstyle\reallywidetilde{#1}
+% $\par}
 
 % The file aaai25.sty is the style file for AAAI Press
 % proceedings, working notes, and technical reports.
@@ -178,13 +216,15 @@
 \newtheorem{open}{Open Problem}
 
 \newcommand{\M}{\mathcal{M}}
+\newcommand{\U}{\mathbf{U}}
 \newcommand{\D}{\mathbf{D}}
 \newcommand{\Lin}{\mathcal{L}}
 \newcommand{\ptime}{\mathrm{P}}
+\newcommand{\np}{\mathrm{NP}}
 \newcommand{\fptime}{\mathrm{FP}}
 \newcommand{\shp}{\mathrm{\#P}}
 \newcommand{\Knapsack}{\textsc{Knapsack}}
-\newcommand{\opt}{\operatorname{OPT}}
+\newcommand{\opt}{\operatorname{\textsc{Min}}}
 
 
 \DeclareMathOperator{\comp}{Comp}
@@ -209,10 +249,10 @@
 Formal XAI is an emerging field that focuses on providing explanations
 with mathematical guarantees for the decisions made by machine
 learning models. Recent work in this area has centered on the
-computation of ``sufficient reasons''. In this context, given a model $\M$
-and an instance $\vx$, a sufficient reason for the decision $\M(\vx)$ is a
-subset $S$ of the features of $\vx$ such that for any other instance $\vz$
-compatible with $S$, it holds that $\M(\vx) = \M(\vz)$. Intuitively, this means
+computation of ``sufficient reasons''. Given a model $\M$
+and an input instance $\vx$, a sufficient reason for the decision $\M(\vx)$ is a
+subset $S$ of the features of $\vx$ such that for any instance $\vz$
+that has the same values as $\vx$ for every feature in $S$, it holds that $\M(\vx) = \M(\vz)$. Intuitively, this means
 that the features in $S$ are sufficient to fully justify the
 classification of $\vx$ by $\M$.
 For sufficient reasons to be useful in practice, they should be as
@@ -220,9 +260,8 @@ small as possible, and a natural way to reduce the size of sufficient
 reasons is to consider a
 probabilistic relaxation; the probability of $\M(\vx) = \M(\vz)$ must
 be at least some value $\delta \in (0,1]$, where $\vz$ is a random
-  instance compatible with $\vx$.  Computing small $\delta$-sufficient reasons is known to be notoriously hard; even to approximate them over decision trees.
- We study the problem of computing minimum
-  $\delta$-sufficient reasons for linear models, for which we provide a positive theoretical result: a natural relaxation of $\delta$-sufficient reasons that is hard even for decision trees can be solved efficiently over linear models.
+  instance compatible with $\vx$.  Computing small $\delta$-sufficient reasons ($\delta$-SRs) is known to be a theoretically hard problem; even over decision trees — traditionally deemed simple and interpretable models — strong inapproximability results make the efficient computation of small $\delta$-SRs unlikely.
+ We propose the notion of $(\delta, \epsilon)$-SR, a simple relaxation of $\delta$-SRs, and show that while this relaxation is hard to compute over decision trees (as a simple consequence of the previous inapproximability results), it can be computed efficiently over linear models. 
 \end{abstract}
 
 
@@ -235,13 +274,17 @@ be at least some value $\delta \in (0,1]$, where $\vz$ is a random
 \input{sections/prob-sufficient-reasons}
 
 %\section{Computational Problem}
-\section{Effciently Approximating Probabilistic Sufficient Reasons}
+\section{Approximating $\delta$-Sufficient Reasons}
 \label{sec-comp-problem}
 \input{sections/new-computational-problems}
 
 \section{Locally Minimal Probabilistic Explanations}
 \label{sec-loc-min}
 \input{sections/locally-minimal}
+
+\section{Conclusions and Future Work}
+\label{sec-conclusions}
+\input{sections/conclusions}
 
 \bibliography{references}
 

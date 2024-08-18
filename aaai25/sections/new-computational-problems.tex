@@ -1,19 +1,46 @@
 
 
-\citet{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that computing the minimum $\delta$-SRs for arbitrary classifiers is hard for $\textrm{NP}^{\textrm{PP}}$, while \citet{Arenas_Barcelo_Romero_Subercaseaux_2022} proved that even for the restricted class of decision trees, which are usually considered interpretable, minimum $\delta$-SRs cannot be computed in polynomial time unless $\ptime = \textrm{NP}$. In what follows, we prove that these negative results also extend to linear models, as it is not possible to compute minimum $\delta$-SRs for such models in polynomial time unless $\fptime = \shp$,\footnote{$\fptime$ is the class of all functions that can be computed in polynomial time.} which is widely believed to be false.
+Unfortunately, computing small $\delta$-SRs is computationally challenging, even when attempting to find approximate solutions. Let us contextualize our main result by summarizing first what is known about the complexity of computing $\delta$-SRs and their deterministic predecessors, $1$-SRs.  
+
+\citet{NEURIPS2020_b1adda14} showed that computing a minimum $1$-SR is $\Sigma_2^p$-hard for neural networks, $\np$-hard for decision trees, and polynomial-time solvable for linear models. Then, \citet[Theorem 2.4]{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that computing minimum $\delta$-SRs for neural networks is hard for $\np^{\mathrm{PP}}$, and \citet{NEURIPS2022_b8963f6a} proved that even for the restricted class of decision trees, which are usually considered interpretable, minimum $\delta$-SRs cannot be computed in polynomial time unless $\ptime = \np$ (and neither can subset-minimal $\delta$-SRs for $\delta < 1$, in contrast to the $\delta = 1$ setting which is in $\ptime$~\cite{izzaExplainingDecisionTrees2020,roaModelInterpretabilityLens2020}). 
+For linear models, even computing the value
+\[
+    \Pr_{\vz \sim \U{\vy}}\big[\Lin(\vz) = \Lin(\vx)\big]
+\]
+exactly is $\shp$-hard~\cite{NEURIPS2020_b1adda14}, from where the following is easy to show.\footnote{\citet{izzaComputingProbabilisticAbductive2023} already made a more general observation of this form, but did not provide a hardness result for linear models.}\footnote{All proofs that are not presented in the main text can be found in the appendix.}
+ 
 \begin{proposition}\label{prop:hardness}
-The problem of computing, given a linear model $\Lin$, an instance
-$\vx$, and $\delta \in [0,1]$, the value $\opt(\Lin, \vx, \delta)$
-cannot be solved in polynomial time unless $\fptime = \shp$.
+    Given a linear model $\Lin$, an instance
+    $\vx$, and $\delta \in [0,1]$, the value $\opt(\Lin, \vx, \delta)$
+    cannot be computed in polynomial time unless $\fptime = \shp$.
 \end{proposition}
-Unfortunately, the situation does not improve if we aim to efficiently approximate the value $\opt(\Lin, \vx, \delta)$. \citet{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that no algorithm can achieve an approximation factor of $d^{1-\alpha}$ for this problem, where $d$ is the dimension of the classifier and $\alpha > 0$, unless $\ptime = \textrm{NP}$. Additionally, \citet{Kozachinskiy_2023} proved that this approximation task is also hard for decision trees. In light of these negative results, in what follows we consider a relaxed notion of $\delta$-minSR where $\delta$ can be replaced by a closed value $\delta'$.
-\begin{definition}[\cite{Waldchen_MacDonald_Hauch_Kutyniok_2021}]
-        Given $\delta, \epsilon \in [0, 1]$, a $(\delta, \epsilon)$-sufficient reason ($(\delta, \epsilon)$-SR) for an instance $\vx$, is a partial instance $\vy \subseteq \vx$ such that
-        \[
-                \Pr_{\vz \sim \D_{\vy}}\big[\M(\vz) = \M(\vx)\big] \geq \delta.
-        \]
-        \label{def:delta-SR}
-\end{definition}
+
+Furthermore, the situation does not improve if we aim to efficiently approximate the value $\opt(\M, \vx, \delta)$. \citet[Theorem 2.5]{Waldchen_MacDonald_Hauch_Kutyniok_2021} studied general classifiers (e.g., neural networks) and showed that no algorithm can achieve an approximation factor of $d^{1-\alpha}$ for this problem, where $d$ is the dimension of the classifier and $\alpha > 0$, unless $\ptime = \np$. \citet{Kozachinskiy_2023} proved that this approximation task is also hard for decision trees.
+
+% As the notion of approximation at play is subtle, let us clarify the precise inapproximability statements we are referring to.
+
+% \begin{theorem}
+% Unless $\ptime = \np$,  
+
+% \end{theorem}
+
+%  In light of these negative results, in what follows we consider a relaxed notion of $\delta$-minSR where $\delta$ can be replaced by a closed value $\delta'$.
+
+ 
+% In what follows, we prove that these negative results also extend to linear models, as it is not possible to compute minimum $\delta$-SRs for such models in polynomial time unless $\fptime = \shp$,\footnote{$\fptime$ is the class of all functions that can be computed in polynomial time.} which is widely believed to be false.
+% \begin{proposition}\label{prop:hardness}
+% Given a linear model $\Lin$, an instance
+% $\vx$, and $\delta \in [0,1]$, the value $\opt(\Lin, \vx, \delta)$
+% cannot be computed in polynomial time unless $\fptime = \shp$.
+% \end{proposition}
+% Unfortunately, the situation does not improve if we aim to efficiently approximate the value $\opt(\Lin, \vx, \delta)$. \citet{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that no algorithm can achieve an approximation factor of $d^{1-\alpha}$ for this problem, where $d$ is the dimension of the classifier and $\alpha > 0$, unless $\ptime = \np$. Additionally, \citet{Kozachinskiy_2023} proved that this approximation task is also hard for decision trees. In light of these negative results, in what follows we consider a relaxed notion of $\delta$-minSR where $\delta$ can be replaced by a closed value $\delta'$.
+% \begin{definition}[\cite{Waldchen_MacDonald_Hauch_Kutyniok_2021}]
+%         Given $\delta, \epsilon \in [0, 1]$, a $(\delta, \epsilon)$-sufficient reason ($(\delta, \epsilon)$-SR) for an instance $\vx$, is a partial instance $\vy \subseteq \vx$ such that
+%         \[
+%                 \Pr_{\vz \sim \U{\vy}}\big[\M(\vz) = \M(\vx)\big] \geq \delta.
+%         \]
+%         \label{def:delta-SR}
+% \end{definition}
 
 
 
@@ -28,67 +55,71 @@ efficient algorithms for computing or approximating $\delta$-SR for
 linear models. Hence, the goal of this section is to explore these
 questions for such models, given their practical importance.
 
+\subsection{A Simple Relaxation: $(\delta, \varepsilon)$-min-SR}
 
+In light of the hardness results for $\delta$-SRs, it is natural to consider a further relaxation that would allow for tractability. Consider for instance a customer of a bank who wants a $0.95$-SR for why their application for a loan was rejected. Such an explanation would consist of a small number of features of their application profile that are relevant to the decision since $95\%$ of applicants with such a profile would also get rejected. We expect that, in such a scenario, the user would not particularly care if the explanation she obtains holds 
+for $95\%$ of potential applicants or for $94.9997\%$ of them. In other words, the value of $\delta$ is chosen in a trade-off between the size of the explanation and the desired level of confidence or ``explanation power''. We posit that in such a trade-off, the user is more sensitive to increases in the explanation size than they are to a minor perturbation in $\delta$, the probability guarantee. As we showed in~\Cref{prop:delta-sr-size}, by changing $\delta$ very slightly, the size of the best explanation can change significantly. This motivates the following definition:
+% \begin{itemize}
+%     \item \textbf{Approximation in terms of $\delta$}: Given a linear model $\Lin$, an instance $\vx$, and a value $\delta$, we want to compute a $\delta'$-SR of size $k^\star(\Lin, \vx, \delta')$ such that $\delta'$ is close to $\delta$. Intuitively, this corresponds to the idea of stakeholders not caring about the exact value of $\delta$; e.g., $90\%$ of completions of $\vy$ agree with $\vx$ has roughly the same human implications as $89.9997\%$.
+%     \item \textbf{Approximation in terms of $k^\star$}: Given a linear model $\Lin$, an instance $\vx$, and a value $\delta$, we want to compute a $\delta$-SR of size $k$ such that $k$ is not much bigger than $k^\star(\Lin, \vx, \delta)$. Intuitively, even though stakeholders want \emph{small} explanations, it is not required to find the smallest possible explanation.
+% \end{itemize}
 
+% Furthermore, we define a slightly different sense in which the value of $\delta$ can be relaxed:
 
-We will consider the problem of approximating the minimum size $\delta$-SRs for linear models under the uniform distribution. To do this, let us consider two senses in which one can approximate $\delta$-SRs.
-\begin{itemize}
-    \item \textbf{Approximation in terms of $\delta$}: Given a linear model $\Lin$, an instance $\vx$, and a value $\delta$, we want to compute a $\delta'$-SR of size $k^\star(\Lin, \vx, \delta')$ such that $\delta'$ is close to $\delta$. Intuitively, this corresponds to the idea of stakeholders not caring about the exact value of $\delta$; e.g., $90\%$ of completions of $\vy$ agree with $\vx$ has roughly the same human implications as $89.9997\%$.
-    \item \textbf{Approximation in terms of $k^\star$}: Given a linear model $\Lin$, an instance $\vx$, and a value $\delta$, we want to compute a $\delta$-SR of size $k$ such that $k$ is not much bigger than $k^\star(\Lin, \vx, \delta)$. Intuitively, even though stakeholders want \emph{small} explanations, it is not required to find the smallest possible explanation.
-\end{itemize}
-
-Furthermore, we define a slightly different sense in which the value of $\delta$ can be relaxed:
-
-\begin{definition}[$(\delta, \varepsilon)$-relaxed minimum SR]
-    Given a model $\M$, an instance $\vx$, and values $\delta, \varepsilon \in (0, 1)$, we say a partial instance $\vy$ of size $k$ is a $(\delta, \varepsilon)$-relaxed minimum SR if the two following conditions hold:
-    \begin{enumerate}
-        \item The partial instance $\vy$ is close enough to a $\delta$-SR:
-        \[
-            \Pr_{\vz \sim \D_{\vy}}\big[\M(\vz) = \M(\vx)\big] \geq \delta - 2\varepsilon.
-        \]
-        \item No smaller partial instance $\vy'$ is a clear candidate to be a $\delta$-SR:
-        \[
-            \Pr_{\vz \sim \D_{\vy'}}\big[\M(\vz) = \M(\vx)\big] < \delta - \varepsilon, \quad \forall \vy', |\vy'|_e < |\vy|_e.
-        \]
-    \end{enumerate}
+\begin{definition}[$(\delta, \varepsilon)$-min-SR]
+    Given a model $\M$, an instance $\vx$, and values $\delta, \varepsilon \in (0, 1)$, we say a partial instance $\vy$ of size is a $(\delta, \varepsilon)$-min-SR if there exists a value $\delta^\star \in [\delta - \varepsilon, \delta + \varepsilon]$ such that
+    $\vy$ is a minimum $\delta^\star$-SR for $\vx$ under $\M$.
 \end{definition}
 
+Note that, even though the guarantee of a $(\delta, \varepsilon)$-min-SR is symmetric around $\delta$, our definition is such that the ability of efficiently computing $(\delta, \varepsilon)$-min-SRs is enough for the following two tasks:
+\begin{enumerate}
+    \item A user wants an explanation as small as possible and of probability ``close'' to $\delta$. Then, by computing a~$(\delta-\varepsilon/2, \varepsilon/2)$-min-SR, they obtain an explanation whose probability guarantee is at most $\varepsilon$ away from $\delta$, and is no larger in size than the minimum $\delta$-SR.
+    \item The owner of the model wants to offer a $\delta$-SR that is as small as possible to a customer, and they want to be strict on the $\delta$ part, since offering a $(\delta - \varepsilon)$-SR would be misleading and could lead to legal issues. Then, by computing a $(\delta+\varepsilon/2, \varepsilon/2)$-min-SR, they can guarantee that the explanation is at least $\delta$-SR, while still being likely much smaller than a minimum $1$-SR. 
+\end{enumerate}
 
-With the previous notions, we can state two results and two open problems.
-\begin{theorem}\label{thm:delta-approximation}
-    The Uniform-Min-$\delta$-SR$(\textsc{Linear})$ problem admits an FPRAS with respect to $\delta$. In particular, there exists an algorithm that computes a minimum $\delta'$-SR for some $\delta' \in [\delta, \delta + \varepsilon]$, and succeeds with probability at least $1-\gamma$, running in time $\tilde{O}\left(\frac{d^3}{\varepsilon^2\gamma^2}\right)$.
+The inapproximability result of~\citet{Kozachinskiy_2023} can be translated to the $(\delta, \varepsilon)$-min-SR problem as follows:
+\begin{theorem}[\citet{Kozachinskiy_2023}, Theorem 1]
+    Unless SAT can be solved in quasi-polynomial times, one cannot compute a $(\delta, \varepsilon)$-min-SR for decision trees in polynomial time, and furthermore, any polynomial-time algorithm that guarantees to provide a $\delta'$-SR for some $\delta' \in [\delta-\varepsilon, \delta+\varepsilon]$ will produce explanations that are up to $\Omega(d^{1-\alpha})$ times larger than any $(\delta, \varepsilon)$-min-SR, for any $\alpha > 0$.
+\end{theorem}
+Note that this hardness result for decision trees implies in turn hardness for neural networks by using standard compilation techniques~\citep{NEURIPS2020_b1adda14}.
+Our main result is that, for linear models, we can efficiently compute $(\delta, \varepsilon)$-min-SRs, making them the first class of models for which we have such a positive result. To state our runtime more cleanly, we use the standard notation $\widetilde{O}(f)$ to mean $O(f \cdot \log(f)^c)$ for some $c$. 
+\begin{theorem}
+    \label{prop:smoothed-explanation}
+    Given a linear model $\Lin$ and an input $\vx$, we can compute a $(\delta, \varepsilon)$-min-SR successfully with probability $1 - \gamma$ in time $\widetilde{O}\left( \frac{d}{\varepsilon^2\gamma^2}\right)$; that is, polynomial in $d$, $1/\varepsilon$, and $1/\gamma$.
 \end{theorem}
 
-\begin{theorem}\label{thm:delta-large}
-    For any $\delta > 0.05$, we can compute a min-$(\delta, \varepsilon)$-SR in polynomial time for linear models under the uniform distribution in time
-    \[ 
-        \tilde{O}\left(\frac{d}{\varepsilon^2\gamma^2}\right).
-    \]
-\end{theorem}
+We remark that previous approaches for computing approximate probabilistic explanations lacked theoretical guarantees on the size of the explanations produced~\citep{izzaComputingProbabilisticAbductive2023,Izza2021EfficientEW,izza2024locallyminimalprobabilisticexplanations}.
 
-\begin{open}
-    Is there an FPRAS with respect to $k^\star$ for  Uniform-Min-$\delta$-SR$(\textsc{Linear})$?
-\end{open}
+% \begin{theorem}\label{thm:delta-large}
+%     For any $\delta > 0.05$, we can compute a min-$(\delta, \varepsilon)$-SR in polynomial time for linear models under the uniform distribution in time
+%     \[ 
+%         \tilde{O}\left(\frac{d}{\varepsilon^2\gamma^2}\right).
+%     \]
+% \end{theorem}
 
-\begin{open}
-    Is there an FPRAS with respect to $\delta$ for Product-Min$\delta$-SR$(\textsc{Linear})$? That is, under product distributions in which each feature $i$ has an associated probability $p_i$ of taking value $1$ and these are all independent.
-\end{open}
+% \begin{open}
+%     Is there an FPRAS with respect to $k^\star$ for  Uniform-Min-$\delta$-SR$(\textsc{Linear})$?
+% \end{open}
+
+% \begin{open}
+%     Is there an FPRAS with respect to $\delta$ for Product-Min$\delta$-SR$(\textsc{Linear})$? That is, under product distributions in which each feature $i$ has an associated probability $p_i$ of taking value $1$ and these are all independent.
+% \end{open}
 
 % \begin{theorem}\label{thm:k-approximation}
 %     The Uniform-Min-$\delta$-SR$(\textsc{Linear})$ problem can be approximated over $k^\star$ with additive error $1$ and probability of success $1-\gamma$ in time $\tilde{O}\left( \frac{d^2}{\varepsilon^2\gamma^2}\right)$.
 % \end{theorem}
 
-In order to prove~\Cref{thm:delta-approximation,thm:delta-relaxed} we will need two main ideas: first, the fact that we can estimate the probabilities of linear models accepting a partial instance through sampling, and second, that under the uniform distribution it is easy to decide which features ought to be part of small explanations.
+In order to prove~\Cref{prop:smoothed-explanation} we will need two main ideas: first, the fact that we can estimate the probabilities of models accepting a partial instance through sampling (which is already present in the work of~\citet{izza2024locallyminimalprobabilisticexplanations}), and second, that under the uniform distribution it is easy to decide which features ought to be part of small explanations over linear models.
 
 \subsection{Estimating the Probability of Acceptance}
  The  hardness of computing
-$\Pr_{\vz  \in \D(\vy)}[\M(\vz) = 1]$ is about computing it to arbitrarily high precision, i.e., with an additive error within $O(2^{-d})$. However, computing a less precise estimation of $\Pr_{\vz \in \D(\vy)}[\M(\vz) = 1]$ is simple, as the next fact (which is a direct consequence of Hoeffding's inequality)  states.
+$\Pr_{\vz  \sim \U(\vy)}[\M(\vz) = 1]$ is about computing it to arbitrarily high precision, i.e., with an additive error within $O(2^{-d})$. However, computing a less precise estimation of $\Pr_{\vz \sim \U(\vy)}[\M(\vz) = 1]$ is simple, as the next fact (which is a direct consequence of Hoeffding's inequality)  states.
 
 \begin{fact}\label{fact:hoeffding}
     Let $f$ be an arbitrary boolean function on $n$ variables. Let $M$ be any positive integer,
     and let $\vx_1, \ldots, \vx_M$ be $M$ uniformly random samples from $\{0, 1\}^n$. Then 
     \[
-        \hat{\mu} := \frac{\sum_{i=1}^M [f(\vx_i) = 1]}{M}
+        \widehat{\mu}(M) := \frac{\sum_{i=1}^M [f(\vx_i) = 1]}{M}
     \]
     is an unbiased estimator for 
     \[
@@ -96,26 +127,12 @@ $\Pr_{\vz  \in \D(\vy)}[\M(\vz) = 1]$ is about computing it to arbitrarily high 
     \]
     and 
     \[
-    \Pr[\left|\hat{\mu} - \mu \right| \leq t] \geq 1 - 2e^{-2t^2 M},
+    \Pr[\left|\widehat{\mu}(M) - \mu \right| \leq t] \geq 1 - 2e^{-2t^2 M},
     \]
     which is at least $1 - \gamma$ for $M = \frac{1}{2t^2} \log(2/\gamma)$.
 \end{fact}
 
- \paragraph{Smoothed Explanations} As a consequence of the previous idea, although a minimum $\delta$-SR might be hard to compute, this crucially depends on the value of $\delta$. In the spirit of smoothed analysis, we define the computation of a min-$(\delta, \varepsilon)$-SR as follows: first, a value $\delta^\star$ is chosen uniformly at random from $[\delta-\varepsilon, \delta+\varepsilon]$, and then a min-$\delta^\star$-SR is computed. Intuitively, the idea is that as $\delta^\star$ is chosen at random, it will be unlikely that a value that makes the computation hard is chosen. 
-
- We will prove the following proposition:
-
-\begin{proposition}
-    \label{prop:smoothed-explanation}
-    Given a linear model $\Lin$ and an input $\vx$, we can compute a $(\delta, \varepsilon)$-SR successfully with probability $1 - \gamma$ in time polynomial in $d$, $1/\varepsilon$ and $1/\gamma$. In particular, in time $\tilde{O}\left( \frac{d^3}{\varepsilon^2\gamma^2}\right)$.
-\end{proposition}
-
-Note that~\Cref{prop:smoothed-explanation} immediately gives us~\Cref{thm:delta-approximation}, as we can set $\delta' =  \delta+\varepsilon/2$ and $\varepsilon' = \varepsilon/2$, which means with probability $1 - \gamma$ we will obtain a $(\delta', \varepsilon')$-SR, whose probability guarantee is in 
-\[
-  [\delta' - \varepsilon', \delta' + \varepsilon'] =  [\delta, \delta + \varepsilon].
-\]
-
-Furthermore, if one were to prefer explanations that err on the opposite side, meaning that their probability is in $[\delta - \varepsilon, \delta]$, our results would hold the same, by simply setting $\delta' = \delta - \varepsilon/2$, $\varepsilon' = \varepsilon/2$, and naturally these would be guaranteed to be smaller than the minimum $\delta$-SR.
+As a consequence of the previous idea, although a minimum $\delta$-SR might be hard to compute, this crucially depends on the value of $\delta$. In order to deal with this, our algorithm will sample a of value $\delta^\star$ uniformly at random from $[\delta-\varepsilon, \delta+\varepsilon]$, and then compute a minimum $\delta^\star$-SR. Intuitively, the idea is that as $\delta^\star$ is chosen at random, it will be unlikely that a value that makes the computation hard is chosen. 
 
 Before proving~\Cref{prop:smoothed-explanation}, we need to prove a lemma concerning the easiness of selecting the features of the desired explanation.
 
@@ -124,7 +141,7 @@ Before proving~\Cref{prop:smoothed-explanation}, we need to prove a lemma concer
 Even if we were granted an oracle computing the probabilities
 \(
     \Pr_{\vz  \in \D(\vy)}[\M(\vz) = 1]
-\), that would not be necessarily enough to efficiently compute the minimum $\delta$-SR. Indeed, for decision trees, the counting problem can be easily solved in polynomial time~\cite{NEURIPS2020_b1adda14}, and yet the computation of $\delta$-SRs of minimum size is hard, even to approximate~\cite{Arenas_Barcelo_Romero_Subercaseaux_2022,Kozachinskiy_2023}.
+\), that would not be necessarily enough to efficiently compute a minimum $\delta$-SR. Indeed, for decision trees, the counting problem can be easily solved in polynomial time~\cite{NEURIPS2020_b1adda14}, and yet the computation of $\delta$-SRs of minimum size is hard, even to approximate~\cite{NEURIPS2022_b8963f6a, Kozachinskiy_2023}.
 Intuitively, the problem for decision trees is that, even if we were told that the minimum $\delta$-SR has exactly $k$ features, it is not obvious how to search for it better than enumerating all $\binom{d}{k}$ subsets. The case of linear models, however, is different, at least under the uniform distribution. In this case, every feature $i$ that is not part of the explanation will take value $0$ or $1$ independently with probability $\nicefrac{1}{2}$, and contribute to the classification according to its weight $w_i$. In other words, we can sort the features according to their weights (with some care about signs), and select them greedily to build a small $\delta$-SR. A proof for the deterministic case ($\delta = 1$) was already given in~\cite{NEURIPS2020_b1adda14} and sketched earlier on by~\cite{ExplainingNaiveBayes}.
 
 \begin{definition}\label{def:scores}
@@ -135,11 +152,19 @@ Intuitively, the problem for decision trees is that, even if we were told that t
 \end{definition}
 
 In other words, the sign of $s_i$ is $+1$ if the feature is ``helping'' the classification, and $-1$ if it is ``hurting'' it. The magnitude of $s_i$ is proportional to the weight of the feature $i$. Changing the value of feature $i$ in an instance $\vx$ would decrease $\vw \cdot \vx$ by $s_i$ if $\Lin(\vx) = 1$, and increase it by $s_i$ if $\Lin(\vx) = 0$.
-For the uniform distribution, we can prove the following lemma that basically states that, if we are promised a $\delta$-SR of size $k$ exists, then one can be found by taking the top-$k$ features of maximum score $s_i$.
+For the uniform distribution (or more generally, any distribution in which all features are Bernoulli variables with the same parameter), we can prove the following lemma that basically states that, for linear models it is good to choose features greedily according to their score.
 
 \begin{lemma}\label{lemma:greedy}
-Given a linear model $\Lin$, an instance $\vx$,  a value $\delta \in (0, 1]$, and an integer $k$, then there exists a $\delta$-SR for $\vx$ under $\Lin$ of size $k$ if and only if the partial instance defined only on the $k$ features of $\vx$ with maximum score is a $\delta$-SR for $\vx$ under $\Lin$.
-\end{lemma}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+    \[ 
+        \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
+    \]
+    for all $k \in \{1, \ldots, d-1\}$, and naturally, 
+    \[ 
+    \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
+    \]
+    Moreover, $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
+    \end{lemma}
 
 Even though a proof of~\Cref{lemma:greedy} is presented in the appendix, let us provide a self-contained example that should convince a reader of the veracity of the lemma.
 \begin{example}\label{ex:greedy}
@@ -181,9 +206,17 @@ Note that $\vw \cdot  \vx^{(1)} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot  
 \end{table}
 \end{example}
 
-% \todo[inline]{Bernardo: The proof of this is trivial but annoying, it suffices to do an exchange argument. I will write it down later.}
+% Now, let us state a simple monotonicity lemma that is part of the proof of~\Cref{lemma:greedy}; Intuitively, adding features in order of decreasing scores will never decrease the probability of the explanation being correct.
+% \begin{lemma}\label{lemma:monotonicity}
+% Given a linear model $\Lin$, an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{{d}}$ are  partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+% \[ 
+%     \Pr_{\vz \sim \U(\vy^{k+1})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
+% \]
+% for all $k \in \{1, \ldots, d-1\}$, and naturally, $\Pr_{\vz \sim \U(\vy^{d})}[\Lin(\vz) = \Lin(\vx)] = 1$.
+% \end{lemma}
+% % \todo[inline]{Bernardo: The proof of this is trivial but annoying, it suffices to do an exchange argument. I will write it down later.}
 
-With~\Cref{lemma:greedy} in hand, we can now prove~\Cref{prop:smoothed-explanation}.
+With~\Cref{lemma:greedy} in hand, we can proceed to prove~\Cref{prop:smoothed-explanation}.
 
 \input{sections/proof-of-thm1}
 
