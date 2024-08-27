@@ -1,0 +1,302 @@
+
+\subsection{Calculation for~\Cref{ex:delta-sr-size}}
+Consider the following version of Chernoff bound.
+\begin{lemma}[Chernoff bound]
+    Let $X$ be a finite sum of independent Bernoulli variables, with $\E[X] = \mu > 0$. Then for any $t \geq 0$ we have
+    \[
+    \Pr \Big[ \left|X - \mu\right| \geq t \Big] \leq 2\exp\left(\frac{-t^2}{3 \mu} \right).
+    \] 
+    
+    \label{lemma:chernoff}  
+    \end{lemma}
+If we define the Bernoulli variables $X_i := (z_i = 1)$ for $\vz \sim \U(\vy)$ (the uniform distribution over $\comp(\vy)$), then the variables $X_2, \ldots, X_{1000}$ are identical independent Bernoulli variables, and if $X = \sum_{i = 2}^{1000} X_i$ we have 
+\[
+    \mu := \mathbb{E}[X] =  999\mathbb{E}[X_2] = \frac{999}{2},
+\]
+as each $X_i$ has expectation $\frac{1}{2}$ becuase $\U$ is the uniform distribution. Then, using \Cref{lemma:chernoff}, we have that 
+\begin{align*}
+    \Pr\left[ X < 250 \right] &\leq 2 \exp\left(\frac{-(445-250)^2    \cdot 2}{3 \cdot 999}\right)\\ &\approx 2 \exp(-32.29...)\\ &< 2 \cdot 10^{14}.
+\end{align*}
+To conclude, note that
+\begin{align*}
+    \Pr_{\vz \sim \U(\vy)}
+     \left[\Lin(\vz) = 1 \right] 
+      &= \Pr_{\vz \sim \U(\vy)}
+    \left[\vz \cdot \vw \geq 1250 \right]\\
+    &= \Pr_{\vz \sim \U(\vy)}\left[1000 + \sum_{i=2}^{1000}{z_i} \geq 1250\right]\\
+    &= 1 - \Pr\left[\sum_{i=2}^{1000}{z_i} < 250\right]\\
+    &= 1 - \Pr\left[ X < 250 \right] > 1 - 2\cdot 10^{14} > 0.999999.
+\end{align*}
+    
+
+
+\subsection{\Cref{prop:hardness}}
+\begin{proof}[Proof of~\Cref{prop:hardness}]
+    The proof is a twist on ~\citet[Lemma 28]{NEURIPS2020_b1adda14}; let $(s_1, \ldots, s_n, T) \in \mathbb{N}^{n+1}$ be an instance of the $\# \ptime$-complete problem $\#\Knapsack$, that consists on counting the number of sets $S \subseteq \{s_1, \ldots, s_n\}$ such that $\sum_{s \in S}s \leq T$.  
+    We can assume that $\sum_{i=1}^n s_i > T$, as otherwise the $\# \Knapsack$ instance is trivial.
+    Then, let $\Lin$ be a linear model with weights $w_i = s_i$, and threshold $t = T+1$.
+    Now, consider the problem of deciding whether $\#\Knapsack(s_1, \ldots, s_n, T) \geq m$ for an input $m$, which cannot be solved in polynomial time unless $\ptime = \# \ptime$.
+    Let $\vx = (1, 1, \ldots, 1)$, and $\delta = \frac{m}{2^{n}}$. We claim that $(\Lin, \vx, \delta, k=0)$ is a Yes-instance for Uniform-Min-$\delta$-SR$(\textsc{Linear})$ if and only if $\#\Knapsack(s_1, \ldots, s_n, T) \geq m$. 
+    First, note that $\Lin(\vx) = 1$, since $\sum_{i=1}^n w_i x_i = \sum_{i=1}^n s_i \geq T+1 = t$. 
+    For every set $S \subseteq \{s_1, \ldots, s_n\}$ such that $\sum_{s \in S}s \leq T$, its complement $\overline{S} := \{s_1, \ldots, s_n\} \setminus S$ holds $\sum_{s \in \overline{S}}s > T$, and as all values are integers, this implies as well
+    \[
+        \sum_{s \in \overline{S}} s \geq T+1 = t.
+    \]
+    To each such set $\overline{S}$, we associate the instance $\vz(\overline{S})$ defined as
+    \[
+        z(\overline{S})_i = \begin{cases}
+            1 & \text{if } s_i \in \overline{S}\\
+            0 & \text{otherwise}.
+        \end{cases}
+    \]
+    Now note that 
+    \[
+        \Lin(\vz(\overline{S})) = \begin{cases}
+            1 & \text{if } \sum_{s_i \in \overline{S}} w_i \geq T+1\\
+            0 & \text{otherwise} \end{cases} = 1,
+    \]
+    and thus there is a bijection between the sets $S$ whose sum is at most $T$ and the instances $\vz(\overline{S})$ such that $\Lin(\vz(\overline{S})) = 1 = \Lin(\vx)$.
+    To conclude, simply note that the previous bijection implies
+    \[
+        \Pr_{\vz \sim \U(\bot^d)}\Big[\Lin(\vz) = 1\Big] = \frac{\#\Knapsack(s_1, \ldots, s_n, T)}{2^n},
+    \] 
+    and thus the ``empty explanation'' $\bot^d := (\bot, \bot, \ldots, \bot)$ has probability at least $\delta$ if and only if $\#\Knapsack(s_1, \ldots, s_n, T) \geq m$. As the empty explanation is the only one with size $\leq 0$, we conclude the proof.
+    
+
+%     First, recall that the problem of counting the number of ``positive completions'' of a partial instance $\vy$ is $\# \ptime$-hard for linear models~\cite{NEURIPS2020_b1adda14}; that is, given a partial instance $\vy$, a linear model $\Lin$ and a positive integer $K$, it is $\mathrm{PP}$-hard to determine whether there are at least $K$ instances $\vz \in \comp(\vy)$ such that $\Lin(\vz) = 1$. That result follows from the hardness of $\sharpK$.
+%    Moreover, in the proof of~\cite{NEURIPS2020_b1adda14} all weights are positive $\delta = \frac{V}{2^{n - |\vy|_\bot}}.$ 
+\end{proof}
+
+
+
+
+\subsection{Lemma 1 and Theorem 4}
+Let us state the result about locally minimal $\delta$-SRs as a theorem, so we can proceed to prove it. 
+In order to state it, however, we need to define what we mean by an arbitrary product distribution. Consider Bernoulli variables $X_1, \ldots, X_d$ with probabilities $p_1, \ldots, p_d$ respectively, and let us denote by $\D = X_1 \times \cdots \times X_d$ their joint distribution, which we will call a product distribution. Then, $\D$ induces a distribution over the set $\{0, 1\}^d$ by the rule
+\[ 
+    \Pr_{\vz \sim \D}[\vz = \vx] = \prod_{i=1}^d p_i^{x_i} (1-p_i)^{1-x_i}, \quad \forall x \in \{0, 1\}^d.
+\]
+Naturally, this induces a distribution over $\comp(\vy)$ for any partial instance $\vy$ as follows:
+\[ 
+    \Pr_{\vz \sim \D(\vy)}[\vz = \vx] =
+        \frac{\Pr_{\vz \sim \D}[\vz = \vx]}{\sum_{\vw \in \comp(\vy)} \Pr_{\vz \sim \D}[\vz = \vx]} \quad \forall \vx \in \comp(\vy),
+\]
+and naturally $\Pr_{\vz \sim \D(\vy)}[\vz = \vx] = 0$ if $\vx \not\in \comp(\vy)$.
+With this notation, we can make a precise theorem statement.
+\begin{theorem}\label{thm:locally-minimal}
+    For linear models, under any product distribution, every locally minimal $\delta$-SR is a subset-minimal $\delta$-SR.
+\end{theorem}
+
+Furthermore, we will prove a stronger lemma than Lemma 1 stated in the main body.
+
+\newtheorem*{theorem8}{Lemma 1}
+\begin{theorem8} %\label{lemma:greedy}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+    \[ 
+        \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
+    \]
+    for all $k \in \{1, \ldots, d-1\}$, and naturally, 
+    \[ 
+    \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
+    \]
+    Moreover, $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
+ \end{theorem8}
+
+
+    Before we prove~\Cref{lemma:greedy}, let us prove an auxiliary lemma that will also be useful for proving~\Cref{thm:locally-minimal}.
+Given an instance $\vx$ to explain, and a partial instance $\vy \subseteq \vx$, such that $y_i = \bot$, we define the partial instance $\vy \oplus i$ by:
+\[ 
+    (\vy \oplus i)_j = \begin{cases}
+        y_j & \text{if } j \neq i\\
+        x_i & \text{otherwise}.
+    \end{cases}
+\]
+\begin{lemma}\label{lemma:positive-score}
+Let $\Lin$ be a linear model, $\vx$ an instance and $\vy \subseteq \vx$ a partial instance. Assume a product distribution $\D$. Then, if $i$ is a feature such that $y_i = \bot$, and the feature score $s_i$ holds $s_i \geq 0$, we have 
+\[ 
+\Pr_{\vz \in \D(\vy \oplus i)}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \in \D(\vy)}[\Lin(\vz) = \Lin(\vx)].
+\]
+\end{lemma}
+\begin{proof}[Proof of~\Cref{lemma:positive-score}]
+Let $(w_1, \ldots, w_d)$ be the weights of $\Lin$ and $t$ its threshold. Then, let us assume without loss of generality that $\Lin(\vx) = 1$, as the case $\Lin(\vx) = 0$ is analogous. 
+We thus have that 
+\[ 
+    s_i = w_i \cdot (2x_i - 1) \geq 0,
+\]
+from where $s_i = w_i$ if $x_i = 1$ and $s_i = -w_i$ if $x_i = 0$.
+Let us denote by $S$ the set of features $j$ such that $y_j = x_j \neq \bot$, and define 
+\[ 
+    t' := t - \sum_{j \in S} y_j w_j.
+\]
+We can then rewrite the probability of interest as
+\[ 
+    \Pr_{\vz \sim \D(\vy)}[\Lin(\vz) = \Lin(\vx)] =   \Pr_{\vz \sim \D(\vy)}[\Lin(\vz) = 1] = \Pr_{\vz \sim \D(\vy)}\left[\sum_{j \not\in S} z_j w_j \geq t'\right].
+\]
+Let us define the following two amounts:
+\[ 
+    \mathcal{A} := \Pr_{\vz \sim \D(\vy)}\left[\sum_{j \not\in S, j \neq i} z_j w_j \geq t' - w_i\right],
+\]
+\[ 
+    \mathcal{B} := \Pr_{\vz \sim \D(\vy)}\left[\sum_{j \not\in S, j \neq i} z_j w_j \geq t'\right].
+\]
+If $p_i$ is the probability of feature $i$ under $\D$, then we have 
+\[ 
+    \Pr_{\vz \sim \D(\vy)}[\Lin(\vz) = \Lin(\vx)]  =  \Pr_{\vz \sim \D(\vy)}\left[\sum_{j \not\in S} z_j w_j \geq t'\right] = p_i \cdot \mathcal{A} + (1-p_i)\cdot \mathcal{B}.
+\]
+Now we proceed by cases on $x_i$. If $x_i = 1$, then $s_i = w_i$, and thus we know $w_i \geq 0$, from where $t' - w_i \leq t'$ and thus $\mathcal{A} \geq \mathcal{B}$. Moreover, as $x_i = 1$, we conclude 
+\begin{align*}
+    \Pr_{\vz \sim \D(\vy \oplus i)}[\Lin(\vz) = \Lin(\vx)] &= \mathcal{A}\\
+     &= p_i \cdot \mathcal{A} + (1-p_i)\cdot \mathcal{A}\\
+    &\geq p_i \cdot \mathcal{A} + (1-p_i)\cdot \mathcal{B}\\
+    &= \Pr_{\vz \sim \D(\vy)}[\Lin(\vz) = \Lin(\vx)].
+\end{align*}
+
+Similarly, if $x_i = 0$, then $s_i = -w_i$, and thus we know $w_i \leq 0$, from where $t' - w_i \geq t'$ and thus $\mathcal{A} \leq \mathcal{B}$. As $x_i = 0$, we conclude 
+\begin{align*}
+    \Pr_{\vz \sim \D(\vy \oplus i)}[\Lin(\vz) = \Lin(\vx)] &= \mathcal{B}\\
+     &= p_i \cdot \mathcal{B} + (1-p_i)\cdot \mathcal{B}\\
+    &\geq p_i \cdot \mathcal{A} + (1-p_i)\cdot \mathcal{B}\\
+    &= \Pr_{\vz \sim \D(\vy)}[\Lin(\vz) = \Lin(\vx)].
+\end{align*}
+This concludes the proof.
+\end{proof}
+
+Similarly, for any partial instance $\vy$ such that $y_i \neq \bot$, we can define the partial instance $\vy \ominus i$ as 
+\[ 
+    (\vy \ominus i)_j = \begin{cases}
+        y_j & \text{if } j \neq i\\
+        \bot & \text{otherwise}.
+    \end{cases}
+\]
+The proof of~\Cref{lemma:positive-score}, but reversing signs, yields the following lemma. 
+\begin{lemma}\label{lemma:negative-score}
+    Let $\Lin$ be a linear model, $\vx$ an instance and $\vy \subseteq \vx$ a partial instance. Assume a product distribution $\D$. Then, if $i$ is a feature such that $y_i \neq \bot$, and the feature score $s_i$ holds $s_i \leq 0$, we have 
+\[ 
+\Pr_{\vz \in \D(\vy \ominus i)}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \in \D(\vy)}[\Lin(\vz) = \Lin(\vx)].
+\]
+
+\end{lemma}
+
+Now, in order to prove~\Cref{lemma:greedy}, which makes two claims, we will split it into two separate lemmas. 
+\begin{lemma}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+    \[ 
+        \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
+    \]
+    for all $k \in \{0, \ldots, d-1\}$, and naturally, 
+    \[ 
+    \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
+    \]
+\end{lemma}
+\begin{proof}[Proof of~\Cref{lemma:greedy-1}]
+Let us assume without loss of generality that the features are already sorted decreasingly in terms of score, so \[s_1 \geq s_2 \geq \cdots \geq s_d.\]
+This way, we have that $\vy^{(k)} \subseteq \vx$ is defined as follows:
+\[ 
+    y^{(k)}_i = \begin{cases}
+        x_i & \text{if } i \leq k\\
+        \bot & \text{otherwise}.
+    \end{cases}
+\]
+The proof now requires considering two cases. First, if $s_{k+1} \geq 0$, then we can apply~\Cref{lemma:positive-score} to conclude that
+\[ 
+    \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)].
+\]
+We will now show that if $s_{k+1} < 0$, then 
+\[ 
+    \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] = 1,
+\]
+which will be enough to conclude. Indeed, as $s_{k+1} < 0$, we have that 
+\[
+   0 > s_{k+2} \geq s_{k+3} \geq \cdots \geq s_d, 
+\]
+from where we can repeatedly apply~\Cref{lemma:negative-score} to deduce 
+\[ 
+    \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)]  \geq \Pr_{\vz \sim \U(\vy^{(k+2)})}[\Lin(\vz) = \Lin(\vx)] \geq \cdots \geq \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
+\]
+This concludes the proof.
+\end{proof}
+\begin{lemma}[Part 2 of~\Cref{lemma:greedy}]\label{lemma:greedy-2}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
+\end{lemma}
+
+In order to prove~\Cref{lemma:greedy-2}, we will use a separate lemma. Let us define, for every $k \in [d]$ the set $P_k$ as the set of partial instances $\vy \subseteq \vx$ such that $\vy$ has $k$ defined features.
+\begin{lemma}\label{lemma:greedy-3}
+    For any $k \in [d]$, we have 
+    \[
+        \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)] = \max_{\vy \in P_k} \Pr_{\vz \sim \U(\vy)}[\Lin(\vz) = \Lin(\vx)].
+    \]
+\end{lemma}
+
+Let us show immediately how~\Cref{lemma:greedy-2} can be proved using~\Cref{lemma:greedy-3}.
+\begin{proof}[Proof of~\Cref{lemma:greedy-2}]
+  For the forward direction, assume that $\opt(\Lin, \vx, \delta) = k$. Then, by definition, we have that there exists a $\delta$-SR $\vy^\star$ for $\vx$ such that $\vy^\star$ has $k$ defined features.
+    By~\Cref{lemma:greedy-3}, we have that 
+    \[ 
+        \Pr_{\vz \sim \U(\vy^{(k)})}\left[\Lin(\vz) = \Lin(\vx)\right] \geq \Pr_{\vz \sim \U(\vy^\star)}\left[\Lin(\vz) = \Lin(\vx)\right] \geq \delta,
+    \]
+    and thus $\vy^{(k)}$ is a $\delta$-SR for $\vx$. On the other hand, if $\vy^{(k-1)}$ were to be a $\delta$-SR for $\vx$, then we would have $\opt(\Lin, \vx, \delta) \leq k-1$, a contradiction.
+    For the backward direction, assume that $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. Then, by~\Cref{lemma:greedy-3}, we have that 
+    \[
+        \delta > \Pr_{\vz \sim \U(\vy^{(k-1)})}[\Lin(\vz) = \Lin(\vx)] = \max_{\vy \in P_{k-1}} \Pr_{\vz \sim \U(\vy)}[\Lin(\vz) = \Lin(\vx)],
+    \]
+    from where $\opt(\Lin, \vx, \delta) > k-1$, and because $\vy^{(k)}$ is a $\delta$-SR for $\vx$, we have $\opt(\Lin, \vx, \delta) \leq k$; we conclude that $\opt(\Lin, \vx, \delta) = k$.
+\end{proof}
+
+It thus only remains to prove~\Cref{lemma:greedy-3}.
+\begin{proof}[Proof of~\Cref{lemma:greedy-3}]
+Let $w_1, \ldots, w_d$ be the weights of $\Lin$, and $t$ its threshold. Let us use the $\oplus, \ominus$ notation defined in~\Cref{lemma:positive-score,lemma:negative-score}. 
+   We will prove something slightly stronger than~\Cref{lemma:greedy-3}: that if $i$ and $j$ are features such that $s_i \leq s_j$, then for any partial instance $\vy$ such that $y_i \neq \bot$ and $y_j = \bot$, we have
+    \[
+        \Pr_{\vz \sim \U(\vy \ominus i \oplus j)}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy)}[\Lin(\vz) = \Lin(\vx)].
+    \]
+    If we prove this, then we can apply it repeatedly to deduce~\Cref{lemma:greedy-3}. To prove the claim, we start by defining
+    \[ 
+        S = \{ \ell \mid y_\ell \neq \bot \} \setminus \{i \},
+    \]
+    and 
+    \[ 
+        t' = t - \sum_{\ell \in S} y_\ell w_\ell.
+    \]
+   We will also assume without loss of generality that $\Lin(\vx) = 1$ since the other case is analogous. We can then rewrite the probabilities of interest as follows, using notation $\bar{S} := [d] \setminus S$:
+   \[
+    \Pr_{\vz \sim \U(\vy \ominus i \oplus j)}[\Lin(\vz) = \Lin(\vx)] = \Pr_{\vz \sim \U(\vy \ominus i \oplus j)}\left[\sum_{\ell \in \bar{S} \setminus \{i, j\}} z_\ell w_\ell  + x_j w_j + z_i w_i\geq t'\right],
+   \]
+   \[
+    \Pr_{\vz \sim \U(\vy)}[\Lin(\vz) = \Lin(\vx)] = \Pr_{\vz \sim \U(\vy)}\left[\sum_{\ell \in \bar{S} \setminus \{i, j\}} z_\ell w_\ell  + x_i w_i + z_j w_j\geq t'\right].
+   \]
+    Let us write $t^\star = t' - \sum_{\ell \in \bar{S} \setminus \{i, j\}} z_\ell w_\ell$, and note that $t^\star$ is a random variable. With this notation, it remains to prove that 
+
+    \begin{align*}
+        &\Pr_{z_i, t^\star}[z_i w_i + x_j w_j \geq t^\star] \geq \Pr_{z_i, t^\star}[z_j w_j + x_i w_i \geq t^\star] \\
+        \iff& \frac{1}{2}\Pr_{t^\star}[w_i + x_j w_j \geq t^\star] + \frac{1}{2}\Pr_{t^\star}[x_j w_j \geq t^\star] \geq \frac{1}{2}\Pr_{t^\star}[w_j + x_i w_i \geq t^\star] + \frac{1}{2}\Pr_{t^\star}[x_i w_i \geq t^\star] \\
+        \iff& \Pr_{t^\star}[w_i + x_j w_j \geq t^\star] + \Pr_{t^\star}[x_j w_j \geq t^\star] \geq \Pr_{t^\star}[w_j + x_i w_i \geq t^\star] + \Pr_{t^\star}[x_i w_i \geq t^\star].
+    \end{align*}
+    We will prove the last inequality by cases, recalling that $s_j \geq s_i$ and thus $w_j (2x_j - 1) \geq w_i (2x_i - 1)$.
+    \begin{itemize}
+        \item (\textbf{Case 1:} $x_i = 1, x_j = 1$) The desired inequality is
+        \begin{align*}
+            \Pr_{t^\star}[w_i + w_j \geq t^\star] + \Pr_{t^\star}[w_j \geq t^\star] &\geq \Pr_{t^\star}[w_j + w_i \geq t^\star] + \Pr_{t^\star}[w_i \geq t^\star]\\
+            \iff \Pr_{t^\star}[w_j \geq t^\star] &\geq \Pr_{t^\star}[w_i \geq t^\star],
+        \end{align*}
+        which is true since $s_j \geq s_i$ implies $w_j \geq w_i$ given $x_i = x_j = 1$.
+        \item (\textbf{Case 2:} $x_i = 1, x_j = 0$) The desired inequality is
+        \begin{align*}
+            \Pr_{t^\star}[w_i \geq t^\star] + \Pr_{t^\star}[0\geq t^\star] &\geq \Pr_{t^\star}[w_j + w_i \geq t^\star] + \Pr_{t^\star}[w_i \geq t^\star]\\
+            \iff \Pr_{t^\star}[0 \geq t^\star] &\geq \Pr_{t^\star}[w_j + w_i \geq t^\star],
+        \end{align*}
+        which is true since $s_j \geq s_i$ implies $-w_j \geq w_i$ given $x_i = 1, x_j = 0$, and thus $w_i + w_j \leq 0$.
+        \item (\textbf{Case 3:} $x_i = 0, x_j = 1$) The desired inequality is 
+        \begin{align*}
+            \Pr_{t^\star}[w_i + w_j \geq t^\star] + \Pr_{t^\star}[w_j \geq t^\star] &\geq \Pr_{t^\star}[w_j \geq t^\star] + \Pr_{t^\star}[0 \geq t^\star],\\
+            \iff \Pr_{t^\star}[w_i + w_j \geq t^\star] &\geq \Pr_{t^\star}[0\geq t^\star],
+        \end{align*}
+        which is true since $s_j \geq s_i$ implies $w_j \geq -w_i$ given $x_i = 0, x_j = 1$, and thus $w_i + w_j \geq 0$.
+        \item (\textbf{Case 4:} $x_i = 0, x_j = 0$) The desired inequality is
+        \begin{align*}
+            \Pr_{t^\star}[w_i \geq t^\star] + \Pr_{t^\star}[0 \geq t^\star] &\geq \Pr_{t^\star}[w_j \geq t^\star] + \Pr_{t^\star}[0 \geq t^\star],\\
+            \iff \Pr_{t^\star}[w_i \geq t^\star] &\geq \Pr_{t^\star}[w_j \geq t^\star],
+        \end{align*}
+        which is true since $s_j \geq s_i$ implies $-w_j \geq -w_i$ given $x_i = x_j = 0$, and thus $w_i \geq w_j$.
+    \end{itemize}
+\end{proof}
+\Cref{lemma:greedy} now follows directly from~\Cref{lemma:greedy-1} and~\Cref{lemma:greedy-2}, and the sketch proof of~\Cref{thm:locally-minimal} can be completed as we now have proved~\Cref{lemma:positive-score} and~\Cref{lemma:negative-score}.
