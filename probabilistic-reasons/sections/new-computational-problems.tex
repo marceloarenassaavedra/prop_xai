@@ -5,7 +5,7 @@ Unfortunately, computing small $\delta$-SRs is computationally challenging, even
 \citet{NEURIPS2020_b1adda14} showed that computing a minimum $1$-SR is $\Sigma_2^p$-hard for neural networks, $\np$-hard for decision trees, and polynomial-time solvable for linear models. Then, \citet[Theorem 2.4]{Waldchen_MacDonald_Hauch_Kutyniok_2021} showed that computing minimum $\delta$-SRs for neural networks is hard for $\np^{\mathrm{PP}}$, and \citet{NEURIPS2022_b8963f6a} proved that even for the restricted class of decision trees, which are usually considered interpretable, minimum $\delta$-SRs cannot be computed in polynomial time unless $\ptime = \np$ (and neither can subset-minimal $\delta$-SRs for $\delta < 1$, in contrast to the $\delta = 1$ setting which is in $\ptime$~\citep{izzaExplainingDecisionTrees2020,roaModelInterpretabilityLens2020}). 
 For linear models, even computing the value
 \[
-    \Pr_{\vz \sim \U{\vy}}\big[\Lin(\vz) = \Lin(\vx)\big]
+    \Pr_{\vz \sim \U(\vy)}\big[\Lin(\vz) = \Lin(\vx)\big]
 \]
 exactly is $\shp$-hard~\citep{NEURIPS2020_b1adda14}, from where the following is easy to show.\footnote{\citet{izzaComputingProbabilisticAbductive2023} already made a more general observation of this form, but did not provide a hardness result for linear models.}\footnote{All proofs that are not presented in the main text can be found in the appendix.}
  
@@ -79,7 +79,7 @@ Note that, even though the guarantee of a $(\delta, \varepsilon)$-min-SR is symm
 
 The inapproximability result of~\citet{Kozachinskiy_2023} can be translated to the $(\delta, \varepsilon)$-min-SR problem as follows:
 \begin{theorem}[\citet{Kozachinskiy_2023}, Theorem 1]
-    Unless SAT can be solved in quasi-polynomial times, one cannot compute a $(\delta, \varepsilon)$-min-SR for decision trees in polynomial time, and furthermore, any polynomial-time algorithm that guarantees to provide a $\delta'$-SR for some $\delta' \in [\delta-\varepsilon, \delta+\varepsilon]$ will produce explanations that are up to $\Omega(d^{1-\alpha})$ times larger than any $(\delta, \varepsilon)$-min-SR, for any $\alpha > 0$.
+    Unless \textrm{SAT} can be solved in quasi-polynomial time, one cannot compute a $(\delta, \varepsilon)$-min-SR for decision trees in polynomial time, and furthermore, any polynomial-time algorithm that guarantees to provide a $\delta'$-SR for some $\delta' \in [\delta-\varepsilon, \delta+\varepsilon]$ will produce explanations that are up to $\Omega(d^{1-\alpha})$ times larger than any $(\delta, \varepsilon)$-min-SR, for any $\alpha > 0$.
 \end{theorem}
 Note that this hardness result for decision trees implies in turn hardness for neural networks by using standard compilation techniques~\citep{NEURIPS2020_b1adda14}.
 Our main result is that, for linear models, we can efficiently compute $(\delta, \varepsilon)$-min-SRs, making them the first class of models for which we have such a positive result. To state our runtime more cleanly, we use the standard notation $\widetilde{O}(f)$ to mean $O(f \cdot \log(f)^c)$ for some $c$. 
