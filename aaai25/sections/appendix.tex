@@ -1,5 +1,5 @@
 
-\subsection{Calculation for~\Cref{ex:delta-sr-size}}
+\section{Calculation for~\Cref{ex:delta-sr-size}}
 Consider the following version of Chernoff bound.
 \begin{lemma}[Chernoff bound]
     Let $X$ be a finite sum of independent Bernoulli variables, with $\E[X] = \mu > 0$. Then for any $t \geq 0$ we have
@@ -29,6 +29,7 @@ To conclude, note that
 \end{align*}
     
 
+\section{Missing Proofs}
 
 \subsection{\Cref{prop:hardness}}
 \begin{proof}[Proof of~\Cref{prop:hardness}]
@@ -155,7 +156,7 @@ The proof of~\Cref{lemma:positive-score}, but reversing signs, yields the follow
 \end{lemma}
 
 Now, in order to prove~\Cref{lemma:greedy}, which makes two claims, we will split it into two separate lemmas. 
-\begin{lemma}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
+\begin{claim}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
     Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
     \[ 
         \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
@@ -164,7 +165,7 @@ Now, in order to prove~\Cref{lemma:greedy}, which makes two claims, we will spli
     \[ 
     \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
     \]
-\end{lemma}
+\end{claim}
 \begin{proof}[Proof of~\Cref{lemma:greedy-1}]
 Let us assume without loss of generality that the features are already sorted decreasingly in terms of score, so \[s_1 \geq s_2 \geq \cdots \geq s_d.\]
 This way, we have that $\vy^{(k)} \subseteq \vx$ is defined as follows:
@@ -192,9 +193,9 @@ from where we can repeatedly apply~\Cref{lemma:negative-score} to deduce
 \]
 This concludes the proof.
 \end{proof}
-\begin{lemma}[Part 2 of~\Cref{lemma:greedy}]\label{lemma:greedy-2}
+\begin{claim}[Part 2 of~\Cref{lemma:greedy}]\label{lemma:greedy-2}
     Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
-\end{lemma}
+\end{claim}
 
 In order to prove~\Cref{lemma:greedy-2}, we will use a separate lemma. Let us define, for every $k \in [d]$ the set $P_k$ as the set of partial instances $\vy \subseteq \vx$ such that $\vy$ has $k$ defined features.
 \begin{lemma}\label{lemma:greedy-3}
