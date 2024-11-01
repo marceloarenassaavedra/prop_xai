@@ -1,5 +1,6 @@
 
-\subsection{Calculation for~\Cref{ex:delta-sr-size}}
+\subsection{\texorpdfstring{Calculation for~\Cref{ex:delta-sr-size}}{Calculation for Example 1}}
+\label{subsec:ex1}
 Consider the following version of Chernoff bound.
 \begin{lemma}[Chernoff bound]
     Let $X$ be a finite sum of independent Bernoulli variables, with $\E[X] = \mu > 0$. Then for any $t \geq 0$ we have
@@ -28,9 +29,119 @@ To conclude, note that
     &= 1 - \Pr\left[ X < 250 \right] > 1 - 2\cdot 10^{14} > 0.999999.
 \end{align*}
     
+\subsection{\texorpdfstring{\Cref{prop:delta-sr-size}}{Proposition 1}}
 
+In order to prove~\Cref{prop:delta-sr-size} we will need some auxiliary lemmas concerning binomial distributions. The only previous result we will need is a simple upper bound on the central binomial coefficient, attributed to Erd\H{o}s~\citep{133742}.
+\begin{lemma}[Erd\H{o}s' bound (see~\citep{133742})]
+    For every $n \geq 1$ we have
+    \[
+    \binom{2n}{n} \leq \frac{4^n}{\sqrt{2n+1}}.
+    \]
+    \label{lemma:erdos}
+\end{lemma}
+We can now proceed to prove our auxiliary lemmas.
+\begin{lemma}\label{lemma:p-diff}
+Let $P(n, k)$ be the probability that a binomial random variable $X \sim \text{Bin}(n, 1/2)$ is at least $k$, and define 
+\[
+    g(n) = \max_{k \in \{1, \ldots, n\}} P(n-1, k-1) - P(n, k).
+\]
+Then, $0 \leq g(n) \leq 1/\sqrt{n}$ for every $n \geq 2$.
+\end{lemma}
+\begin{proof}
+We can think of $P(n, k)$ as the probability of getting at least $k$ heads out of $n$ tosses of a fair coin. By casing on the value (heads or tails) of the first coin we can see that for $n \geq k \geq 1$ we have
+\[ 
+    P(n, k) = \frac{1}{2}P(n-1, k-1) + \frac{1}{2}P(n-1, k),
+\]
+which we can rearrange into 
+\[ 
+    P(n, k) = P(n-1, k-1) + \frac{1}{2}\big[P(n-1, k) - P(n-1, k-1)\big],
+\]
+and thus
+\[ 
+    P(n-1, k-1) - P(n, k) = \frac{1}{2}\big[P(n-1, k-1) - P(n-1, k)\big].
+\]
+But $P(n-1, k-1) - P(n-1, k)$ is the probability of getting exactly $k-1$ heads in $n-1$ tosses, which is $\frac{1}{2^{n-1}} \binom{n-1}{k-1}$, and clearly positive. Hence, using~\Cref{lemma:erdos}, we have
+\[ 
+    0 \leq P(n-1, k-1) - P(n, k) \leq \frac{1}{2^{n}} \binom{n-1}{k-1} \leq \frac{1}{2^{n}} \binom{n-1}{\lfloor (n-1)/2 \rfloor} \leq \frac{1}{2^{n}} \frac{2^n}{\sqrt{ 2n - 1}} \leq \frac{1}{\sqrt{n}}. 
+\]
+\end{proof}
 
-\subsection{\Cref{prop:hardness}}
+\begin{lemma}[Binomial Approximation]\label{lemma:binomial-approx} 
+    Let $P(n, k)$ be the probability that a binomial random variable $X \sim \text{Bin}(n, 1/2)$ is at least $k$. Then, given a probability $\delta \in (0, 1)$ and a targer error $\varepsilon > 0$, there exist values $n \leq \varepsilon^{-2}$ and $k \leq n$ such that 
+    \[ 
+        |P(n, k) - \delta| < \varepsilon.
+    \]
+\end{lemma}
+\begin{proof}
+Fix any value of $n$     and note that $P(n, k-1) - P(n, k)$ is the probability of getting exactly $k-1$ heads in $n$ tosses of a fair coin. Thus, for any $k \in \{1, \ldots, n\}$ we can use~\Cref{lemma:erdos} to say
+\begin{equation}\label{eq:prob-diff}
+    P(n, k-1) - P(n, k) = \frac{1}{2^{n}} \binom{n}{k-1} \leq \frac{1}{2^{n}} \binom{n}{\lfloor n/2 \rfloor} \leq \frac{1}{2^{n}} \frac{2^n}{\sqrt{2n+1}} \leq \frac{1}{\sqrt{n}}.
+\end{equation}
+Now, choose a large enough $n$ so that $\frac{1}{\sqrt{n}} < \varepsilon$. Then, choose $k$ as the largest integer such that $P(n, k) \geq \delta$, which exists since $P(n, 0) = 1$ and $P(n, n+1) = 0$. This definition of $k$ yields 
+\[ 
+    P(n, k) \geq \delta > P(n, k+1),
+\]
+and using~\Cref{eq:prob-diff} we can see that 
+\[ 
+    |P(n, k+1) - \delta| = \delta - P(n, k+1) \leq P(n, k) - P(n, k+1) \leq \frac{1}{\sqrt{n}} < \varepsilon,
+\]
+which completes the proof.
+\end{proof}
+
+We are finally ready to prove~\Cref{prop:delta-sr-size}.
+\begin{proof}[Proof of~\Cref{prop:delta-sr-size}]
+Let $\delta$ and $\varepsilon$ be the values in the statement of the proposition. 
+Let $n$ and $m$ be large integers whose precise value will be determined later. We will construct a linear model $\Lin$ of dimension $d = n+1$, with threshold $t = 2$, and weights $w_1 = 1$, $w_i = 1/m$ for $i \in \{2, \ldots, d\}$. 
+Let $\vx = (1, 1, \ldots, 1) \in \{0, 1\}^d$ be the instance to explain, and $\vy = (1, \bot, \bot, \ldots, \bot) \subseteq \vx$ be a partial instance.
+Now, use~\Cref{lemma:binomial-approx} with parameters $\delta' = \delta + \varepsilon/4$ and $\varepsilon' = \varepsilon/4$ to choose values for $n, m$ such that 
+\[ \left|P\big(n,\, m\big) - \delta'\right| < \varepsilon', \]
+ with $m \leq n$. Note now that $\Lin(\vx) = 1$, and that
+ \begin{equation}\label{eq:prob-lin}
+    \Pr_{\vz \sim \U(\vy)}\left[\Lin(\vz) = 1\right] = P\big(n,\, m\big),
+ \end{equation}
+ since in order for a completion of $\vy$ to have $\Lin(\vz) = 1$ it must have at least $m$ features (besides the 1st one) set to $1$, as that way its value according to the weights $w_i$ will be at least $1 + m \cdot 1/m = 2 = t$.
+ As we have 
+ \[ 
+    \left|P\big(n,\, m\big) - (\delta+ \varepsilon/4) \right| < \varepsilon/4, 
+ \]
+ we can deduce 
+ \[ 
+    \delta \leq P\big(n,\, m\big) \leq \delta + \varepsilon/2.
+ \]
+ Combining our last equation with~\Cref{eq:prob-lin} we have that $\vy$ is a $\delta$-SR for $\vx$ of size $1$.
+ Now, let us see how many more features need to be added to $\vy$ in order to get a $(\delta+\varepsilon)$-SR.
+ Suppose that we add $k$ features to $\vy$ (as all features are equal, we add any $k$ of them) obtaining a partial instance $\vy'$. Then, we have that 
+ \[ 
+    \Pr_{\vz \sim \U(\vy')}\left[\Lin(\vz) = 1\right] = P\big(n - k,\, m - k\big),
+ \]
+ as now $k$ features have been set to $1$. We can now use~\Cref{lemma:p-diff} $k$ times in a row:
+ \begin{align*}
+    P(n-k, m - k) &\leq P(n-k+1, m - k+1) + \frac{1}{\sqrt{n-k}}\\
+    &\leq P(n-k+2, m - k+2) + \frac{1}{\sqrt{n-k}} + \frac{1}{\sqrt{n-k+1}}\\
+    & \leq P(n-k+2, m - k+2) + \frac{2}{\sqrt{n-k}}\\
+    & \vdots\\
+    & \leq P(n, m) + \frac{k}{\sqrt{n-k}}.
+ \end{align*}
+
+ Therefore, we have that 
+ \[ 
+ P(n-k, m - k) \leq P(n, m) + \frac{k}{\sqrt{n-k}} \leq \delta + \varepsilon/2 + \frac{k}{\sqrt{n-k}}.
+ \]
+ It now remains to show that, unless $k$ is large enough (relatively to $n$), the right-hand side of the previous inequality is less than $\delta + \varepsilon$.
+ Indeed, take $k = n^{1/2 - \gamma}$ for any positive $\gamma$. Then, we want to show that for sufficiently large $n$ we have
+ \[ 
+ \frac{k}{\sqrt{n-k}} < \varepsilon/2.
+ \]
+To do so, note that
+\[
+\frac{k}{\sqrt{n-k}} < \frac{k}{\sqrt{n}}
+                     = \frac{n^{1/2 - \gamma}}{n^{1/2}}
+                     = n^{-\gamma},
+\]
+from where taking $n > \left(\frac{2}{\varepsilon}\right)^{1/\gamma}$ suffices to complete the proof.
+\end{proof}
+
+\subsection{\texorpdfstring{\Cref{prop:hardness}}{Proposition 2}}
 \begin{proof}[Proof of~\Cref{prop:hardness}]
     The proof is a twist on ~\citet[Lemma 28]{NEURIPS2020_b1adda14}; let $(s_1, \ldots, s_n, T) \in \mathbb{N}^{n+1}$ be an instance of the $\# \ptime$-complete problem $\#\Knapsack$, that consists on counting the number of sets $S \subseteq \{s_1, \ldots, s_n\}$ such that $\sum_{s \in S}s \leq T$.  
     We can assume that $\sum_{i=1}^n s_i > T$, as otherwise the $\# \Knapsack$ instance is trivial.
@@ -60,7 +171,10 @@ To conclude, note that
     \[
         \Pr_{\vz \sim \U(\bot^d)}\Big[\Lin(\vz) = 1\Big] = \frac{\#\Knapsack(s_1, \ldots, s_n, T)}{2^n},
     \] 
-    and thus the ``empty explanation'' $\bot^d := (\bot, \bot, \ldots, \bot)$ has probability at least $\delta$ if and only if $\#\Knapsack(s_1, \ldots, s_n, T) \geq m$. As the empty explanation is the only one with size $\leq 0$, we conclude the proof.
+    and thus the ``empty explanation'' $\bot^d := (\bot, \bot, \ldots, \bot)$ has probability at least $\delta$ if and only if 
+    \[ 
+    \#\Knapsack(s_1, \ldots, s_ n, T) \geq m.
+    \]  As the empty explanation is the only one with size $\leq 0$, we conclude the proof.
     
 
 %     First, recall that the problem of counting the number of ``positive completions'' of a partial instance $\vy$ is $\# \ptime$-hard for linear models~\cite{NEURIPS2020_b1adda14}; that is, given a partial instance $\vy$, a linear model $\Lin$ and a positive integer $K$, it is $\mathrm{PP}$-hard to determine whether there are at least $K$ instances $\vz \in \comp(\vy)$ such that $\Lin(\vz) = 1$. That result follows from the hardness of $\sharpK$.
@@ -83,7 +197,7 @@ Naturally, this induces a distribution over $\comp(\vy)$ for any partial instanc
 \]
 and naturally $\Pr_{\vz \sim \D(\vy)}[\vz = \vx] = 0$ if $\vx \not\in \comp(\vy)$.
 With this notation, we can make a precise theorem statement.
-\begin{theorem}\label{thm:locally-minimal}
+\begin{theorem}
     For linear models, under any product distribution, every locally minimal $\delta$-SR is a subset-minimal $\delta$-SR.
 \end{theorem}
 

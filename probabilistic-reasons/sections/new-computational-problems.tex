@@ -11,7 +11,7 @@ exactly is $\shp$-hard~\citep{NEURIPS2020_b1adda14}, from where the following is
  
 \begin{proposition}\label{prop:hardness}
     Given a linear model $\Lin$, an instance
-    $\vx$, and $\delta \in [0,1]$, the value $\opt(\Lin, \vx, \delta)$
+    $\vx$, and $\delta \in [0,1]$, the size of the smallest $\delta$-SR for $(\Lin, \vx)$
     cannot be computed in polynomial time unless $\fptime = \shp$.
 \end{proposition}
 
@@ -55,10 +55,10 @@ efficient algorithms for computing or approximating $\delta$-SR for
 linear models. Hence, the goal of this section is to explore these
 questions for such models, given their practical importance.
 
-\subsection{A Simple Relaxation: $(\delta, \varepsilon)$-min-SR}
+\subsection{\texorpdfstring{A Simple Relaxation: $(\delta, \varepsilon)$-min-SR}{A Simple Relaxation: (delta, epsilon)-min-SR}}
 
 In light of the hardness results for $\delta$-SRs, it is natural to consider a further relaxation that would allow for tractability. Consider for instance a customer of a bank who wants a $0.95$-SR for why their application for a loan was rejected. Such an explanation would consist of a small number of features of their application profile that are relevant to the decision since $95\%$ of applicants with such a profile would also get rejected. We expect that, in such a scenario, the user would not particularly care if the explanation she obtains holds 
-for $95\%$ of potential applicants or for $94.9997\%$ of them. In other words, the value of $\delta$ is chosen in a trade-off between the size of the explanation and the desired level of confidence or ``explanation power''. We posit that in such a trade-off, the user is more sensitive to increases in the explanation size than they are to a minor perturbation in $\delta$, the probability guarantee. As we showed in~\Cref{prop:delta-sr-size}, by changing $\delta$ very slightly, the size of the best explanation can change significantly. This motivates the following definition:
+for $95\%$ of potential applicants or for $94.9997\%$ of them. In other words, the value of $\delta$ is chosen in a trade-off between the size of the explanation and the desired level of confidence or ``explanation power''. We posit that in such a trade-off, the user is more sensitive to increases in the explanation size than they are to a minor perturbation in $\delta$, the probability guarantee.  This motivates the following definition:
 % \begin{itemize}
 %     \item \textbf{Approximation in terms of $\delta$}: Given a linear model $\Lin$, an instance $\vx$, and a value $\delta$, we want to compute a $\delta'$-SR of size $k^\star(\Lin, \vx, \delta')$ such that $\delta'$ is close to $\delta$. Intuitively, this corresponds to the idea of stakeholders not caring about the exact value of $\delta$; e.g., $90\%$ of completions of $\vy$ agree with $\vx$ has roughly the same human implications as $89.9997\%$.
 %     \item \textbf{Approximation in terms of $k^\star$}: Given a linear model $\Lin$, an instance $\vx$, and a value $\delta$, we want to compute a $\delta$-SR of size $k$ such that $k$ is not much bigger than $k^\star(\Lin, \vx, \delta)$. Intuitively, even though stakeholders want \emph{small} explanations, it is not required to find the smallest possible explanation.
@@ -79,16 +79,19 @@ Note that, even though the guarantee of a $(\delta, \varepsilon)$-min-SR is symm
 
 The inapproximability result of~\citet{Kozachinskiy_2023} can be translated to the $(\delta, \varepsilon)$-min-SR problem as follows:
 \begin{theorem}[\citet{Kozachinskiy_2023}, Theorem 1]
-    Unless \textrm{SAT} can be solved in quasi-polynomial time, one cannot compute a $(\delta, \varepsilon)$-min-SR for decision trees in polynomial time, and furthermore, any polynomial-time algorithm that guarantees to provide a $\delta'$-SR for some $\delta' \in [\delta-\varepsilon, \delta+\varepsilon]$ will produce explanations that are up to $\Omega(d^{1-\alpha})$ times larger than any $(\delta, \varepsilon)$-min-SR, for any $\alpha > 0$.
+    Unless $\mathrm{SAT}$ can be solved in quasi-polynomial time, one cannot compute a $(\delta, \varepsilon)$-min-SR for decision trees in polynomial time, and furthermore, any polynomial-time algorithm that guarantees to provide a $\delta'$-SR for some $\delta' \in [\delta-\varepsilon, \delta+\varepsilon]$ will produce explanations that are up to $\Omega(d^{1-\alpha})$ times larger than any $(\delta, \varepsilon)$-min-SR, for any $\alpha > 0$.
 \end{theorem}
 Note that this hardness result for decision trees implies in turn hardness for neural networks by using standard compilation techniques~\citep{NEURIPS2020_b1adda14}.
-Our main result is that, for linear models, we can efficiently compute $(\delta, \varepsilon)$-min-SRs, making them the first class of models for which we have such a positive result. To state our runtime more cleanly, we use the standard notation $\widetilde{O}(f)$ to mean $O(f \cdot \log(f)^c)$ for some $c$. 
+Our main result is that, for linear models, we can efficiently compute $(\delta, \varepsilon)$-min-SRs, making them the first class of models for which we have such a positive result. To state our runtime more cleanly, we use the standard notation $\widetilde{O}(f)$ to mean $O(f \cdot \log(f)^c)$ for some constant $c \in \mathbb{R}$. 
 \begin{theorem}
     \label{prop:smoothed-explanation}
     Given a linear model $\Lin$ and an input $\vx$, we can compute a $(\delta, \varepsilon)$-min-SR successfully with probability $1 - \gamma$ in time $\widetilde{O}\left( \frac{d}{\varepsilon^2\gamma^2}\right)$; that is, polynomial in $d$, $1/\varepsilon$, and $1/\gamma$.
 \end{theorem}
 
+
+
 We remark that previous approaches for computing approximate probabilistic explanations lacked theoretical guarantees on the size of the explanations produced~\citep{izzaComputingProbabilisticAbductive2023,Izza2021EfficientEW,izza2024locallyminimalprobabilisticexplanations}.
+
 
 % \begin{theorem}\label{thm:delta-large}
 %     For any $\delta > 0.05$, we can compute a min-$(\delta, \varepsilon)$-SR in polynomial time for linear models under the uniform distribution in time
@@ -109,7 +112,7 @@ We remark that previous approaches for computing approximate probabilistic expla
 %     The Uniform-Min-$\delta$-SR$(\textsc{Linear})$ problem can be approximated over $k^\star$ with additive error $1$ and probability of success $1-\gamma$ in time $\tilde{O}\left( \frac{d^2}{\varepsilon^2\gamma^2}\right)$.
 % \end{theorem}
 
-In order to prove~\Cref{prop:smoothed-explanation} we will need two main ideas: first, the fact that we can estimate the probabilities of models accepting a partial instance through sampling (which is already present in the work of~\citet{izza2024locallyminimalprobabilisticexplanations}), and second, that under the uniform distribution it is easy to decide which features ought to be part of small explanations over linear models.
+In order to prove~\Cref{prop:smoothed-explanation} we will need two main ideas: (i) the fact that we can estimate the probabilities of models accepting a partial instance through Monte Carlo sampling\footnote{This idea is already used in the work of~\citet{izza2024locallyminimalprobabilisticexplanations}}, and (ii) that under the uniform distribution it is easy to decide which features ought to be part of small explanations.
 
 \subsection{Estimating the Probability of Acceptance}
  The  hardness of computing

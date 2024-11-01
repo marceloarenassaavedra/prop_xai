@@ -13,6 +13,16 @@
   year      = {2021}
 }
 
+@MISC{133742,
+    TITLE = {Upper limit on the central binomial coefficient},
+    AUTHOR = {P\'eter Komj\'ath},
+    HOWPUBLISHED = {MathOverflow},
+    YEAR = {2013},
+    NOTE = {URL:https://mathoverflow.net/q/133742 (version: 2013-07-01)},
+    EPRINT = {https://mathoverflow.net/q/133742},
+    URL = {https://mathoverflow.net/q/133742}
+}
+
 @article{hoeffdingProbabilityInequalitiesSums1963a,
   title = {Probability {{Inequalities}} for {{Sums}} of {{Bounded Random Variables}}},
   author = {Hoeffding, Wassily},
@@ -62,6 +72,57 @@ articleno = {21},
 numpages = {10},
 location = {Pittsburgh, PA, USA},
 series = {UAI '23}
+}
+
+@inproceedings{stochasticTarget,
+  doi = {10.4230/LIPICS.ICALP.2018.56},
+  url = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ICALP.2018.56},
+  author = {Fu,  Hao and Li,  Jian and Xu,  Pan},
+  keywords = {stochastic optimization,  dynamic program,  markov decision process,  block policy,  approximation algorithm},
+  language = {en},
+  booktitle={ 45th International Colloquium on Automata, Languages, and Programming (ICALP)},
+  title = {A {PTAS} for a Class of Stochastic Dynamic Programs},
+  publisher = {Schloss Dagstuhl – Leibniz-Zentrum f\"{u}r Informatik},
+  year = {2018},
+  copyright = {Creative Commons Attribution 3.0 Unported license}
+}
+
+@misc{segev2023efficientapproximationschemesstochastic,
+      title={Efficient Approximation Schemes for Stochastic Probing and Prophet Problems}, 
+      author={Danny Segev and Sahil Singla},
+      year={2023},
+      eprint={2007.13121},
+      archivePrefix={arXiv},
+      primaryClass={cs.DS},
+      url={https://arxiv.org/abs/2007.13121}, 
+}
+
+@misc{ghuge2023nonadaptivestochasticscoreclassification,
+      title={Non-Adaptive Stochastic Score Classification and Explainable Halfspace Evaluation}, 
+      author={Rohan Ghuge and Anupam Gupta and Viswanath Nagarajan},
+      year={2023},
+      eprint={2111.05687},
+      archivePrefix={arXiv},
+      primaryClass={cs.DS},
+      url={https://arxiv.org/abs/2111.05687}, 
+}
+
+@article{deanApproximatingStochasticKnapsack2008,
+  title = {Approximating the {{Stochastic Knapsack Problem}}: {{The Benefit}} of {{Adaptivity}}},
+  shorttitle = {Approximating the {{Stochastic Knapsack Problem}}},
+  author = {Dean, Brian C. and Goemans, Michel X. and Vondr{\'a}k, Jan},
+  year = {2008},
+  month = nov,
+  journal = {Mathematics of Operations Research},
+  volume = {33},
+  number = {4},
+  pages = {945--964},
+  publisher = {INFORMS},
+  issn = {0364-765X},
+  doi = {10.1287/moor.1080.0330},
+  urldate = {2024-10-17},
+  abstract = {We consider a stochastic variant of the NP-hard 0/1 knapsack problem, in which item values are deterministic and item sizes are independent random variables with known, arbitrary distributions. Items are placed in the knapsack sequentially, and the act of placing an item in the knapsack instantiates its size. Our goal is to compute a solution ``policy'' that maximizes the expected value of items successfully placed in the knapsack, where the final overflowing item contributes no value. We consider both nonadaptive policies (that designate a priori a fixed sequence of items to insert) and adaptive policies (that can make dynamic choices based on the instantiated sizes of items placed in the knapsack thus far). An important facet of our work lies in characterizing the benefit of adaptivity. For this purpose we advocate the use of a measure called the adaptivity gap: the ratio of the expected value obtained by an optimal adaptive policy to that obtained by an optimal nonadaptive policy. We bound the adaptivity gap of the stochastic knapsack problem by demonstrating a polynomial-time algorithm that computes a nonadaptive policy whose expected value approximates that of an optimal adaptive policy to within a factor of four. We also devise a polynomial-time adaptive policy that approximates the optimal adaptive policy to within a factor of 3 + {$\varepsilon$} for any constant {$\varepsilon$} {$>$} 0.},
+  keywords = {adaptivity,approximation algorithm,knapsack problem,stochastic models}
 }
 
 
@@ -129,18 +190,16 @@ series = {UAI '23}
   year         = {2023}
 }
 
-@article{Darwiche_Hirth_2020,
-  abstractnote = {Recent work has shown that some common machine learning classifiers can be compiled into Boolean circuits that have the same input-output behavior. We present a theory for unveiling the reasons behind the decisions made by Boolean classifiers and study some of its theoretical and practical implications. We define notions such as sufficient, necessary and complete reasons behind decisions, in addition to classifier and decision bias. We show how these notions can be used to evaluate counterfactual statements such as “a decision will stick even if ... because ... .” We present efficient algorithms for computing these notions, which are based on new advances on tractable Boolean circuits, and illustrate them using a case study.},
-  author       = {Darwiche, Adnan and Hirth, Auguste},
-  doi          = {10.48550/arXiv.2002.09284},
-  month        = {Feb},
-  note         = {arXiv:2002.09284 [cs]},
-  number       = {arXiv:2002.09284},
-  publisher    = {arXiv},
-  title        = {On The Reasons Behind Decisions},
-  url          = {http://arxiv.org/abs/2002.09284},
-  year         = {2020}
+
+@inproceedings{Darwiche_Hirth_2020,
+  title = {On the {{Reasons Behind Decisions}}.},
+  booktitle = {{{ECAI}} 2020 - 24th {{European Conference}} on {{Artificial Intelligence}}, 29 {{August-8 September}} 2020, {{Santiago}} de {{Compostela}}, {{Spain}}, {{August}} 29 - {{September}} 8, 2020 - {{Including}} 10th {{Conference}} on {{Prestigious Applications}} of {{Artificial Intelligence}} ({{PAIS}} 2020)},
+  author = {Darwiche, Adnan and Hirth, Auguste},
+  year = {2020},
+  pages = {712--720},
+  doi = {10.3233/FAIA200158}
 }
+
 
 @inproceedings{DBLP:conf/aaai/Ribeiro0G18,
   author    = {Marco T{\'{u}}lio Ribeiro and

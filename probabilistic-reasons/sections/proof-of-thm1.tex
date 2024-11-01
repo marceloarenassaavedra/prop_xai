@@ -2,8 +2,8 @@
 \begin{algorithm}[tb]
 	\caption{LinearMonteCarloExplainer}
 	\label{alg:algorithm}
-	\textbf{Input}: Linear model $\Lin$, instance $\vx$, parameters $\delta \in (0, 1)$\\
-	\textbf{Parameter}:  $\varepsilon \in (0, 1)$,  $\gamma \in (0, 1)$\\
+	\textbf{Input}: A linear model $\Lin$, an instance $\vx$, and $\delta \in (0, 1)$.\\
+	\textbf{Parameters}:  $\varepsilon \in (0, 1)$,  $\gamma \in (0, 1)$.\\
 	\textbf{Output}: A value $\delta^\star \in [\delta-\varepsilon, \delta+\varepsilon]$ together with a minimum $\delta^\star$-SR explanation for $\vx$.\\
 	\begin{algorithmic}[1] %[1] enables line numbers
 	\STATE $\delta^\star \gets$ uniformly random sample from $[\delta-\varepsilon, \delta + \varepsilon]$ \label{line:delta}
@@ -12,10 +12,10 @@
 	\ENDFOR
 	
 	\FOR{$k \in\{0,1 \ldots, d\}$}
-		\STATE  Let $\vy^{(k)} \subseteq \vx$ be the partial instance defined only in the top $k$ features with maximum score $s_i$.\label{line:greedy}
+		\STATE  let $\vy^{(k)} \subseteq \vx$ be the partial instance defined only in the top $k$ features with maximum score $s_i$.\label{line:greedy}
 	\ENDFOR
 	% \STATE Let $\ell$ be the max value such that $\vec{\mathcal{F}}[\ell] = (\lambda, s_\lambda)$ has $s_\lambda > 0$.
-	\STATE $M \gets \frac{\log^2{d}}{2\varepsilon^2 \gamma^2} \log(2 \log d / \gamma)$\label{line:mdef}
+	\STATE $M \gets (\log^2{d})/(2\varepsilon^2 \gamma^2) \log(2 \log d / \gamma)$\label{line:mdef}
 	\STATE $\textrm{LB} \gets 0$, $\textrm{UB} \gets d$, and $\textsc{steps} \gets 0$
 
 	\WHILE{$\textrm{LB} \neq \textrm{UB}$ and $\textsc{steps} \leq \log d$}\label{line:while}
@@ -37,7 +37,7 @@
 
 \begin{algorithm}[tb]
 	\caption{MonteCarloEstimation}	\label{alg:montecarlo}
-	\textbf{Input}: Linear model $\Lin$, a partial instance $\vy$, an instance $\vx$, and a number of samples $M$\\
+	\textbf{Input}: A linear model $\Lin$, a partial instance $\vy$, an instance $\vx$, and a number of samples $M \in \mathbb{N}$.\\
 	\textbf{Output}: An estimate~$\widehat{v}$~of~$\Pr_{\vz \sim \U(\vy)}[\Lin(\vz)=\Lin(\vx)]$.\\
 	\begin{algorithmic}[1]
 	\STATE $\widehat{v} \gets 0$
@@ -45,10 +45,8 @@
 		\STATE Sample $\vz \sim \U(\vy)$
 		\IF {$\Lin(\vz) = \Lin(\vx)$}
 			\STATE $\widehat{v} \gets \widehat{v} + 1$
-		\ENDIF
-	\ENDFOR
-	\STATE $\widehat{v} \gets \widehat{v}/M$
-	\STATE \RETURN $\widehat{v}$
+		\ENDIF \ENDFOR
+	\STATE \RETURN $\widehat{v}/M$.
 \end{algorithmic}
 \end{algorithm}
 
@@ -92,12 +90,12 @@ We claim that if both $E_k$ and $F_k$ hold for some $k$, then $A_k$ and $B_k$ ar
 \end{align*}
 
 Thus, if we show that $E_k$ and $F_k$ hold with good probability for every $k \in S$, we can conclude the theorem.
-Notice first that, because of the condition on the variable $\textsc{steps}$ (lines~\ref{line:while}, \ref{line:steps}) we have $|S| \leq \log d$, allowing us to do a binary search in case the desired events $E_k$ and $F_k$ hold, and preventing the algorithm from looping otherwise; this way the runtime is controlled not only on expectation but deterministically. \footnote{For simplicity, we will say $|S| \leq \log d$, even though the exact bound for a binary search is $|S| \leq \lfloor \log d  + 1 \rfloor$. This choice naturally has no impact on the asymptotic analysis of the algorithm.} Then, note that for any $k$ we have
+First, note that because of the condition on the variable $\textsc{steps}$ (lines~\ref{line:while}, \ref{line:steps}) we have $|S| \leq \log d$, allowing us to do a binary search in case the desired events $E_k$ and $F_k$ hold, and preventing the algorithm from looping otherwise; this way the runtime is bounded not only on expectation but deterministically. \footnote{For simplicity, we will say $|S| \leq \log d$, even though the exact bound for a binary search is $|S| \leq \lfloor \log d  + 1 \rfloor$. This choice naturally has no impact on the asymptotic analysis of the algorithm.} Then, note that for any $k$ we have
 \begin{align*}
 	\Pr\left[ \, \overline{F_k} \,\right] \leq \Pr\left[ \, \overline{F_k} \mid k \in S \right] &= \Pr\left[|\widehat{v_k}(M) - v_k| > \frac{\varepsilon \gamma}{\log d}\right]\\
 	&\leq \frac{\gamma}{\log d}. \tag{by~\Cref{fact:hoeffding}}
 \end{align*}
-Because $S$ itself is a random variable, whose size is also a random variable, we need to be careful before applying a union bound or any related tricks. Let us refer to the elements of $S$ as $\{s_1, \ldots, s_\ell\}$, and let us denote $F(i)$ for $i \in [\log d]$\footnote{Throughout this proof, we use notation $[\alpha]$, for $\alpha > 0$ a real number, to denote the set $\{0, \ldots, \lceil \alpha \rceil\}$.} to the event $F_{s_i}$ if $i \leq \ell$, and to the sample space $\Omega$ (i.e., the event that always happens) otherwise. Then, we claim that for any $0 \leq i \neq j \leq \log d$, we have 
+Because $S$ itself is a random variable, whose size is also a random variable, we need to be careful before applying a union bound or any related tricks. Let us refer to the elements of $S$ as $\{s_1, \ldots, s_\ell\}$, and let us call $F(i)$, for $i \in [\log d]$,\footnote{Throughout this proof, we use notation $[\alpha]$, for $\alpha \in \mathbb{R}^{> 0}$, to denote the set $\{0, \ldots, \lceil \alpha \rceil\}$.} to the event $F_{s_i}$ if $i \leq \ell$, and to the sample space $\Omega$ (i.e., the event that always happens) otherwise. Then, we claim that for any $0 \leq i \neq j \leq \log d$, we have 
 \begin{equation}\label{eq:quasi-independence}
 	\Pr[F(i) \cap F(j)] = \Pr[F(i)] \cdot \Pr[F(j)],
 \end{equation}
@@ -170,10 +168,13 @@ Then, note that for any index $k \in [d]$, the event $F_k$ is conditionally inde
 	\Pr\left[F_k | k \in S\right] = \Pr\left[F_k | E_{j}, k \in S\right], \quad \text{for any } j \in [d].
 \]
 We thus deduce that for any fixed $S'$ with $|S'| \leq \log d$ we have
-\begin{equation}\label{eq:2}
-	\Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} E_k\right] \geq  \Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} E_k \text{ and  } \bigcap_{k \in S'} {k \in S}\right] = \Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} {k \in S}\right] \geq \Pr\left[\bigcap_{k \in S} F_k\right] \geq (1-\gamma).
-\end{equation}
-Then our key observation is that there is a single value $S^\star \subseteq [d]$, with $|S^\star| \leq \log d$, that the binary search can take if we condition on all the events $E_k$ and $F_k$ happening, since in that case events $A_k$ and $B_k$ coincide. In other words, there exists $S^\star$, with $S^\star \subseteq [d]$ and $|S^\star| \leq \log d$, such that
+\begin{align}\label{eq:2}
+	\begin{split}
+	\Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} E_k\right] &    \geq  \Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} E_k \text{ and  } \bigcap_{k \in S'} {k \in S}\right] \\
+	&= \Pr\left[\bigcap_{k \in S'} F_k \mid \bigcap_{k \in S'} {k \in S}\right] \geq \Pr\left[\bigcap_{k \in S} F_k\right] \geq (1-\gamma).
+	\end{split}
+\end{align}
+Then, our key observation is that there is a single value $S^\star \subseteq [d]$, with $|S^\star| \leq \log d$, that the binary search can take if we condition on all the events $E_k$ and $F_k$ happening, since in that case events $A_k$ and $B_k$ coincide. In other words, there exists $S^\star$, with $S^\star \subseteq [d]$ and $|S^\star| \leq \log d$, such that
 \begin{equation}\label{eq:prob1}
 \Pr\left[S = S^\star \mid \bigcap_{k \in S^\star} E_k \cap \bigcap_{k \in S^\star} F_k\right] = 1.
 \end{equation}
@@ -183,7 +184,7 @@ We can then argue as follows:
 	&\geq (1-\gamma) \Pr\left[S = S^\star  \mid \bigcap_{k \in S^\star} E_k \right]\\
 	&\geq (1-\gamma) \Pr\left[S = S^\star \text{ and } \bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k \right]\\
 	&= (1-\gamma) \Pr\left[S = S^\star \mid \bigcap_{k \in S^\star} E_k \cap \bigcap_{k \in S^\star} F_k\right] \cdot \Pr\left[\bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k\right]\tag{Bayes' rule}\\
-	&\geq (1-\gamma)^2. \tag{by~\Cref{eq:2,eq:prob1}}
+	&\geq (1-\gamma)^2. \tag{by~\Cref{eq:2,eq:prob1}.}
 \end{align*}
 
 

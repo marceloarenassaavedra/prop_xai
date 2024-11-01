@@ -1,0 +1,13 @@
+
+A natural question at this point is whether the size of a $(\delta, \varepsilon)$-min-SR is necessarily similar to the size of a $(\delta, 0)$-min-SR (i.e., a smallest $\delta$-SR). It turns out that this is not the case, and it can happen that in order to get a slightly better probabilistic guarantee (i.e., $\delta + \varepsilon$ instead of $\delta$), the number of features needed under any explanation significantly increase.
+In general, if we let $\opt(\M, \vx, \delta)$ denote the size of the smallest $\delta$-SR for $(\M, \vx)$, we can prove the following.
+
+\begin{proposition}\label{prop:delta-sr-size}
+For any $\delta \in (0, 1)$, $\gamma > 0$, and any $\varepsilon > 0$ such that $\delta + \varepsilon \leq 1$, there are pairs $(\Lin, \vx)$ where $\Lin$ is a linear model of dimension $d$, and $\vx$ an instance of dimension $d$, such that
+	\[ 
+		\frac{\opt(\Lin, \vx, \delta+\varepsilon)}{\opt(\Lin, \vx, \delta)} = \Omega\left(d^{\frac{1}{2} - \gamma}\right).
+	\]
+\end{proposition}
+
+As a consequence, we may say informally that approximations on $\delta$ do not neccesarily lead to approximations on the explanation size.
+
