@@ -69,8 +69,10 @@ To conclude, note that
 \end{proof}
 
 
-\subsection{\Cref{lemma:greedy} and \Cref{thm:locally-minimal}}
-    Before we prove~\Cref{lemma:greedy}, let us prove an auxiliary lemma that will also be useful for proving~\Cref{thm:locally-minimal}.
+
+
+\subsection{Lemma 1 and Theorem 4}
+Let us state the result about locally minimal $\delta$-SRs as a theorem, so we can proceed to prove it. 
 In order to state it, however, we need to define what we mean by an arbitrary product distribution. Consider Bernoulli variables $X_1, \ldots, X_d$ with probabilities $p_1, \ldots, p_d$ respectively, and let us denote by $\D = X_1 \times \cdots \times X_d$ their joint distribution, which we will call a product distribution. Then, $\D$ induces a over the set $\{0, 1\}^d$ by the rule
 \[ 
     \Pr_{\vz \sim \D}[\vz = \vx] = \prod_{i=1}^d p_i^{x_i} (1-p_i)^{1-x_i}, \quad \forall x \in \{0, 1\}^d.
@@ -81,8 +83,29 @@ Naturally, this induces a distribution over $\comp(\vy)$ for any partial instanc
         \frac{\Pr_{\vz \sim \D}[\vz = \vx]}{\sum_{\vw \in \comp(\vy)} \Pr_{\vz \sim \D}[\vz = \vx]} \quad \forall \vx \in \comp(\vy),
 \]
 and naturally $\Pr_{\vz \sim \D(\vy)}[\vz = \vx] = 0$ if $\vx \not\in \comp(\vy)$.
+With this notation, we can make a precise theorem statement.
+\begin{theorem}\label{thm:locally-minimal}
+    For linear models, under any product distribution, every locally minimal $\delta$-SR is a subset-minimal $\delta$-SR.
+\end{theorem}
 
-Let us introduce a last piece of notation before stating the auxiliary lemma. Given an instance $\vx$ to explain, and a partial instance $\vy \subseteq \vx$, such that $y_i = \bot$, we define the partial instance $\vy \oplus i$ by:
+Furthermore, we will prove a stronger lemma than Lemma 1 stated in the main body.
+
+\newtheorem*{theorem8}{Lemma 1}
+\begin{theorem8} %\label{lemma:greedy}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+    \[ 
+        \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
+    \]
+    for all $k \in \{1, \ldots, d-1\}$, and naturally, 
+    \[ 
+    \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
+    \]
+    Moreover, $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
+ \end{theorem8}
+
+
+    Before we prove~\Cref{lemma:greedy}, let us prove an auxiliary lemma that will also be useful for proving~\Cref{thm:locally-minimal}.
+Given an instance $\vx$ to explain, and a partial instance $\vy \subseteq \vx$, such that $y_i = \bot$, we define the partial instance $\vy \oplus i$ by:
 \[ 
     (\vy \oplus i)_j = \begin{cases}
         y_j & \text{if } j \neq i\\
@@ -156,12 +179,17 @@ The proof of~\Cref{lemma:positive-score}, but reversing signs, yields the follow
 \end{lemma}
 
 Now, in order to prove~\Cref{lemma:greedy}, which makes two claims, we will split it into two separate lemmas. 
+<<<<<<< HEAD
 \begin{claim}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
     Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+=======
+\begin{lemma}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+>>>>>>> a8dea4b (local commit)
     \[ 
         \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
     \]
-    for all $k \in \{1, \ldots, d-1\}$, and naturally, 
+    for all $k \in \{0, \ldots, d-1\}$, and naturally, 
     \[ 
     \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
     \]
@@ -193,9 +221,9 @@ from where we can repeatedly apply~\Cref{lemma:negative-score} to deduce
 \]
 This concludes the proof.
 \end{proof}
-\begin{claim}[Part 2 of~\Cref{lemma:greedy}]\label{lemma:greedy-2}
-    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
-\end{claim}
+\begin{lemma}[Part 2 of~\Cref{lemma:greedy}]\label{lemma:greedy-2}
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
+\end{lemma}
 
 In order to prove~\Cref{lemma:greedy-2}, we will use a separate lemma. Let us define, for every $k \in [d]$ the set $P_k$ as the set of partial instances $\vy \subseteq \vx$ such that $\vy$ has $k$ defined features.
 \begin{lemma}\label{lemma:greedy-3}

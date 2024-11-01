@@ -127,12 +127,12 @@ $\Pr_{\vz  \sim \U(\vy)}[\M(\vz) = 1]$ is about computing it to arbitrarily high
     \]
     and 
     \[
-    \Pr[\left|\widehat{\mu}(M) - \mu \right| \leq t] \geq 1 - 2e^{-2t^2 M},
+    \Pr[\left|\widehat{\mu}(M) - \mu \right| \leq t] \geq 1 - 2\exp(-t^2 M/2),
     \]
-    which is at least $1 - \gamma$ for $M = \frac{1}{2t^2} \log(2/\gamma)$.
+    which is at least $1 - \gamma$ for $M = \frac{2}{t^2} \log(2/\gamma)$.
 \end{fact}
 
-As a consequence of the previous idea, although a minimum $\delta$-SR might be hard to compute, this crucially depends on the value of $\delta$. In order to deal with this, our algorithm will sample a of value $\delta^\star$ uniformly at random from $[\delta-\varepsilon, \delta+\varepsilon]$, and then compute a minimum $\delta^\star$-SR. Intuitively, the idea is that as $\delta^\star$ is chosen at random, it will be unlikely that a value that makes the computation hard is chosen. 
+As a consequence of the previous idea, although a minimum $\delta$-SR might be hard to compute, this crucially depends on the value of $\delta$. In order to deal with this, our algorithm will sample a value $\delta^\star$ uniformly at random from $[\delta-\varepsilon, \delta+\varepsilon]$, and then compute a minimum $\delta^\star$-SR. Intuitively, the idea is that as $\delta^\star$ is chosen at random, it will be unlikely that a value that makes the computation hard is chosen. 
 
 Before proving~\Cref{prop:smoothed-explanation}, we need to prove a lemma concerning the easiness of selecting the features of the desired explanation.
 
@@ -155,7 +155,7 @@ In other words, the sign of $s_i$ is $+1$ if the feature is ``helping'' the clas
 For the uniform distribution (or more generally, any distribution in which all features are Bernoulli variables with the same parameter), we can prove the following lemma that basically states that, for linear models it is good to choose features greedily according to their score.
 
 \begin{lemma}\label{lemma:greedy}
-    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
+    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
     \[ 
         \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
     \]
@@ -163,7 +163,7 @@ For the uniform distribution (or more generally, any distribution in which all f
     \[ 
     \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
     \]
-    Moreover, $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$ but $\vy^{(k-1)}$ is not. 
+    Moreover, $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$, and either $k = 0$ or $\vy^{(k-1)}$ is not a $\delta$-SR for $\vx$. 
     \end{lemma}
 
 Even though a proof of~\Cref{lemma:greedy} is presented in the appendix, let us provide a self-contained example that should convince a reader of the veracity of the lemma.
