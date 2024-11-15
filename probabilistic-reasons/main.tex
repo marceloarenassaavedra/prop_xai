@@ -29,13 +29,15 @@ right=1in]{geometry}
 % \usepackage{stmaryrd}
 
 \usepackage{paralist}
-\usepackage{turnstile}
+% \usepackage{turnstile}
 \usepackage{mdframed}
 \usepackage{tikz}
 \usepackage{caption}
 
 
-\usepackage{mathpazo}
+
+% \usepackage{mathpazo}
+\usepackage{newpxtext}
 %\usepackage{euler}
 %\usepackage{libertine} % T1, lining figures in math, osf in text
 \usepackage{textcomp} % required for special glyphs
@@ -78,7 +80,7 @@ linktocpage=true]{hyperref}
 \DeclareMathOperator{\comp}{Comp}
 
 
-\usepackage{libertine}
+% \usepackage{libertine}
 % \usepackage[linesnumbered, ruled, vlined]{algorithm2e}
 
 \usepackage{algorithm}
@@ -86,7 +88,9 @@ linktocpage=true]{hyperref}
 
 \usepackage{natbib}
 
-
+\let\widering\relax
+\let\bigtimes\relax
+\usepackage{mathabx}
 
 \input{math_commands.tex}
 % \newcommand{\vx}{\vec{x}}
