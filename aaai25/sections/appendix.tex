@@ -179,13 +179,8 @@ The proof of~\Cref{lemma:positive-score}, but reversing signs, yields the follow
 \end{lemma}
 
 Now, in order to prove~\Cref{lemma:greedy}, which makes two claims, we will split it into two separate lemmas. 
-<<<<<<< HEAD
 \begin{claim}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
     Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(1)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
-=======
-\begin{lemma}[Part 1 of~\Cref{lemma:greedy}]\label{lemma:greedy-1}
-    Given a linear model $\Lin$, and an instance $\vx$, if $\vy^{(0)}, \ldots, \vy^{(d)}$ are the partial instances of $\vx$ such that $\vy^{(k)} \subseteq \vx$ is defined only in the top $k$ features of maximum score, then
->>>>>>> a8dea4b (local commit)
     \[ 
         \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
     \]
