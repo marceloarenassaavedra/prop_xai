@@ -182,12 +182,12 @@ Then our key observation is that there is a single value $S^\star \subseteq [d]$
 \]
 We can then argue as follows:
 \begin{align*}
-	\Pr\left[\bigcap_{k \in S} E_k\right] &\geq (1-\gamma) \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S' \mid \bigcap_{k \in S'} E_k\right]\tag{By $(\dagger)$}\\
+	\Pr\left[\bigcap_{k \in S} E_k\right] &\geq (1-\gamma) \sum_{\substack{S' \subseteq [d]\\ |S'| \leq \log d}} \Pr\left[S = S' \mid \bigcap_{k \in S'} E_k\right]\tag{by $(\dagger)$}\\
 	&\geq (1-\gamma) \Pr\left[S = S^\star  \mid \bigcap_{k \in S^\star} E_k \right]\\
 	&\geq (1-\gamma) \Pr\left[S = S^\star \text{ and } \bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k \right]\\
 	&= (1-\gamma) \Pr\left[S = S^\star \mid \bigcap_{k \in S^\star} E_k \cap \bigcap_{k \in S^\star} F_k\right]\\
 	&\quad \cdot \Pr\left[\bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k\right]\\
-	&\geq (1-\gamma)^2. \tag{By~\Cref{eq:2}}
+	&\geq (1-\gamma)^2. \tag{by~\Cref{eq:2}}
 \end{align*}
 
 
