@@ -63,17 +63,18 @@ However, if we consider $\vy = (
 \label{ex:delta-sr-size}
 \end{example}
 
-In general, if we let $\opt(\M, \vx, \delta)$ denote the size of the smallest $\delta$-SR for $(\M, \vx)$, we can prove the following simple proposition.
-
+We generalize this example as follows. Let $\opt(\M, \vx, \delta)$ denote the size of the smallest $\delta$-SR for $(\M, \vx)$. Then, we have 
 \begin{proposition}\label{prop:delta-sr-size}
-	Even when restricted to the class of linear models, for any $\delta \in (0, 1]$, and any $\varepsilon > 0$, there are pairs $(\Lin, \vx)$  such that
+	For any $\delta \in (0, 1)$, $\gamma > 0$, and any $\varepsilon > 0$ such that $\delta + \varepsilon \leq 1$, there are pairs $(\Lin, \vx)$ where $\Lin$ is a linear model of dimension $d$, and $\vx$ an instance of dimension $d$, such that
 	\[ 
-		\frac{\opt(\Lin, \vx, \delta)}{\opt(\Lin, \vx, \delta-\varepsilon)} = \Omega(d).
+		\frac{\opt(\Lin, \vx, \delta+\varepsilon)}{\opt(\Lin, \vx, \delta)} = \Omega\left(d^{\frac{1}{2} - \gamma}\right).
 	\]
 \end{proposition}
+\Cref{prop:delta-sr-size} showcases a key subtlety of $\delta$-SRs: a slight change in $\delta$ might lead to large changes on the smallest explanation size.
 
-It is useful to keep in mind that, in general, the size of minimum $\delta$-SRs is increasing over $\delta$; namely, if $\delta_1 < \delta_2$, then 
-\[
-	\opt(\M, \vx, \delta_1) \leq \opt(\M, \vx, \delta_2),
-\]
-for any model $\M$ and instance $\vx$, since any $\delta_2$-SR is also a $\delta_1$-SR. 
+
+% It is useful to keep in mind that, in general, the size of minimum $\delta$-SRs is increasing over $\delta$; namely, if $\delta_1 < \delta_2$, then 
+% \[
+% 	\opt(\M, \vx, \delta_1) \leq \opt(\M, \vx, \delta_2),
+% \]
+% for any model $\M$ and instance $\vx$, since any $\delta_2$-SR is also a $\delta_1$-SR. 

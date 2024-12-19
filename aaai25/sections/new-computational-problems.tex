@@ -7,7 +7,7 @@ For linear models, even computing the value
 \[
     \Pr_{\vz \sim \U{\vy}}\big[\Lin(\vz) = \Lin(\vx)\big]
 \]
-exactly is $\shp$-hard~\cite{NEURIPS2020_b1adda14}, from where the following is easy to show.\footnote{\citet{izzaComputingProbabilisticAbductive2023} already made a more general observation of this form, but did not provide a hardness result for linear models.}\footnote{All proofs that are not presented in the main text can be found in the appendix.}
+exactly is $\shp$-hard~\cite{NEURIPS2020_b1adda14}, from where the following is easy to show.\footnote{\citet{izzaComputingProbabilisticAbductive2023} already made a more general observation of this form, but did not provide a hardness result for linear models.}
  
 \begin{proposition}\label{prop:hardness}
     Given a linear model $\Lin$, an instance
@@ -82,7 +82,7 @@ The inapproximability result of~\citet{Kozachinskiy_2023} can be translated to t
     Unless SAT can be solved in quasi-polynomial times, one cannot compute a $(\delta, \varepsilon)$-min-SR for decision trees in polynomial time, and furthermore, any polynomial-time algorithm that guarantees to provide a $\delta'$-SR for some $\delta' \in [\delta-\varepsilon, \delta+\varepsilon]$ will produce explanations that are up to $\Omega(d^{1-\alpha})$ times larger than any $(\delta, \varepsilon)$-min-SR, for any $\alpha > 0$.
 \end{theorem}
 Note that this hardness result for decision trees implies in turn hardness for neural networks by using standard compilation techniques~\citep{NEURIPS2020_b1adda14}.
-Our main result is that, for linear models, we can efficiently compute $(\delta, \varepsilon)$-min-SRs, making them the first class of models for which we have such a positive result. To state our runtime more cleanly, we use the standard notation $\widetilde{O}(f)$ to mean $O(f \cdot \log(f)^c)$ for some $c$. 
+Our main result is that, for linear models, we can efficiently compute $(\delta, \varepsilon)$-min-SRs, making them the first class of models for which we have such a positive result. To state our runtime more cleanly, we use the standard notation $\widetilde{O}(f)$ to mean $O(f \cdot \log(f)^c)$ for some positive constant $c \in \mathbb{R}$. 
 \begin{theorem}
     \label{prop:smoothed-explanation}
     Given a linear model $\Lin$ and an input $\vx$, we can compute a $(\delta, \varepsilon)$-min-SR successfully with probability $1 - \gamma$ in time $\widetilde{O}\left( \frac{d}{\varepsilon^2\gamma^2}\right)$; that is, polynomial in $d$, $1/\varepsilon$, and $1/\gamma$.
@@ -127,9 +127,9 @@ $\Pr_{\vz  \sim \U(\vy)}[\M(\vz) = 1]$ is about computing it to arbitrarily high
     \]
     and 
     \[
-    \Pr[\left|\widehat{\mu}(M) - \mu \right| \leq t] \geq 1 - 2\exp(-t^2 M/2),
+    \Pr[\left|\widehat{\mu}(M) - \mu \right| \leq t] \geq 1 - 2\exp(-2t^2 M),
     \]
-    which is at least $1 - \gamma$ for $M = \frac{2}{t^2} \log(2/\gamma)$.
+    which is at least $1 - \gamma$ for $M = \frac{1}{2t^2} \log(2/\gamma)$.
 \end{fact}
 
 As a consequence of the previous idea, although a minimum $\delta$-SR might be hard to compute, this crucially depends on the value of $\delta$. In order to deal with this, our algorithm will sample a value $\delta^\star$ uniformly at random from $[\delta-\varepsilon, \delta+\varepsilon]$, and then compute a minimum $\delta^\star$-SR. Intuitively, the idea is that as $\delta^\star$ is chosen at random, it will be unlikely that a value that makes the computation hard is chosen. 
@@ -147,7 +147,7 @@ Intuitively, the problem for decision trees is that, even if we were told that t
 \begin{definition}\label{def:scores}
     Given a linear model $\Lin = (\vw, t)$, and an instance $\vx$, both having dimension $d$, we define the \emph{score} of feature $i \in [d]$ as 
     \[
-        s_i := w_i \cdot (2x_i - 1) \cdot (2\left(\Lin(\vx) - 1\right)).    
+        s_i := w_i \cdot (2x_i - 1) \cdot (2\Lin(\vx) - 1).    
     \]
 \end{definition}
 
@@ -159,14 +159,14 @@ For the uniform distribution (or more generally, any distribution in which all f
     \[ 
         \Pr_{\vz \sim \U(\vy^{(k+1)})}[\Lin(\vz) = \Lin(\vx)] \geq \Pr_{\vz \sim \U(\vy^{(k)})}[\Lin(\vz) = \Lin(\vx)]
     \]
-    for all $k \in \{1, \ldots, d-1\}$, and naturally, 
+    for all $0 \in \{1, \ldots, d-1\}$, and naturally, 
     \[ 
     \Pr_{\vz \sim \U(\vy^{(d)})}[\Lin(\vz) = \Lin(\vx)] = 1.
     \]
     Moreover, $\opt(\Lin, \vx, \delta) = k$ if and only if $\vy^{(k)}$ is a $\delta$-SR for $\vx$, and either $k = 0$ or $\vy^{(k-1)}$ is not a $\delta$-SR for $\vx$. 
     \end{lemma}
 
-Even though a proof of~\Cref{lemma:greedy} is presented in the appendix, let us provide a self-contained example that should convince a reader of the veracity of the lemma.
+Even though a proof of~\Cref{lemma:greedy} is presented in the supplementary material, let us provide a self-contained example to help convince a reader of the veracity of the lemma.
 \begin{example}\label{ex:greedy}
  Consider an instance $\vx = (1,\, 0, \, 0, \, 1, \, 1)$ and the linear model $\Lin$ be defined by 
  \[ 
@@ -184,13 +184,13 @@ are obtained by adding a single feature at a time, and thus features are added i
 \Cref{table:ex-greedy1} presents the probabilities associated to the partial instances $\vy^{(0)}, \ldots, \vy^{(d)}$.
 
 For the second part, consider the partial instances $\vy^{\star} = (\bot, \, 0, \, 0, \, 1, \, 1)$ and $\vy^{\dagger} = (1, \, \bot, \, 0, \, 1, \, 1)$. The instance $\vx$ is a completion of both $\vy^{\star}$ and $\vy^{\dagger}$, but $\vy^{\star}$ also has completion 
-\[
+\(
     \vx^{\star} = (0, \, 0, \, 0, \, 1, \, 1),
-\]
+\)
 whereas $\vy^{\dagger}$ has also completion 
-\[
+\(
     \vx^{\dagger} = (1, \, 1, \, 0, \, 1, \, 1).
-\]
+\)
 Note that $\vw \cdot  \vx^{\star} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot  \vx^{\dagger} = 6 = \vw \cdot \vx - s_2$. Intuitively, this means that it is better to keep feature $1$ as part of the explanation, but not feature $2$. If we want an explanation with only two features, we should choose feature $1$ and feature $3$, as they have the highest scores. Indeed,~\Cref{table:ex-greedy2} presents the probabilities to all possible explanations of size $2$.
 \begin{table}
     \caption{Table of probabilities associated to~\Cref{ex:greedy}.}\label{table:ex-greedy2}
