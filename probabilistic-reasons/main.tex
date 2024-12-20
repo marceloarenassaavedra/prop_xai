@@ -25,7 +25,7 @@ right=1in]{geometry}
 \usepackage[full]{textcomp}
 \usepackage[american]{babel}
 \usepackage{booktabs}
-
+\usepackage{xparse}
 % \usepackage{stmaryrd}
 
 \usepackage{paralist}
@@ -33,6 +33,7 @@ right=1in]{geometry}
 \usepackage{mdframed}
 \usepackage{tikz}
 \usepackage{caption}
+\usepackage{array}
 
 
 
@@ -120,17 +121,26 @@ linktocpage=true]{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FORMATTING
-\allowdisplaybreaks
-\newcommand{\FormatAuthor}[3]{
-\begin{tabular}{c}
-#1 \\ {\small\texttt{#2}} \\ {\small #3}
-\end{tabular}
-}
-\newcommand{\doclearpage}{%
-\iffull
-\clearpage
-\else
-\fi
+% \allowdisplaybreaks
+% \newcommand{\FormatAuthor}[3]{
+% \begin{tabular}{c}
+% #1 \\ {\small\texttt{#2}} \\ {\small #3}
+% \end{tabular}
+% }
+% \newcommand{\doclearpage}{%
+% \iffull
+% \clearpage
+% \else
+% \fi
+% }
+
+\newcommand{\FormatAuthor}[3]{%
+    \centering
+    \begin{tabular}{c}
+    #1 \\
+    {\small\texttt{#2}} \\
+    {\small\shortstack[c]{#3}}%
+    \end{tabular}%
 }
 \newcommand{\defemph}[1]{\textbf{\emph{#1}}}
 \newcommand{\keywords}[1]{\bigskip\par\noindent{\footnotesize\textbf{Keywords\/}: #1}}
@@ -138,12 +148,16 @@ linktocpage=true]{hyperref}
 
 %%% End Packages & Macros
 
-\title{Probabilistic Explanations for Linear Models}
-\author{
-    \begin{tabular}[h!]{ccc}
-        \FormatAuthor{Marcelo Arenas}{\url{marenas@ing.puc.cl}}{PUC Chile}
-        \FormatAuthor{Kuldeep S. Meel}{\url{meel@cs.toronto.edu}}{University of Toronto}
-        \FormatAuthor{Bernardo Subercaseaux}{\url{bersub@cmu.edu}}{Carnegie Mellon University}
+\title{Probabilistic Explanations for Linear Models\thanks{
+    The authors
+opted for randomized author ordering, denoted by \textcircled{r},
+instead of alphabetical. A verifiable record of the randomization
+is available at \protect\url{https://www.aeaweb.org/journals/policies/random-author-order/search}}}
+\author{\centering
+    \begin{tabular}[h!]{p{5cm} p{5cm} p{5cm}}
+        \FormatAuthor{Bernardo Subercaseaux \textcircled{r}}{\url{bersub@cmu.edu}}{Carnegie Mellon University} &
+        \FormatAuthor{Marcelo Arenas \textcircled{r}}{\url{marenas@ing.puc.cl}}{PUC Chile\\ IMFD Chile\\ RelationalAI} &
+        \FormatAuthor{Kuldeep S. Meel \textcircled{r}}{\url{meel@cs.toronto.edu}}{Georgia Institute of Technology\\ University of Toronto}
   \end{tabular}
 }
 
@@ -151,22 +165,12 @@ linktocpage=true]{hyperref}
 \maketitle
 
 \begin{abstract}
-    Formal XAI is an emerging field that focuses on providing explanations
-    with mathematical guarantees for the decisions made by machine
-    learning models. Recent work in this area has centered on the
-    computation of ``sufficient reasons''. Given a model $\M$
-    and an input instance $\vx$, a sufficient reason for the decision $\M(\vx)$ is a
-    subset $S$ of the features of $\vx$ such that for any instance $\vz$
-    that has the same values as $\vx$ for every feature in $S$, it holds that $\M(\vx) = \M(\vz)$. Intuitively, this means
-    that the features in $S$ are sufficient to fully justify the
-    classification of $\vx$ by $\M$.
-    For sufficient reasons to be useful in practice, they should be as
-    small as possible, and a natural way to reduce the size of sufficient
-    reasons is to consider a
-    probabilistic relaxation; the probability of $\M(\vx) = \M(\vz)$ must
-    be at least some value $\delta \in (0,1]$, where $\vz$ is a random
-      instance compatible with $\vx$.  Computing small $\delta$-sufficient reasons ($\delta$-SRs) is known to be a theoretically hard problem; even over decision trees — traditionally deemed simple and interpretable models — strong inapproximability results make the efficient computation of small $\delta$-SRs unlikely.
-     We propose the notion of $(\delta, \epsilon)$-SR, a simple relaxation of $\delta$-SRs, and show that while this relaxation is hard to compute over decision trees (as a simple consequence of the previous inapproximability results), it can be computed efficiently over linear models. 
+    Formal XAI is an emerging field that focuses on providing explanations with mathematical guarantees for the decisions made by machine learning models. A significant amount of work in this area is centered on the computation of ``sufficient reasons''. 
+    Given a model $\M$ and an input instance $\vx$, a sufficient reason for the decision $\M(\vx)$ is a subset $S$ of the features of $\vx$ such that for any instance $\vz$ that has the same values as $\vx$ for every feature in $S$, it holds that $\M(\vx) = \M(\vz)$. 
+    Intuitively, this means that the features in $S$ are sufficient to fully justify the classification of $\vx$ by $\M$.
+    For sufficient reasons to be useful in practice, they should be as small as possible, and a natural way to reduce the size of sufficient reasons is to consider a probabilistic relaxation; the probability of $\M(\vx) = \M(\vz)$ must
+    be at least some value $\delta \in (0,1]$, for a random instance $\vz$ that coincides with $\vx$ on the features in $S$.  Computing small $\delta$-sufficient reasons ($\delta$-SRs) is known to be a theoretically hard problem; even over decision trees — traditionally deemed simple and interpretable models — strong inapproximability results make the efficient computation of small $\delta$-SRs unlikely.
+    We propose the notion of $(\delta, \epsilon)$-SR, a simple relaxation of $\delta$-SRs, and show that this kind of explanations can be computed efficiently over linear models. 
 \end{abstract}
 
 \section{Introduction}

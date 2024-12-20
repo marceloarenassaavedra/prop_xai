@@ -30,7 +30,7 @@
 		\ENDIF
 	\ENDWHILE\label{line:endwhile}
 	\STATE $k^\star \gets \textrm{LB}$ (or equivalently, $\textrm{UB}$)
-	\STATE \RETURN $(\delta^\star, \vy^{(k^\star)})$
+	 \RETURN $(\delta^\star, \vy^{(k^\star)})$
 	\end{algorithmic}
 	\end{algorithm}
 
@@ -46,7 +46,7 @@
 		\IF {$\Lin(\vz) = \Lin(\vx)$}
 			\STATE $\widehat{v} \gets \widehat{v} + 1$
 		\ENDIF \ENDFOR
-	\STATE \RETURN $\widehat{v}/M$.
+	 \RETURN $\widehat{v}/M$.
 \end{algorithmic}
 \end{algorithm}
 
@@ -95,14 +95,14 @@ First, note that because of the condition on the variable $\textsc{steps}$ (line
 	\Pr\left[ \, \overline{F_k} \,\right] \leq \Pr\left[ \, \overline{F_k} \mid k \in S \right] &= \Pr\left[|\widehat{v_k}(M) - v_k| > \frac{\varepsilon \gamma}{\log d}\right]\\
 	&\leq \frac{\gamma}{\log d}. \tag{by~\Cref{fact:hoeffding}}
 \end{align*}
-Because $S$ itself is a random variable, whose size is also a random variable, we need to be careful before applying a union bound or any related tricks. Let us refer to the elements of $S$ as $\{s_1, \ldots, s_\ell\}$, and let us call $F(i)$, for $i \in [\log d]$,\footnote{Throughout this proof, we use notation $[\alpha]$, for $\alpha \in \mathbb{R}^{> 0}$, to denote the set $\{0, \ldots, \lceil \alpha \rceil\}$.} to the event $F_{s_i}$ if $i \leq \ell$, and to the sample space $\Omega$ (i.e., the event that always happens) otherwise. Then, we claim that for any $0 \leq i \neq j \leq \log d$, we have 
+Because $S$ itself is a random variable, whose size is also a random variable, we need to be careful before applying a union bound or any related tricks. Let us refer to the elements of $S$ as $\{s_1, \ldots, s_\ell\}$, and let us call $F(i)$, for $i \in [\log d]$,\footnote{Throughout this proof, we use notation $[\alpha]$, for $\alpha \in \mathbb{R}^{> 0}$, to denote the set $\{0, 1, \ldots, \lceil \alpha \rceil - 1, \lceil \alpha \rceil\}$.} to the event $F_{s_i}$ if $i \leq \ell$, and to the sample space $\Omega$ (i.e., the event that always happens) otherwise. Then, we claim that for any $0 \leq i \neq j \leq \lceil\log d\rceil$, we have 
 \begin{equation}\label{eq:quasi-independence}
 	\Pr[F(i) \cap F(j)] = \Pr[F(i)] \cdot \Pr[F(j)],
 \end{equation}
 as either $\max \{i, j\} \leq \ell$, in which case the claim holds by independence (since both events depend only on disjoint sets of independent random samples), or the claim holds trivially since $\Pr[F(i)] = 1$ for $i > \ell$.
 Therefore, we have 
 \begin{align*}
-\Pr\left[\bigcap_{k \in S} F_k\right] &= \Pr\left[F(0) \cap F(1) \cap \cdots \cap F(\log d)\right]\\
+\Pr\left[\bigcap_{k \in S} F_k\right] &= \Pr\left[F(0) \cap F(1) \cap \cdots \cap F(\lceil\log d\rceil)\right]\\
 &= \prod_{i \in [\log d]} \Pr[F(i)]\tag{by~\Cref{eq:quasi-independence}}\\
 &\geq \left(1 - \frac{\gamma}{\log d}\right)^{\log d} \geq 1 - \gamma.
 \end{align*}
@@ -184,7 +184,7 @@ We can then argue as follows:
 	&\geq (1-\gamma) \Pr\left[S = S^\star  \mid \bigcap_{k \in S^\star} E_k \right]\\
 	&\geq (1-\gamma) \Pr\left[S = S^\star \text{ and } \bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k \right]\\
 	&= (1-\gamma) \Pr\left[S = S^\star \mid \bigcap_{k \in S^\star} E_k \cap \bigcap_{k \in S^\star} F_k\right] \cdot \Pr\left[\bigcap_{k \in S^\star} F_k \mid \bigcap_{k \in S^\star} E_k\right]\tag{Bayes' rule}\\
-	&\geq (1-\gamma)^2. \tag{by~\Cref{eq:2,eq:prob1}.}
+	&\geq (1-\gamma)^2. \tag{by~\Cref{eq:2,eq:prob1}}
 \end{align*}
 
 
