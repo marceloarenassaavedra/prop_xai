@@ -193,7 +193,6 @@ whereas $\vy^{\dagger}$ has also completion
 \)
 Note that $\vw \cdot  \vx^{\star} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot  \vx^{\dagger} = 6 = \vw \cdot \vx - s_2$. Intuitively, this means that it is better to keep feature $1$ as part of the explanation, but not feature $2$. If we want an explanation with only two features, we should choose feature $1$ and feature $3$, as they have the highest scores. Indeed,~\Cref{table:ex-greedy2} presents the probabilities to all possible explanations of size $2$.
 \begin{table}
-    \caption{Table of probabilities associated to~\Cref{ex:greedy}.}\label{table:ex-greedy2}
     \centering
     \begin{tabular}{rrr}
         \toprule
@@ -210,9 +209,9 @@ Note that $\vw \cdot  \vx^{\star} = 1 = \vw \cdot \vx - s_1$, whereas $\vw \cdot
     $(\bot, \,0, \,\bot, \,\bot, \,1)$ & $\{2, \,5\}$ & $\nicefrac{ 1 }{ 8 }$\\
         \bottomrule
     \end{tabular}
+    \caption{Table of probabilities associated to~\Cref{ex:greedy}.}\label{table:ex-greedy2}
 \end{table}
 \begin{table}
-\caption{Table of probabilities associated to~\Cref{ex:greedy}. The last column denotes the score of the feature added to the partial instance in that row with respect to the previous row.}\label{table:ex-greedy1}
 \centering
 \begin{tabular}{rrrr}
     Partial instance & Features & Probability & Score \\ \midrule 
@@ -224,6 +223,7 @@ $\vy^{(4)}$ &$(1, \,0, \,0, \,1, \,\bot)$ & $\nicefrac{ 1 }{ 1 }$ & -1 \\
 $\vy^{(5)}$ & $(1, \,0, \,0, \,1, \,1)$ & $\nicefrac{ 1 }{ 1 }$ & -1\\
 \bottomrule
 \end{tabular}
+\caption{Table of probabilities associated to~\Cref{ex:greedy}. The last column denotes the score of the feature added to the partial instance in that row with respect to the previous row.}\label{table:ex-greedy1}
 \end{table}
 \end{example}
 
